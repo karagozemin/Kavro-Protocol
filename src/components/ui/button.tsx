@@ -18,7 +18,8 @@ export function buttonStyles({
   className?: string;
 }) {
   return cn(
-    "inline-flex items-center justify-center gap-2 font-medium rounded-xl transition-all duration-150 disabled:opacity-40 disabled:cursor-not-allowed select-none",
+    "inline-flex items-center justify-center gap-2 rounded-xl font-semibold transition-all duration-150 select-none",
+    "disabled:cursor-not-allowed disabled:border-border disabled:bg-surface disabled:text-text-3 disabled:shadow-none",
     size === "sm" && "px-3 py-1.5 text-xs",
     size === "md" && "px-4 py-2 text-sm",
     size === "lg" && "px-6 py-3 text-base",
@@ -33,13 +34,13 @@ export function buttonStyles({
       "active:scale-[0.98]",
     ],
     variant === "outline" && [
-      "border border-border-2 bg-transparent text-text-2",
-      "hover:border-purple/30 hover:text-text-1 hover:bg-card",
+      "border border-border-2 bg-surface/80 text-text-1",
+      "hover:border-purple/40 hover:text-gold hover:bg-card-hover",
       "active:scale-[0.98]",
     ],
     variant === "ghost" && [
-      "border border-transparent bg-transparent text-text-2",
-      "hover:text-text-1 hover:bg-surface-2",
+      "border border-transparent bg-transparent text-text-1",
+      "hover:text-gold hover:bg-surface-2",
       "active:scale-[0.98]",
     ],
     className

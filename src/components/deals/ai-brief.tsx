@@ -98,7 +98,7 @@ export function AiBrief({ dealId, mode, title, category, description, maturityDa
           <p className="text-xs font-semibold uppercase tracking-widest text-text-1">
             Kavro 0G Agents
           </p>
-          <span className="rounded border border-border px-1.5 py-0.5 text-[10px] font-medium text-text-3">
+          <span className="rounded border border-border bg-surface px-1.5 py-0.5 text-[10px] font-semibold text-text-2">
             0G Compute
           </span>
         </div>
@@ -115,11 +115,11 @@ export function AiBrief({ dealId, mode, title, category, description, maturityDa
         </div>
       </div>
 
-      <p className="mb-3 text-xs text-text-3">
+      <p className="mb-3 text-xs leading-relaxed text-text-2">
         Kavro uses 0G Compute for private agent analysis and stores report commitments on 0G Storage / 0G Chain. Plaintext confidential amounts are excluded from prompts.
       </p>
 
-      {loading && <p className="text-xs text-text-3 animate-pulse">Running 0G agent...</p>}
+      {loading && <p className="animate-pulse text-xs font-medium text-text-2">Running 0G agent...</p>}
       {error && <p className="text-xs text-danger">{error}</p>}
 
       {result && (
@@ -130,7 +130,7 @@ export function AiBrief({ dealId, mode, title, category, description, maturityDa
           {storage && (
             <div className="rounded-lg border border-border bg-card p-3 text-xs">
               <div className="flex flex-wrap items-center justify-between gap-2">
-                <span className="font-semibold uppercase tracking-widest text-text-3">AI report storage ref</span>
+                <span className="font-semibold uppercase tracking-widest text-text-2">AI report storage ref</span>
                 <span className="text-gold">{storage.mode === "0g" ? "0G Storage" : "Local dev fallback"}</span>
               </div>
               <p className="mt-2 break-all font-mono text-text-2">{storage.uri}</p>
@@ -138,7 +138,7 @@ export function AiBrief({ dealId, mode, title, category, description, maturityDa
                 <Button variant="outline" size="sm" onClick={commitReport} disabled={committing || !DEAL_ROOM_ADDRESS}>
                   {committing ? "Committing..." : "Commit Report Ref on 0G Chain"}
                 </Button>
-                {commitConfirming ? <span className="text-text-3">Confirming...</span> : null}
+                {commitConfirming ? <span className="text-text-2">Confirming...</span> : null}
                 {commitHash ? <span className="break-all font-mono text-gold">{commitHash}</span> : null}
               </div>
               {commitError ? <p className="mt-2 text-danger">{commitError.message}</p> : null}
