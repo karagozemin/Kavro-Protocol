@@ -33,7 +33,7 @@ export function ClaimButton({ dealId }: { dealId: number }) {
         >
           {isPending ? "Claiming" : "Request Claim"}
         </Button>
-        {isLoading ? <span className="text-xs text-white/60">Confirming...</span> : null}
+        {isLoading ? <span className="text-xs text-text-2">Confirming...</span> : null}
         <TxLink hash={hash} />
       </div>
       {!isConnected ? (

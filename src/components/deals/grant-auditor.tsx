@@ -84,10 +84,10 @@ export function GrantAuditor({ dealId }: { dealId: number }) {
         >
           {storing ? "Storing disclosure..." : isPending ? "Granting" : "Grant Access"}
         </Button>
-        {isLoading ? <span className="text-xs text-white/60">Confirming...</span> : null}
+        {isLoading ? <span className="text-xs text-text-2">Confirming...</span> : null}
         <TxLink hash={hash} />
       </div>
-      <p className="text-xs text-white/60">Auditors receive a permissioned 0G Storage disclosure reference, not public plaintext bid details.</p>
+      <p className="text-xs text-text-2">Auditors receive a permissioned 0G Storage disclosure reference, not public plaintext bid details.</p>
       {error ? <div className="text-xs text-red-300">{error.message}</div> : null}
     </div>
   );

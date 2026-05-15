@@ -120,7 +120,7 @@ export function BidForm({ dealId }: { dealId: number }) {
         <Button onClick={handleBid} disabled={!DEAL_ROOM_ADDRESS || isPending || !bidCommitment || !storageRef || !canSubmitIdentity}>
           {isPending ? "Submitting" : "Submit Sealed Bid"}
         </Button>
-        {confirming && <span className="text-xs text-white/60">Confirming...</span>}
+        {confirming && <span className="text-xs text-text-2">Confirming...</span>}
         <TxLink hash={bidHash} />
       </div>
       {requiresIdentity && isConnected && checkingIdentity ? (
@@ -143,7 +143,7 @@ export function BidForm({ dealId }: { dealId: number }) {
           Connect the investor wallet before submitting a sealed bid.
         </div>
       ) : null}
-      <div className="text-xs text-white/60">
+      <div className="text-xs text-text-2">
         Kavro submits only a commitment and 0G Storage reference. Plaintext bid amounts are not written to public chain state.
       </div>
       {notice ? <div className="text-xs text-gold">{notice}</div> : null}

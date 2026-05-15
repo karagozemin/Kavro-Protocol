@@ -55,10 +55,10 @@ export function RepayForm({ dealId, isIssuer }: { dealId: number; isIssuer: bool
         <Button onClick={handleRepay} disabled={isPending || !isIssuer || !repaymentCommitment}>
           {isPending ? "Recording" : "Record Repayment"}
         </Button>
-        {confirming ? <span className="text-xs text-white/60">Confirming...</span> : null}
+        {confirming ? <span className="text-xs text-text-2">Confirming...</span> : null}
         <TxLink hash={hash} />
       </div>
-      <div className="text-xs text-white/60">
+      <div className="text-xs text-text-2">
         The repayment event stores a commitment. Detailed settlement data belongs in encrypted 0G Storage.
       </div>
       {!isIssuer ? <div className="text-xs text-amber-300">Switch to the issuer wallet to record repayment.</div> : null}

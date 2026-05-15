@@ -22,10 +22,10 @@ export function IdentityStatus() {
   if (!mounted || !isConnected || !address) return null;
 
   return (
-    <div className="flex items-center gap-2 rounded-lg border border-white/10 bg-white/5 px-4 py-3 text-sm">
-      <span className="font-medium text-white/60">ERC-3643 Compliance</span>
+    <div className="flex items-center gap-2 rounded-lg border border-border bg-surface px-4 py-3 text-sm">
+      <span className="font-medium text-text-1">ERC-3643 Compliance</span>
       {isLoading ? (
-        <span className="ml-auto text-white/40">checking…</span>
+        <span className="ml-auto text-text-3">checking…</span>
       ) : isVerified ? (
         <span className="ml-auto flex items-center gap-1.5 font-semibold text-emerald-400">
           <span className="h-2 w-2 rounded-full bg-emerald-400" />
