@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { active0GChain } from "@/lib/wagmi";
 
@@ -32,11 +32,16 @@ async function switchToActive0GChain() {
 }
 
 export function ChainGuard({ children }: { children: React.ReactNode }) {
+  const [mounted, setMounted] = useState(false);
   const { isConnected, chain: connectedChain } = useAccount();
   const [switching, setSwitching] = useState(false);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // chain is undefined when wallet is on a chain not in wagmi config
-  const isWrongChain = isConnected && connectedChain?.id !== active0GChain.id;
+  const isWrongChain = mounted && isConnected && connectedChain?.id !== active0GChain.id;
 
   const handle = async () => {
     setSwitching(true);
