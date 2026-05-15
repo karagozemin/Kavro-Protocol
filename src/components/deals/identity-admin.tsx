@@ -17,8 +17,11 @@ export function IdentityAdmin() {
   const { address } = useAccount();
   const publicClient = usePublicClient();
   const [investorAddress, setInvestorAddress] = useState("");
+  const [bulkAddresses, setBulkAddresses] = useState("");
+  const [bulkStatus, setBulkStatus] = useState<Array<{ address: string; status: "pending" | "success" | "failed"; tx?: `0x${string}`; error?: string }>>([]);
+  const [bulkPending, setBulkPending] = useState(false);
   const [checkAddress, setCheckAddress] = useState("");
-  const { writeContract, data: txHash, isPending, error } = useWriteContract();
+  const { writeContract, writeContractAsync, data: txHash, isPending, error } = useWriteContract();
 
   const { data: adminAddress } = useReadContract({
     address: registryAddress,
@@ -71,6 +74,64 @@ export function IdentityAdmin() {
       ...fees,
     });
   };
+
+  const parseBulkAddresses = () => {
+    const seen = new Set<string>();
+    return bulkAddresses
+      .split(/[\s,;]+/)
+      .map((item) => item.trim())
+      .filter((item) => /^0x[a-fA-F0-9]{40}$/.test(item))
+      .filter((item) => {
+        const key = item.toLowerCase();
+        if (seen.has(key)) return false;
+        seen.add(key);
+        return true;
+      }) as `0x${string}`[];
+  };
+
+  const registerBulk = async () => {
+    const addresses = parseBulkAddresses();
+    if (!addresses.length || !isAdmin) return;
+
+    setBulkPending(true);
+    setBulkStatus(addresses.map((item) => ({ address: item, status: "pending" })));
+
+    try {
+      for (const investor of addresses) {
+        try {
+          const fees = await getFees();
+          const identityHash = keccak256(toBytes(investor.toLowerCase()));
+          const hash = await writeContractAsync({
+            address: registryAddress,
+            abi: identityRegistryAbi,
+            functionName: "registerIdentity",
+            args: [investor, identityHash],
+            ...fees,
+          });
+
+          if (publicClient) {
+            await publicClient.waitForTransactionReceipt({ hash });
+          }
+
+          setBulkStatus((items) =>
+            items.map((item) => item.address === investor ? { ...item, status: "success", tx: hash } : item)
+          );
+        } catch (err) {
+          setBulkStatus((items) =>
+            items.map((item) =>
+              item.address === investor
+                ? { ...item, status: "failed", error: err instanceof Error ? err.message : "Registration failed" }
+                : item
+            )
+          );
+        }
+      }
+    } finally {
+      setBulkPending(false);
+    }
+  };
+
+  const bulkParsedCount = parseBulkAddresses().length;
 
   return (
     <div className="space-y-6">
@@ -139,6 +200,62 @@ export function IdentityAdmin() {
           </div>
           {txHash && <TxLink hash={txHash} />}
           {error && <p className="text-xs text-danger">{error.message}</p>}
+        </div>
+      </Card>
+
+      {/* Bulk register */}
+      <Card>
+        <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-text-3">
+          Bulk Register Investors
+          <span className="ml-2 normal-case tracking-normal font-normal opacity-60">sequential admin txs</span>
+        </p>
+        {!isAdmin && (
+          <p className="mb-4 text-xs text-amber-400">Connect the admin wallet to bulk approve investor addresses.</p>
+        )}
+        <div className="space-y-3">
+          <div>
+            <Label htmlFor="bulk-investors">Investor Addresses</Label>
+            <textarea
+              id="bulk-investors"
+              value={bulkAddresses}
+              onChange={(event) => setBulkAddresses(event.target.value)}
+              placeholder={"0xInvestorA\n0xInvestorB\n0xInvestorC"}
+              rows={5}
+              className="min-h-32 w-full rounded-xl border border-border bg-surface px-3.5 py-2.5 text-sm text-text-1 transition-colors duration-150 placeholder:text-text-3 focus:border-purple/30 focus:outline-none focus:ring-2 focus:ring-purple/10 disabled:cursor-not-allowed disabled:opacity-40"
+            />
+          </div>
+          <div className="flex flex-wrap items-center gap-2">
+            <Button
+              onClick={registerBulk}
+              disabled={bulkPending || !isAdmin || bulkParsedCount === 0}
+              size="sm"
+            >
+              {bulkPending ? "Registering..." : `Register ${bulkParsedCount || ""} Investors`}
+            </Button>
+            <span className="text-xs text-text-3">
+              Paste addresses separated by new lines, commas, or spaces.
+            </span>
+          </div>
+          {bulkStatus.length > 0 && (
+            <div className="space-y-2 rounded-xl border border-border bg-surface p-3">
+              {bulkStatus.map((item) => (
+                <div key={item.address} className="grid gap-2 text-xs md:grid-cols-[1fr_auto]">
+                  <span className="break-all font-mono text-text-2">{item.address}</span>
+                  <span className={
+                    item.status === "success"
+                      ? "text-success"
+                      : item.status === "failed"
+                        ? "text-danger"
+                        : "text-warning"
+                  }>
+                    {item.status === "success" ? "registered" : item.status === "failed" ? "failed" : "pending"}
+                  </span>
+                  {item.tx ? <TxLink hash={item.tx} /> : null}
+                  {item.error ? <span className="break-all text-danger md:col-span-2">{item.error}</span> : null}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </Card>
 
