@@ -1,18 +1,18 @@
 # Kavro Protocol
 
-**0G-native confidential credit-agent infrastructure for sealed RWA funding.**
+**Private credit clearing network for autonomous agents on 0G.**
 
-Kavro Protocol lets issuer, investor, and auditor agents privately evaluate, bid, disclose, and settle RWA credit funding rounds using 0G Storage, 0G Compute, and on-chain commitments.
+Kavro Protocol lets issuer, investor, underwriter, and auditor agents privately evaluate, bid, disclose, clear, and settle RWA credit funding rounds using 0G Storage, 0G Compute, and on-chain commitments.
 
 ## What It Does
 
-Kavro is a framework for private credit agents, not a single-purpose deal room. Issuers create sealed funding rooms, investors submit confidential bid commitments, AI agents generate private due diligence and allocation recommendations, repayments settle on-chain, and auditors receive permissioned disclosure without exposing sensitive deal terms publicly.
+Kavro is a private credit clearing network for autonomous agents, not a single-purpose deal room. Issuers create sealed funding rooms, investors submit confidential bid commitments, underwriting agents generate private due diligence and allocation recommendations, repayments settle on-chain, and auditors receive permissioned disclosure without exposing sensitive deal terms publicly.
 
 ## Why It Matters
 
 Private credit and RWA funding still run through emails, PDFs, spreadsheets, and lawyer-controlled data rooms. Public blockchains improve settlement, but they expose bid sizes, allocations, investor appetite, and repayment exposure. Kavro separates public commitments from private credit intelligence.
 
-Most AI x Web3 agent projects are horizontal marketplaces, memory layers, or trading bots. Kavro is a vertical protocol for a high-value institutional workflow: confidential private-credit funding with issuer, investor, auditor, and settlement agents.
+Most AI x Web3 agent projects are horizontal marketplaces, memory layers, or trading bots. Kavro is a vertical protocol for a high-value institutional workflow: confidential private-credit clearing with issuer, investor, underwriter, auditor, and settlement agents.
 
 ## Why 0G
 
@@ -26,7 +26,7 @@ Kavro maps directly to 0G's AI x Web3 stack:
 | 0G module | Kavro usage |
 | --- | --- |
 | 0G Storage | Persistent encrypted deal memory, report archives, audit logs, agent profiles, and long-context room state |
-| 0G Compute Network | Decentralized inference for due diligence, investor risk, bid recommendation, issuer allocation, and auditor compliance agents |
+| 0G Compute Network | Decentralized inference for the Kavro Underwriting Swarm: Risk, Compliance, Allocation, and Critic agents |
 | 0G Chain | Verifiable commitments, room lifecycle, permission events, settlement proofs, and explorer-visible activity |
 | Persistent Memory | Roadmap target for cross-session credit-agent memory and long-context RWA deal intelligence |
 | Agent ID | Roadmap target for tokenized agent identity, encrypted metadata, delegated usage, and ownership/composability |
@@ -47,7 +47,7 @@ flowchart LR
   Compute --> Reports[AI Reports]
   Reports --> Storage
   Disclosure --> Storage
-  Chain --> Proofs[Proof Bundle]
+  Chain --> Proofs[Proof-of-Credit Packet]
   Storage --> Proofs
 ```
 
@@ -117,7 +117,7 @@ await kavro.createDealRoom({
   storageRef: dealRef.uri
 });
 
-await kavro.runDueDiligence({ title: "Atlas Receivables Series A", confidentialAmountsExcluded: true });
+await kavro.runUnderwritingSwarm({ title: "Atlas Receivables Series A", confidentialAmountsExcluded: true });
 await kavro.persistAgentMemory({
   agentId: "issuer-agent-1",
   roomId: "0",
@@ -127,6 +127,7 @@ await kavro.persistAgentMemory({
 });
 await kavro.submitSealedBid({ dealId: 0n, bidSecret: "private terms", storageRef: dealRef.uri });
 const proof = kavro.getDealProofBundle({ dealId: "0", dealStorageRef: dealRef.uri });
+const packet = kavro.generateProofOfCreditPacket({ dealId: "0", underwritingReportRef: dealRef.uri });
 await kavro.verifyDealProof(proof);
 ```
 
@@ -140,7 +141,7 @@ await kavro.verifyDealProof(proof);
 
 Local development has a clearly labeled `local-dev` fallback when 0G keys are missing. The fallback never claims to be a real 0G upload or inference.
 
-HackQuest requires actual 0G activity. Before submission, deploy the contracts, run at least one room workflow, and paste the contract address plus explorer link into `SUBMISSION.md`.
+HackQuest currently asks for a 0G mainnet contract address and explorer activity. Kavro supports both Galileo and Mainnet config; final submission should use `npm run deploy:0g:mainnet` if the judges enforce mainnet proof.
 
 ## Local Setup
 
@@ -164,6 +165,13 @@ export DEPLOYER_PRIVATE_KEY=0x...
 npm run deploy:0g
 ```
 
+Deploy to 0G Mainnet for final HackQuest proof:
+
+```bash
+export DEPLOYER_PRIVATE_KEY=0x...
+npm run deploy:0g:mainnet
+```
+
 Then copy the printed addresses into `.env.local`.
 
 ## Demo Script Under 3 Minutes
@@ -175,7 +183,7 @@ Then copy the printed addresses into `.env.local`.
 5. Store private bid context, submit a sealed bid commitment, and show the tx hash.
 6. Return to `/issuer`, generate allocation plan, mark funded, and record repayment commitment.
 7. Go to `/auditor`, grant disclosure and generate the auditor compliance summary.
-8. Open `/proofs` and show the proof bundle format.
+8. Open `/proofs` and show the Proof-of-Credit Packet.
 
 ## Hackathon Submission Notes
 

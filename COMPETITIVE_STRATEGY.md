@@ -46,7 +46,7 @@ Kavro should not try to be the broadest agent platform. That field is crowded.
 
 Kavro wins by being the most credible **vertical protocol**:
 
-> The confidential credit-agent framework for private RWA funding rounds.
+> The private credit clearing network for autonomous agents.
 
 This wedge is narrower, more valuable, and more institutional than generic agent marketplaces or trading bots.
 
@@ -59,6 +59,7 @@ This wedge is narrower, more valuable, and more institutional than generic agent
 2. **Complete role model**
    - Issuer Agent
    - Investor Agent
+   - Underwriter Agent
    - Auditor Agent
    - Settlement Layer
    - SDK layer
@@ -66,13 +67,13 @@ This wedge is narrower, more valuable, and more institutional than generic agent
 3. **0G used across the workflow**
    - 0G Storage for encrypted room memory and AI reports.
    - 0G Compute for due diligence and allocation agents.
-   - 0G Chain for commitments, permissions, repayment state, and proof bundles.
+   - 0G Chain for commitments, permissions, repayment state, and Proof-of-Credit Packets.
    - Agent ID-ready identity primitive.
    - Persistent Memory-ready adapter.
 
 4. **Proof bundle**
    - Judges need verifiable evidence fast.
-   - Kavro should show a single bundle containing contract addresses, storage refs, compute report refs, tx links, and lifecycle state.
+   - Kavro should show a single Proof-of-Credit Packet containing contract addresses, storage refs, compute report refs, tx links, disclosure capsules, and lifecycle state.
 
 5. **Compliance/audit story**
    - Private finance needs permissioned disclosure.
@@ -91,9 +92,10 @@ Avoid:
 Use:
 
 - "confidential credit-agent framework"
+- "private credit clearing network for autonomous agents"
 - "private RWA funding infrastructure"
 - "issuer/investor/auditor agent protocol"
-- "0G-native proof bundle for private credit"
+- "0G-native Proof-of-Credit Packet for private credit"
 - "commitments on-chain, confidential memory off-chain, private agent analysis through compute"
 
 ## Must-Have Before Submission
@@ -107,7 +109,7 @@ This is the decisive checklist:
 - [ ] Generate one real 0G Storage ref.
 - [ ] Generate or clearly configure one 0G Compute agent output.
 - [ ] Show `/proofs` populated with addresses, refs, tx links.
-- [ ] Record under-3-minute demo with the proof bundle visible.
+- [ ] Record under-3-minute demo with the Proof-of-Credit Packet visible.
 - [ ] Publish X post with required hashtags/tags.
 
 ## Demo Narrative To Beat The Field
@@ -117,20 +119,20 @@ Use this exact spine:
 1. "Most projects here build generic agents. Kavro builds a financial protocol where agents run private credit."
 2. "Issuer creates a sealed RWA funding room."
 3. "0G Storage keeps encrypted room memory and AI reports."
-4. "0G Compute runs due diligence, investor risk, allocation, and auditor agents."
+4. "0G Compute runs Kavro's Underwriting Swarm: Risk, Compliance, Allocation, and Critic agents."
 5. "0G Chain stores commitments, permissions, repayment state, and proof events."
 6. "The auditor can verify without public leakage."
 7. "The SDK turns this into reusable infrastructure for private credit agents."
 
 ## Product Upgrades That Matter Most
 
-Priority 1: real 0G deploy and proof bundle.
+Priority 1: real 0G deploy and Proof-of-Credit Packet.
 
 Priority 2: seed demo data and make `/proofs` look complete.
 
-Priority 3: add a one-click "Generate full proof bundle" action.
+Priority 3: add a one-click "Generate Proof-of-Credit Packet" action.
 
-Priority 4: show Agent ID-ready agent identity in the proof bundle.
+Priority 4: show Agent ID-ready agent identity in the Proof-of-Credit Packet.
 
 Priority 5: optional OpenClaw adapter note only if it can be real; otherwise keep it as roadmap.
 
@@ -138,4 +140,4 @@ Priority 5: optional OpenClaw adapter note only if it can be real; otherwise kee
 
 Kavro should be judged as:
 
-> A 0G-native confidential credit-agent protocol for sealed RWA/private-credit funding, with real contract commitments, encrypted storage-backed memory, compute-generated diligence reports, permissioned auditor disclosure, Agent ID-ready identity, and SDK-based proof bundles.
+> A 0G-native private credit clearing network for autonomous agents, with real contract commitments, encrypted storage-backed memory, compute-generated underwriting swarm reports, permissioned disclosure capsules, Agent ID-ready identity, and SDK-based Proof-of-Credit Packets.

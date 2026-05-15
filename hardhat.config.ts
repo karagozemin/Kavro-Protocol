@@ -21,6 +21,11 @@ const config: HardhatUserConfig = {
       accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
       chainId: 16602
     },
+    ogMainnet: {
+      url: process.env.OG_MAINNET_RPC_URL ?? "https://evmrpc.0g.ai",
+      accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
+      chainId: 16661
+    },
     arbitrumSepolia: {
       url: process.env.ARB_SEPOLIA_RPC_URL ?? "",
       accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],

@@ -4,7 +4,8 @@ import {
   runBidRecommendationAgent,
   runDueDiligenceAgent,
   runInvestorRiskAgent,
-  runIssuerAllocationAgent
+  runIssuerAllocationAgent,
+  runUnderwritingSwarm
 } from "@/lib/0g/compute";
 import { uploadAIReportTo0G } from "@/lib/0g/storage";
 
@@ -15,7 +16,8 @@ const runners = {
   investor_risk: runInvestorRiskAgent,
   bid_recommendation: runBidRecommendationAgent,
   issuer_allocation: runIssuerAllocationAgent,
-  auditor_compliance: runAuditorComplianceAgent
+  auditor_compliance: runAuditorComplianceAgent,
+  underwriting_swarm: runUnderwritingSwarm
 } as const;
 
 export async function POST(req: NextRequest) {

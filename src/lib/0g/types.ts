@@ -53,15 +53,46 @@ export interface AuditorComplianceOutput {
   canVerifyWithoutPublicLeakage: true;
 }
 
+export interface UnderwritingSwarmOutput {
+  dealId: string;
+  riskAgent: DueDiligenceOutput;
+  complianceAgent: AuditorComplianceOutput;
+  allocationAgent: IssuerAllocationOutput;
+  criticAgent: {
+    challengedAssumptions: string[];
+    missingInformation: string[];
+    revisedRiskScore: number;
+    finalRecommendation: "approve_for_bidding" | "reject" | "request_more_info";
+  };
+  proofSummary: string;
+  privateFieldsExcluded: true;
+}
+
+export interface ProofOfCreditPacket {
+  packetType: "proof_of_credit";
+  dealId: string;
+  chainId: 16602;
+  issuerAgent: string;
+  investorBids: "sealed";
+  underwritingReportRef: string;
+  aiRiskScore: number | "pending";
+  bidCommitments: string[];
+  auditorDisclosureRef: string;
+  repaymentState: "draft" | "funding" | "funded" | "repaid" | "closed" | "pending";
+  explorerLinks: string[];
+  integrations: string[];
+}
+
 export type KavroAgentOutput =
   | DueDiligenceOutput
   | InvestorRiskOutput
   | IssuerAllocationOutput
-  | AuditorComplianceOutput;
+  | AuditorComplianceOutput
+  | UnderwritingSwarmOutput;
 
 export interface KavroAgentResult<T extends KavroAgentOutput = KavroAgentOutput> {
   mode: ZeroGMode;
-  agentType: "due_diligence" | "investor_risk" | "bid_recommendation" | "issuer_allocation" | "auditor_compliance";
+  agentType: "due_diligence" | "investor_risk" | "bid_recommendation" | "issuer_allocation" | "auditor_compliance" | "underwriting_swarm";
   provider: string;
   model: string;
   output: T;

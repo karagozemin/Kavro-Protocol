@@ -45,7 +45,7 @@ export default function LandingPage() {
         <div className="relative z-10 space-y-8 px-6 pb-12 pt-16">
           <div className="inline-flex items-center gap-2 rounded-full border border-gold/25 bg-surface/80 px-4 py-1.5 text-xs font-medium text-gold backdrop-blur-sm">
             <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-success" />
-            0G-native confidential credit-agent framework
+            0G-native private credit clearing network
           </div>
 
           <div className="flex flex-col items-center gap-5">
@@ -63,7 +63,7 @@ export default function LandingPage() {
           <div className="flex flex-wrap items-center justify-center gap-3">
             <Link href="/demo" className={buttonStyles({ variant: "gold", size: "lg" })}>Launch Demo</Link>
             <Link href="/architecture" className={buttonStyles({ variant: "outline", size: "lg" })}>View Architecture</Link>
-            <Link href="/proofs" className={buttonStyles({ variant: "ghost", size: "lg" })}>Proof Bundle</Link>
+            <Link href="/proofs" className={buttonStyles({ variant: "ghost", size: "lg" })}>Proof-of-Credit Packet</Link>
           </div>
         </div>
       </section>
@@ -110,8 +110,8 @@ export default function LandingPage() {
 
       <section className="rounded-3xl border border-gold/20 bg-card/85 p-10 text-center shadow-purple-glow">
         <p className="text-xs font-semibold uppercase tracking-widest text-gold">Demo proof</p>
-        <h2 className="mt-3 text-3xl font-semibold text-text-1">Show the judges the full 0G proof flow</h2>
-        <p className="mx-auto mt-3 max-w-2xl text-sm text-text-2">The demo surfaces contract addresses, explorer links, storage refs, AI report refs, and a reusable SDK proof bundle.</p>
+          <h2 className="mt-3 text-3xl font-semibold text-text-1">Show the judges the full Proof-of-Credit Packet</h2>
+        <p className="mx-auto mt-3 max-w-2xl text-sm text-text-2">The demo surfaces contract addresses, explorer links, storage refs, underwriting outputs, disclosure capsules, and reusable SDK packet generation.</p>
         <div className="mt-7 flex flex-wrap justify-center gap-3">
           <Link href="/demo" className={buttonStyles({ variant: "gold", size: "lg" })}>Open Demo</Link>
           <Link href="/proofs" className={buttonStyles({ variant: "outline", size: "lg" })}>View Proofs</Link>

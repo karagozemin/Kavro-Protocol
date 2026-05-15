@@ -4,10 +4,12 @@ import { injected } from "wagmi/connectors";
 
 const rpcUrl =
   process.env.NEXT_PUBLIC_0G_RPC_URL ?? "https://evmrpc-testnet.0g.ai";
+const activeChainId = Number(process.env.NEXT_PUBLIC_0G_CHAIN_ID ?? 16602);
+const activeExplorer = process.env.NEXT_PUBLIC_0G_EXPLORER_URL ?? "https://chainscan-galileo.0g.ai";
 
-export const ogGalileo = {
-  id: 16602,
-  name: "0G-Galileo-Testnet",
+export const active0GChain = {
+  id: activeChainId,
+  name: activeChainId === 16661 ? "0G-Mainnet" : "0G-Galileo-Testnet",
   nativeCurrency: { name: "0G", symbol: "0G", decimals: 18 },
   rpcUrls: {
     default: { http: [rpcUrl] },
@@ -15,19 +17,21 @@ export const ogGalileo = {
   },
   blockExplorers: {
     default: {
-      name: "0G ChainScan Galileo",
-      url: process.env.NEXT_PUBLIC_0G_EXPLORER_URL ?? "https://chainscan-galileo.0g.ai"
+      name: activeChainId === 16661 ? "0G ChainScan" : "0G ChainScan Galileo",
+      url: activeExplorer
     }
   },
-  testnet: true
+  testnet: activeChainId !== 16661
 } as const;
 
+export const ogGalileo = active0GChain;
+
 export const wagmiConfig = createConfig({
-  chains: [ogGalileo, arbitrumSepolia],
+  chains: [active0GChain, arbitrumSepolia],
   connectors: [injected({ target: "metaMask" })],
   multiInjectedProviderDiscovery: false,
   transports: {
-    [ogGalileo.id]: http(rpcUrl),
+    [active0GChain.id]: http(rpcUrl),
     [arbitrumSepolia.id]: http(process.env.NEXT_PUBLIC_LEGACY_ARB_RPC_URL ?? "https://sepolia-rollup.arbitrum.io/rpc")
   }
 });

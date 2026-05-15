@@ -4,7 +4,7 @@ import { Card } from "@/components/ui/card";
 const layers = [
   ["Kavro Rooms", "Frontend demo for issuer, investor, and auditor workflows."],
   ["Kavro Agents", "Due diligence, investor risk, allocation, settlement, and auditor agents."],
-  ["Kavro SDK", "Reusable TypeScript client for storage, compute, contracts, and proof bundles."],
+  ["Kavro SDK", "Reusable TypeScript client for storage, compute, contracts, and Proof-of-Credit Packets."],
   ["Kavro Contracts", "0G Chain commitments, permissions, repayment state, and settlement proofs."],
   ["Kavro Storage", "Encrypted room memory, AI reports, audit logs, and agent profiles on 0G Storage."],
   ["Kavro Compute", "Structured private-credit agent analysis through 0G Compute inference."],
@@ -17,8 +17,8 @@ export default function ArchitecturePage() {
     <div className="space-y-8">
       <SectionHeading
         tag="Architecture"
-        title="0G-native confidential credit-agent framework"
-        description="Kavro is intentionally protocol-shaped: app, agents, SDK, contracts, storage, compute, and proof bundle all reinforce the same private credit workflow."
+        title="0G-native private credit clearing network"
+        description="Kavro is intentionally protocol-shaped: app, agents, SDK, contracts, storage, compute, and Proof-of-Credit Packets all reinforce the same private credit workflow."
       />
       <div className="grid gap-5 md:grid-cols-3">
         {layers.map(([title, body]) => (

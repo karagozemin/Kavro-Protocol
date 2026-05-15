@@ -61,7 +61,7 @@ Kavro has agent roles, persistent memory on 0G Storage, structured inference via
 
 The hackathon requires actual 0G integration proof. A placeholder-only project can be invalid.
 
-Before submission, deploy the contracts and generate at least one real proof flow:
+Before submission, deploy the contracts and generate at least one real proof flow. HackQuest's current wording asks for 0G mainnet, so prefer mainnet deployment if funds and access are available:
 
 - `KavroDealRoom` contract address
 - `KavroAgentID` contract address if showing tokenized agent identity
@@ -94,6 +94,7 @@ npm run compile:contracts
 cp .env.example .env.local
 export DEPLOYER_PRIVATE_KEY=0x...
 npm run deploy:0g
+npm run deploy:0g:mainnet
 npm run typecheck
 npm run build
 npm run dev

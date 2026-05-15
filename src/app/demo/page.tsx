@@ -6,12 +6,12 @@ import { ZERO_G_EXPLORER_URL } from "@/lib/contracts";
 const steps = [
   ["Issuer", "Create a Kavro Room with RWA/private credit metadata"],
   ["Storage", "Upload room metadata to 0G Storage and commit the reference on-chain"],
-  ["Investor", "Run 0G Compute due diligence and bid recommendation"],
+  ["Underwriting", "Run Risk, Compliance, Allocation, and Critic agents as the Kavro Underwriting Swarm"],
   ["Investor", "Submit sealed bid commitment plus encrypted 0G Storage ref"],
   ["Issuer", "Generate issuer allocation plan and mark the room funded"],
   ["Settlement", "Record repayment commitment on 0G Chain"],
   ["Auditor", "Grant permissioned disclosure and generate compliance summary"],
-  ["Proof", "Review proof bundle: explorer links, storage refs, AI report refs"]
+  ["Proof", "Review Proof-of-Credit Packet: explorer links, storage refs, compute refs, disclosure state"]
 ];
 
 const roleColor: Record<string, string> = {
@@ -20,6 +20,7 @@ const roleColor: Record<string, string> = {
   Auditor: "border-blue-500/25 bg-blue-950/40 text-blue-400",
   Storage: "border-purple/30 bg-purple-subtle text-purple-bright",
   Settlement: "border-border bg-surface-2 text-text-2",
+  Underwriting: "border-purple/30 bg-purple-subtle text-purple-bright",
   Proof: "border-platinum/20 bg-surface-2 text-platinum"
 };
 
@@ -29,7 +30,7 @@ export default function DemoPage() {
       <SectionHeading
         tag="Kavro Rooms Demo"
         title="Three-minute 0G credit-agent proof flow"
-        description="A guided sequence for judges: issuer, investor, auditor, 0G Storage, 0G Compute, 0G Chain, and a proof bundle in one workflow."
+        description="A guided sequence for judges: issuer, investor, underwriter, auditor, 0G Storage, 0G Compute, 0G Chain, and a Proof-of-Credit Packet in one workflow."
       />
 
       <div className="rounded-2xl border border-border bg-card p-5">
@@ -72,7 +73,7 @@ export default function DemoPage() {
           <Link href="/issuer" className={buttonStyles({ variant: "outline" })}>Issuer Agent</Link>
           <Link href="/investor" className={buttonStyles({ variant: "outline" })}>Investor Agent</Link>
           <Link href="/auditor" className={buttonStyles({ variant: "outline" })}>Auditor Agent</Link>
-          <Link href="/proofs" className={buttonStyles({ variant: "gold" })}>Proof Bundle</Link>
+          <Link href="/proofs" className={buttonStyles({ variant: "gold" })}>Proof-of-Credit Packet</Link>
         </div>
       </div>
     </div>

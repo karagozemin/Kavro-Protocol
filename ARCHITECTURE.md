@@ -1,12 +1,12 @@
 # Kavro Protocol Architecture
 
-Kavro Protocol is a 0G-native confidential credit-agent framework. It is organized as six layers:
+Kavro Protocol is a 0G-native private credit clearing network for autonomous agents. It is organized as six layers:
 
 | Layer | Responsibility |
 | --- | --- |
 | Kavro Rooms | Demo frontend for issuer, investor, and auditor workflows |
-| Kavro Agents | Due diligence, investor risk, bid recommendation, issuer allocation, auditor compliance |
-| Kavro SDK | TypeScript API for contracts, 0G Storage, 0G Compute, and proof bundles |
+| Kavro Underwriting Swarm | Risk, Compliance, Allocation, and Critic agents for private credit decisions |
+| Kavro SDK | TypeScript API for contracts, 0G Storage, 0G Compute, and Proof-of-Credit Packets |
 | Kavro Contracts | 0G Chain deal lifecycle, commitments, permissions, repayment state |
 | Kavro Storage | Encrypted deal memory, AI reports, audit logs, and agent profiles |
 | Kavro Compute | Structured private-credit agent analysis |
@@ -38,6 +38,17 @@ It is not presented as a full official ERC-7857 implementation; it is a practica
 
 Kavro does not write plaintext confidential bid amounts to public chain state. Public state contains commitments, storage refs, and event proofs. Sensitive terms belong in encrypted 0G Storage or private compute paths.
 
+## Kavro Underwriting Swarm
+
+Kavro's 0G Compute layer runs four coordinated agents:
+
+- **Risk Agent:** scores the room and identifies credit risks.
+- **Compliance Agent:** checks KYC, disclosure scope, and auditability.
+- **Allocation Agent:** recommends risk-adjusted investor allocation.
+- **Critic Agent:** challenges assumptions, missing data, and weak covenants before the issuer commits funding.
+
+The swarm output becomes part of the Proof-of-Credit Packet.
+
 ## Integration Flow
 
 ```mermaid
@@ -51,7 +62,7 @@ flowchart TD
   H --> D
   I[Auditor Agent] --> J[Permissioned disclosure ref]
   J --> C
-  D --> K[Proof Bundle]
+  D --> K[Proof-of-Credit Packet]
   C --> K
   G --> K
 ```
@@ -65,6 +76,15 @@ flowchart TD
 - RPC default: `https://evmrpc-testnet.0g.ai`
 - Hardhat network: `ogGalileo`
 - Solidity config uses `evmVersion: "cancun"`.
+
+## 0G Mainnet
+
+HackQuest's current submission wording asks for a 0G mainnet contract address. Kavro includes an `ogMainnet` Hardhat network:
+
+- Chain ID: `16661`
+- RPC default: `https://evmrpc.0g.ai`
+- Explorer: `https://chainscan.0g.ai`
+- Script: `npm run deploy:0g:mainnet`
 
 ## 0G Resource Mapping
 

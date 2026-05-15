@@ -106,6 +106,9 @@ export function AiBrief({ dealId, mode, title, category, description, maturityDa
           <Button variant="outline" size="sm" onClick={() => runAgent("due_diligence")} disabled={loading}>
             Generate 0G Due Diligence
           </Button>
+          <Button variant="outline" size="sm" onClick={() => runAgent("underwriting_swarm")} disabled={loading}>
+            Run Underwriting Swarm
+          </Button>
           <Button variant="outline" size="sm" onClick={() => runAgent(agentType[mode])} disabled={loading}>
             {agentLabel[mode]}
           </Button>

@@ -3,7 +3,8 @@ import type {
   DueDiligenceOutput,
   InvestorRiskOutput,
   IssuerAllocationOutput,
-  KavroAgentResult
+  KavroAgentResult,
+  UnderwritingSwarmOutput
 } from "@/lib/0g/types";
 
 const ROUTER_URL = process.env.NEXT_PUBLIC_0G_COMPUTE_ROUTER_URL ?? "https://router-api-testnet.integratenetwork.work/v1";
@@ -47,9 +48,32 @@ function fallbackOutput(agentType: AgentKind, input: Record<string, unknown>) {
       privateDetailsStoredOn0G: true
     } satisfies IssuerAllocationOutput;
   }
+  if (agentType === "underwriting_swarm") {
+    const dueDiligence = fallbackOutput("due_diligence", input) as DueDiligenceOutput;
+    const compliance = fallbackOutput("auditor_compliance", input) as AuditorComplianceOutput;
+    const allocation = fallbackOutput("issuer_allocation", input) as IssuerAllocationOutput;
+    return {
+      dealId: String(input.dealId ?? "demo-room"),
+      riskAgent: dueDiligence,
+      complianceAgent: compliance,
+      allocationAgent: allocation,
+      criticAgent: {
+        challengedAssumptions: [
+          "Collateral quality should be verified against source documents before final allocation.",
+          "Late-payment history needs a covenant or discount in the recommended yield.",
+          "Investor concentration should be capped even if one bid is economically superior."
+        ],
+        missingInformation: ["Receivables aging report", "Borrower payment history", "Collateral concentration table"],
+        revisedRiskScore: Math.min(100, dueDiligence.riskScore + 8),
+        finalRecommendation: "request_more_info"
+      },
+      proofSummary: "Underwriting swarm produced a risk, compliance, allocation, and critic packet without exposing confidential bid amounts.",
+      privateFieldsExcluded: true
+    } satisfies UnderwritingSwarmOutput;
+  }
   return {
     kycStatus: "permissioned_review_required",
-    disclosureScope: "Auditor can verify selected bid commitment, AI report reference, and storage proof bundle.",
+    disclosureScope: "Auditor can verify selected bid commitment, AI report reference, and Proof-of-Credit Packet.",
     complianceFlags: ["Confirm KYC registry status", "Verify disclosure ref matches granted investor", "Check repayment commitment event"],
     auditSummary: "The auditor can verify lifecycle events and encrypted references without public leakage of sensitive terms.",
     canVerifyWithoutPublicLeakage: true
@@ -133,4 +157,8 @@ export function runIssuerAllocationAgent(input: Record<string, unknown>) {
 
 export function runAuditorComplianceAgent(input: Record<string, unknown>) {
   return run0GAgent("auditor_compliance", input) as Promise<KavroAgentResult<AuditorComplianceOutput>>;
+}
+
+export function runUnderwritingSwarm(input: Record<string, unknown>) {
+  return run0GAgent("underwriting_swarm", input) as Promise<KavroAgentResult<UnderwritingSwarmOutput>>;
 }

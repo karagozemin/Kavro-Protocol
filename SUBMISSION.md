@@ -6,11 +6,11 @@
 
 **One-sentence description, under 30 words:**
 
-Kavro Protocol enables confidential credit agents to evaluate, bid, audit, and settle private RWA funding rounds using 0G Storage, Compute, and Chain.
+Kavro Protocol enables confidential credit agents to underwrite, bid, disclose, and settle private RWA funding rounds using 0G Storage, Compute, and Chain.
 
 **Short summary:**
 
-Kavro is a 0G-native private credit-agent framework. Issuers create sealed RWA funding rooms, investors submit confidential bid commitments, 0G Compute agents generate due diligence and allocation recommendations, 0G Storage preserves encrypted deal memory and reports, and 0G Chain records commitments, permissions, and settlement proofs.
+Kavro is a 0G-native private credit clearing network for autonomous agents. Issuers create sealed RWA funding rooms, investors submit confidential bid commitments, the Kavro Underwriting Swarm generates risk/compliance/allocation/critic reports, 0G Storage preserves encrypted deal memory and reports, and 0G Chain records commitments, permissions, and settlement proofs.
 
 ## Problem
 
@@ -29,11 +29,11 @@ Kavro separates public verifiability from private credit intelligence:
 
 Many 0G APAC projects are broad agent marketplaces, memory layers, security auditors, payment rails, or trading bots. Kavro is deliberately narrower and more institutional: a vertical protocol for confidential RWA/private-credit funding.
 
-Kavro's wedge is the full issuer-investor-auditor-settlement workflow:
+Kavro's wedge is the full issuer-investor-underwriter-auditor-settlement workflow:
 
 - issuer creates sealed credit rooms
 - investor agents run private risk analysis and submit bid commitments
-- issuer agents generate allocation plans
+- underwriting agents generate risk, compliance, allocation, and critic plans
 - auditors receive permissioned disclosure refs
 - 0G Chain produces verifiable lifecycle and settlement proofs
 
@@ -60,14 +60,17 @@ The final HackQuest submission must include actual on-chain activity.
 | Storage refs | Generated in demo by `/api/0g/storage` |
 | Compute refs | Generated in demo by `/api/0g/agent` |
 | Proof bundle route | `/proofs` |
+| Winner screen | Proof-of-Credit Packet |
 
 Important: local fallback refs are for development only. They should not be presented as real 0G integration proof.
+
+HackQuest currently asks for a 0G mainnet contract address. Use `npm run deploy:0g:mainnet` for the final proof if mainnet deployment funds are available; otherwise clearly label Galileo/testnet proof.
 
 ## Track Fit
 
 **Primary track:** Track 2 — Agentic Trading Arena / Verifiable Finance
 
-Kavro turns private credit funding into verifiable financial logic: sealed bid commitments, risk agents, allocation agents, repayment commitments, and auditor proof bundles.
+Kavro turns private credit funding into verifiable financial logic: sealed bid commitments, risk agents, allocation agents, repayment commitments, and auditor Proof-of-Credit Packets.
 
 **Secondary track:** Track 5 — Privacy & Sovereign Infrastructure
 
@@ -81,7 +84,7 @@ Kavro includes agent roles, persistent storage-backed memory, structured agent o
 
 | Criteria | Kavro answer |
 | --- | --- |
-| 0G technical integration depth | Storage refs, Compute agents, Chain commitments, proof bundle, and SDK abstraction |
+| 0G technical integration depth | Storage refs, Compute agents, Chain commitments, Proof-of-Credit Packet, and SDK abstraction |
 | Technical completeness | Contracts, deploy script, frontend routes, API adapters, SDK, docs, and submission materials |
 | Product value | Private credit/RWA funding needs privacy, auditability, compliance, and AI due diligence |
 | UX/demo quality | `/demo`, `/issuer`, `/investor`, `/auditor`, `/proofs`, and `/architecture` routes explain the flow in under 3 minutes |
@@ -133,5 +136,5 @@ Attach: demo screenshot or 30-45s clip showing `/demo`, `/investor` agent output
 - [ ] KavroAgentID address is deployed and pasted if used in the demo
 - [ ] Explorer link shows verifiable 0G activity
 - [ ] 0G Storage or 0G Compute real integration proof is captured
-- [ ] `/proofs` route shows proof bundle
+- [ ] `/proofs` route shows Proof-of-Credit Packet
 - [ ] No private keys committed

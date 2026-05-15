@@ -11,6 +11,7 @@
     "hardhat": "hardhat",
     "compile:contracts": "hardhat compile",
     "deploy:0g": "hardhat run scripts/deploy-0g.ts --network ogGalileo",
+    "deploy:0g:mainnet": "hardhat run scripts/deploy-0g.ts --network ogMainnet",
     "deploy:arb": "hardhat run scripts/deploy.ts --network arbitrumSepolia",
     "install:0g-storage": "npm install @0gfoundation/0g-storage-ts-sdk ethers --legacy-peer-deps"
   },
