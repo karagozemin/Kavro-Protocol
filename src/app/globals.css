@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --purple: #7C6FF0;
+  --purple-bright: #9F95FF;
+  --bg: #06050D;
+  --surface: #090B16;
+  --border: #232744;
+}
+
+* {
+  border-color: #232744;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  background-color: #06050D;
+  color: #EDF0FA;
+  font-feature-settings: "cv11", "ss01", "rlig" 1, "calt" 1;
+}
+
+/* Premium scrollbar */
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #090B16; }
+::-webkit-scrollbar-thumb { background: #2D3353; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #5B4FD8; }
+
+/* Selection */
+::selection {
+  background: rgba(124, 111, 240, 0.22);
+  color: #9F95FF;
+}
+
+/* Focus rings */
+:focus-visible {
+  outline: 2px solid rgba(124, 111, 240, 0.45);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@layer utilities {
+  .text-purple-gradient {
+    background: linear-gradient(135deg, #7C6FF0 0%, #B7B0FF 50%, #7C6FF0 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .bg-dot-pattern {
+    background-image: radial-gradient(circle, rgba(45, 51, 83, 0.5) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+
+  .glass {
+    background: rgba(15, 19, 38, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+  }
+
+  .glass-nav {
+    background: rgba(6, 5, 13, 0.88);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+  }
+
+  .border-purple-subtle { border-color: rgba(139, 92, 246, 0.2); }
+  .border-purple        { border-color: rgba(124, 111, 240, 0.4); }
+
+  .shadow-purple-glow {
+    box-shadow: 0 0 60px rgba(91, 79, 216, 0.12), 0 0 120px rgba(124, 111, 240, 0.05);
+  }
+
+  .card-shine {
+    position: relative;
+    overflow: hidden;
+  }
+  .card-shine::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(124,111,240,0.035) 0%, transparent 60%);
+    pointer-events: none;
+  }
+}
+
+button, a { transition-duration: 150ms; }
+
+.color-bends-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.color-bends-container canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}
