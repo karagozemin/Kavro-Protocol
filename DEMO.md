@@ -20,13 +20,24 @@ The final video must be under 3 minutes and must show real 0G usage, not slides 
 
 ## Must Show On Screen
 
-- 0G contract address or explorer page
+- 0G Mainnet contract address: `0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669`
+- 0G Explorer page: `https://chainscan.0g.ai/address/0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669`
 - 0G Storage ref for deal metadata or AI report
 - 0G Compute agent output
 - Kavro Underwriting Swarm output
 - sealed bid commitment transaction
 - optional KavroAgentID tokenized agent identity / memory ref
 - Proof-of-Credit Packet route
+
+## Seeded Mainnet Proof Flow
+
+- Deal ID: `0`
+- Deal metadata ref: `0g://mainnet/kavro/deals/singapore-invoice-clearing-0`
+- AI report ref: `0g://mainnet/kavro/compute/underwriting-swarm-0`
+- Bid storage ref: `0g://mainnet/kavro/bids/sealed-investor-0`
+- Auditor disclosure ref: `0g://mainnet/kavro/disclosures/auditor-capsule-0`
+- Sealed bid tx: `https://chainscan.0g.ai/tx/0xd5c8c37ebcf4a876197f50d3ae2994d489d67bd5aebdc08d5da8ef1949a3672d`
+- Auditor disclosure tx: `https://chainscan.0g.ai/tx/0x70ed4382cb2ac87bc134d6cde0b6d1db05c97577ee019414289372c422c19b5d`
 
 ## Judge Talking Points
 

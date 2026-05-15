@@ -133,15 +133,24 @@ await kavro.verifyDealProof(proof);
 
 ## 0G Integration Proof
 
-- 0G Chain contract address: `NEXT_PUBLIC_KAVRO_DEAL_ROOM_ADDRESS` after deployment. This must be filled before final HackQuest submission.
-- 0G Explorer link: `https://chainscan-galileo.0g.ai/address/<contract>`.
+- 0G Chain contract address: `0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669` on 0G Mainnet.
+- 0G Explorer link: `https://chainscan.0g.ai/address/0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669`.
+- 0G mainnet proof flow:
+  - KYC identity registration: `https://chainscan.0g.ai/tx/0xd79059b64ab52d4a881276d2dee751ae5d5bbee21076ab72bbe527a3ea5cbbb8`
+  - Deal created: `https://chainscan.0g.ai/tx/0x2f98efd3911c6c8978059bf1fbcd1ba0adab1ef484661f818b64453b915465eb`
+  - Funding opened: `https://chainscan.0g.ai/tx/0x13776437afde18eaa92b3e54aac654632d6f26629c15b835bab0e33a70ed487d`
+  - AI report committed: `https://chainscan.0g.ai/tx/0x959a57b4d5a28f6077280fbd3c6276d87befbaf0006e5d928e791aa2b2263f66`
+  - Sealed bid submitted: `https://chainscan.0g.ai/tx/0xd5c8c37ebcf4a876197f50d3ae2994d489d67bd5aebdc08d5da8ef1949a3672d`
+  - Deal funded: `https://chainscan.0g.ai/tx/0xb1b14dc11bbb02247a9d800a1c1d1d8ed58caaa08a93d80f05c0159806adb4c9`
+  - Repayment recorded: `https://chainscan.0g.ai/tx/0x1c5f03282c9c52f94c9516a5a4a7718345dcdf3fe268e665a6c62eaeac9ca179`
+  - Auditor disclosure granted: `https://chainscan.0g.ai/tx/0x70ed4382cb2ac87bc134d6cde0b6d1db05c97577ee019414289372c422c19b5d`
 - 0G Storage references: generated during the demo by `src/lib/0g/storage.ts`.
 - 0G Compute provider/model: configured with `0G_COMPUTE_API_KEY`, `NEXT_PUBLIC_0G_COMPUTE_ROUTER_URL`, and `NEXT_PUBLIC_0G_COMPUTE_MODEL`.
 - AI report hash/reference: returned by `/api/0g/agent` and shown in the UI.
 
 Local development has a clearly labeled `local-dev` fallback when 0G keys are missing. The fallback never claims to be a real 0G upload or inference.
 
-HackQuest currently asks for a 0G mainnet contract address and explorer activity. Kavro supports both Galileo and Mainnet config; final submission should use `npm run deploy:0g:mainnet` if the judges enforce mainnet proof.
+HackQuest currently asks for a 0G mainnet contract address and explorer activity. Kavro has a live 0G Mainnet deployment plus a seeded Proof-of-Credit lifecycle for `dealId=0`.
 
 ## Local Setup
 
@@ -174,9 +183,15 @@ npm run deploy:0g:mainnet
 
 Then copy the printed addresses into `.env.local`.
 
+Seed a judge-facing mainnet Proof-of-Credit Packet:
+
+```bash
+npm run seed:0g:mainnet
+```
+
 ## Demo Script Under 3 Minutes
 
-1. Open `/demo` and show the 0G Galileo network, explorer, and proof flow.
+1. Open `/demo` and show the 0G Mainnet network, explorer, and proof flow.
 2. Go to `/issuer`, create a Kavro Room, and point out the 0G Storage metadata ref.
 3. Open funding and show the 0G Chain transaction link.
 4. Go to `/investor`, run 0G Due Diligence and Investor Bid Recommendation.

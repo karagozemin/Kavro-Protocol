@@ -53,18 +53,31 @@ The final HackQuest submission must include actual on-chain activity.
 
 | Item | Value |
 | --- | --- |
-| 0G contract address | `TODO: deploy and paste KavroDealRoom address` |
-| 0G Agent Registry address | `TODO: deploy and paste KavroAgentRegistry address` |
-| Kavro Agent ID address | `TODO: deploy and paste KavroAgentID address` |
-| 0G Explorer link | `TODO: paste chainscan-galileo or official 0G explorer address link` |
-| Storage refs | Generated in demo by `/api/0g/storage` |
-| Compute refs | Generated in demo by `/api/0g/agent` |
+| 0G contract address | `0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669` |
+| 0G Agent Registry address | `0x2E54CCA69b767A0Ca50906E5F11a58ae437aC3b4` |
+| Kavro Agent ID address | `0xF4eB358b4110afe87E2fbA6a16AB98DeF0b77d56` |
+| Identity Registry address | `0x74Ab9190AB863cF9C430f99CA53ca5599FBD9D77` |
+| 0G Explorer link | `https://chainscan.0g.ai/address/0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669` |
+| Mainnet proof flow | `dealId=0` seeded on 0G Mainnet |
+| Storage refs | `0g://mainnet/kavro/deals/singapore-invoice-clearing-0`, `0g://mainnet/kavro/compute/underwriting-swarm-0`, `0g://mainnet/kavro/bids/sealed-investor-0`, `0g://mainnet/kavro/disclosures/auditor-capsule-0` |
+| Compute refs | `0g://mainnet/kavro/compute/underwriting-swarm-0` plus structured 0G Compute adapter output in `/api/0g/agent` |
 | Proof bundle route | `/proofs` |
 | Winner screen | Proof-of-Credit Packet |
 
 Important: local fallback refs are for development only. They should not be presented as real 0G integration proof.
 
-HackQuest currently asks for a 0G mainnet contract address. Use `npm run deploy:0g:mainnet` for the final proof if mainnet deployment funds are available; otherwise clearly label Galileo/testnet proof.
+HackQuest currently asks for a 0G mainnet contract address. Kavro has a live 0G Mainnet deployment and a seeded Proof-of-Credit flow.
+
+Mainnet lifecycle transactions:
+
+- KYC identity registration: `https://chainscan.0g.ai/tx/0xd79059b64ab52d4a881276d2dee751ae5d5bbee21076ab72bbe527a3ea5cbbb8`
+- Deal created: `https://chainscan.0g.ai/tx/0x2f98efd3911c6c8978059bf1fbcd1ba0adab1ef484661f818b64453b915465eb`
+- Funding opened: `https://chainscan.0g.ai/tx/0x13776437afde18eaa92b3e54aac654632d6f26629c15b835bab0e33a70ed487d`
+- AI report committed: `https://chainscan.0g.ai/tx/0x959a57b4d5a28f6077280fbd3c6276d87befbaf0006e5d928e791aa2b2263f66`
+- Sealed bid submitted: `https://chainscan.0g.ai/tx/0xd5c8c37ebcf4a876197f50d3ae2994d489d67bd5aebdc08d5da8ef1949a3672d`
+- Deal funded: `https://chainscan.0g.ai/tx/0xb1b14dc11bbb02247a9d800a1c1d1d8ed58caaa08a93d80f05c0159806adb4c9`
+- Repayment recorded: `https://chainscan.0g.ai/tx/0x1c5f03282c9c52f94c9516a5a4a7718345dcdf3fe268e665a6c62eaeac9ca179`
+- Auditor disclosure granted: `https://chainscan.0g.ai/tx/0x70ed4382cb2ac87bc134d6cde0b6d1db05c97577ee019414289372c422c19b5d`
 
 ## Track Fit
 

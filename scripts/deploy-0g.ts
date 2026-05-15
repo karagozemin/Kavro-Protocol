@@ -30,7 +30,7 @@ async function main() {
   const isMainnet = hardhat.network.name === "ogMainnet";
   const explorer = isMainnet
     ? process.env.OG_MAINNET_EXPLORER_URL ?? "https://chainscan.0g.ai"
-    : process.env.NEXT_PUBLIC_0G_EXPLORER_URL ?? "https://chainscan-galileo.0g.ai";
+    : process.env.OG_GALILEO_EXPLORER_URL ?? "https://chainscan-galileo.0g.ai";
 
   console.log(`Kavro Protocol deployed on ${isMainnet ? "0G Mainnet" : "0G Galileo"}`);
   console.log("KavroDealRoom:", dealRoomAddress);

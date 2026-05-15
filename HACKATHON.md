@@ -51,8 +51,8 @@ Kavro has agent roles, persistent memory on 0G Storage, structured inference via
 
 ## Judging Criteria Checklist
 
-- [ ] Deep 0G technical integration
-- [ ] Working on-chain deployment and explorer activity
+- [x] Deep 0G technical integration
+- [x] Working on-chain deployment and explorer activity
 - [ ] Clear private-credit market value
 - [ ] Polished 3-minute UX demo
 - [ ] Strong README, architecture, and submission notes
@@ -61,11 +61,14 @@ Kavro has agent roles, persistent memory on 0G Storage, structured inference via
 
 The hackathon requires actual 0G integration proof. A placeholder-only project can be invalid.
 
-Before submission, deploy the contracts and generate at least one real proof flow. HackQuest's current wording asks for 0G mainnet, so prefer mainnet deployment if funds and access are available:
+Kavro has a live 0G Mainnet deployment and one seeded Proof-of-Credit lifecycle:
 
-- `KavroDealRoom` contract address
-- `KavroAgentID` contract address if showing tokenized agent identity
-- 0G Explorer link with transactions
+- `KavroDealRoom`: `0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669`
+- `KavroAgentRegistry`: `0x2E54CCA69b767A0Ca50906E5F11a58ae437aC3b4`
+- `KavroAgentID`: `0xF4eB358b4110afe87E2fbA6a16AB98DeF0b77d56`
+- `IdentityRegistry`: `0x74Ab9190AB863cF9C430f99CA53ca5599FBD9D77`
+- Explorer: `https://chainscan.0g.ai/address/0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669`
+- Proof flow: `dealId=0`
 - at least one 0G Storage ref or 0G Compute output generated through real credentials
 - screenshot/video showing the proof route and agent output
 
@@ -95,6 +98,7 @@ cp .env.example .env.local
 export DEPLOYER_PRIVATE_KEY=0x...
 npm run deploy:0g
 npm run deploy:0g:mainnet
+npm run seed:0g:mainnet
 npm run typecheck
 npm run build
 npm run dev

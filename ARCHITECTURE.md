@@ -79,12 +79,17 @@ flowchart TD
 
 ## 0G Mainnet
 
-HackQuest's current submission wording asks for a 0G mainnet contract address. Kavro includes an `ogMainnet` Hardhat network:
+HackQuest's current submission wording asks for a 0G mainnet contract address. Kavro includes an `ogMainnet` Hardhat network and has a live mainnet deployment:
 
 - Chain ID: `16661`
 - RPC default: `https://evmrpc.0g.ai`
 - Explorer: `https://chainscan.0g.ai`
 - Script: `npm run deploy:0g:mainnet`
+- KavroDealRoom: `0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669`
+- KavroAgentRegistry: `0x2E54CCA69b767A0Ca50906E5F11a58ae437aC3b4`
+- KavroAgentID: `0xF4eB358b4110afe87E2fbA6a16AB98DeF0b77d56`
+- IdentityRegistry: `0x74Ab9190AB863cF9C430f99CA53ca5599FBD9D77`
+- Proof flow: `dealId=0` on `https://chainscan.0g.ai/address/0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669`
 
 ## 0G Resource Mapping
 
