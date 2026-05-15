@@ -2,6 +2,7 @@ export interface KavroClientConfig {
   chainId?: number;
   dealRoomContract?: `0x${string}`;
   agentRegistryContract?: `0x${string}`;
+  agentIdContract?: `0x${string}`;
   explorerUrl?: string;
 }
 

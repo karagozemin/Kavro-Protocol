@@ -24,6 +24,7 @@ The final video must be under 3 minutes and must show real 0G usage, not slides 
 - 0G Storage ref for deal metadata or AI report
 - 0G Compute agent output
 - sealed bid commitment transaction
+- optional KavroAgentID tokenized agent identity / memory ref
 - proof bundle route
 
 ## Judge Talking Points

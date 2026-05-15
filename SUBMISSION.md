@@ -30,7 +30,7 @@ Kavro separates public verifiability from private credit intelligence:
 - **0G Chain:** `KavroDealRoom`, `KavroAgentRegistry`, and `IdentityRegistry` deployments record lifecycle state, bid commitments, AI report refs, repayment commitments, and auditor access.
 - **0G Storage:** encrypted deal metadata, private bid context, AI report output, auditor disclosure refs, and agent profile metadata. Kavro uses it as persistent room memory for structured and unstructured private credit data.
 - **0G Compute:** due diligence, investor risk scoring, bid recommendation, issuer allocation planning, and auditor compliance summaries. The agent outputs are structured JSON for verifiable finance workflows.
-- **Agent ID / ERC-7857 extension:** planned extension for tokenized agent identity and encrypted metadata authorization. Not claimed as a complete implementation.
+- **Agent ID / ERC-7857 extension:** `KavroAgentID` is an Agent ID-ready prototype for tokenized agent identity, encrypted metadata refs, memory refs, behavior commitments, and delegated usage. It is not claimed as a complete official ERC-7857 implementation.
 - **Privacy / secure execution extension:** planned path for sealed inference and TEE-backed private analysis so proprietary bid and credit strategies are not leaked.
 
 ## Required 0G Integration Proof
@@ -41,6 +41,7 @@ The final HackQuest submission must include actual on-chain activity.
 | --- | --- |
 | 0G contract address | `TODO: deploy and paste KavroDealRoom address` |
 | 0G Agent Registry address | `TODO: deploy and paste KavroAgentRegistry address` |
+| Kavro Agent ID address | `TODO: deploy and paste KavroAgentID address` |
 | 0G Explorer link | `TODO: paste chainscan-galileo or official 0G explorer address link` |
 | Storage refs | Generated in demo by `/api/0g/storage` |
 | Compute refs | Generated in demo by `/api/0g/agent` |
@@ -115,6 +116,7 @@ Attach: demo screenshot or 30-45s clip showing `/demo`, `/investor` agent output
 - [ ] Demo video public link is ready
 - [ ] Public X post link is ready
 - [ ] 0G contract address is deployed and pasted
+- [ ] KavroAgentID address is deployed and pasted if used in the demo
 - [ ] Explorer link shows verifiable 0G activity
 - [ ] 0G Storage or 0G Compute real integration proof is captured
 - [ ] `/proofs` route shows proof bundle

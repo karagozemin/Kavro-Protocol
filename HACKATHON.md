@@ -64,6 +64,7 @@ The hackathon requires actual 0G integration proof. A placeholder-only project c
 Before submission, deploy the contracts and generate at least one real proof flow:
 
 - `KavroDealRoom` contract address
+- `KavroAgentID` contract address if showing tokenized agent identity
 - 0G Explorer link with transactions
 - at least one 0G Storage ref or 0G Compute output generated through real credentials
 - screenshot/video showing the proof route and agent output

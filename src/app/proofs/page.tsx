@@ -1,12 +1,13 @@
 import { SectionHeading } from "@/components/section-heading";
 import { Card } from "@/components/ui/card";
-import { DEAL_ROOM_ADDRESS, KAVRO_AGENT_REGISTRY_ADDRESS, ZERO_G_EXPLORER_URL } from "@/lib/contracts";
+import { DEAL_ROOM_ADDRESS, KAVRO_AGENT_ID_ADDRESS, KAVRO_AGENT_REGISTRY_ADDRESS, ZERO_G_EXPLORER_URL } from "@/lib/contracts";
 
 const integrations = ["0G Storage", "0G Compute", "0G Chain", "Kavro SDK"];
 
 export default function ProofsPage() {
   const dealRoom = DEAL_ROOM_ADDRESS || "Deploy with npm run deploy:0g";
   const agentRegistry = KAVRO_AGENT_REGISTRY_ADDRESS || "Deploy with npm run deploy:0g";
+  const agentId = KAVRO_AGENT_ID_ADDRESS || "Deploy with npm run deploy:0g";
 
   return (
     <div className="space-y-8">
@@ -28,6 +29,10 @@ export default function ProofsPage() {
               <span className="block text-text-3">KavroAgentRegistry</span>
               <span className="break-all font-mono text-text-1">{agentRegistry}</span>
             </div>
+            <div>
+              <span className="block text-text-3">KavroAgentID</span>
+              <span className="break-all font-mono text-text-1">{agentId}</span>
+            </div>
             <a href={ZERO_G_EXPLORER_URL} target="_blank" className="inline-flex text-gold hover:underline">
               Open 0G Galileo Explorer
             </a>
@@ -42,13 +47,14 @@ export default function ProofsPage() {
   chainId: 16602,
   dealRoomContract: dealRoom,
   agentRegistryContract: agentRegistry,
+  agentIdContract: agentId,
   dealStorageRef: "generated-during-demo",
   aiReportStorageRef: "generated-during-demo",
   bidCommitmentTx: "generated-during-demo",
   repaymentTx: "generated-during-demo",
   auditorAccessTx: "generated-during-demo",
   explorerLinks: ["https://chainscan-galileo.0g.ai/tx/..."],
-  integrations
+  integrations: [...integrations, "Agent ID-ready prototype", "Persistent Memory-ready adapter"]
 }, null, 2)}
           </pre>
         </Card>

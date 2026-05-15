@@ -1,6 +1,7 @@
 import { keccak256, stringToHex, type PublicClient, type WalletClient } from "viem";
-import { dealRoomAbi, kavroAgentRegistryAbi } from "@/lib/abi";
-import { uploadDealMetadataTo0G } from "@/lib/0g/storage";
+import { dealRoomAbi, kavroAgentIdAbi, kavroAgentRegistryAbi } from "@/lib/abi";
+import { uploadAgentProfileTo0G, uploadDealMetadataTo0G } from "@/lib/0g/storage";
+import { persistAgentMemoryTo0G, type KavroMemoryEntry } from "@/lib/0g/memory";
 import {
   runAuditorComplianceAgent,
   runBidRecommendationAgent,
@@ -50,6 +51,34 @@ export function createKavroClient(config: KavroClientConfig & { publicClient?: P
         args: [params.agentAddress, params.agentType, params.metadataRef]
       } as never);
     },
+
+    async mintAgentID(params: {
+      owner: `0x${string}`;
+      agentType: number;
+      profile: Record<string, unknown>;
+      memory?: KavroMemoryEntry;
+      behaviorCommitment?: `0x${string}`;
+    }) {
+      if (!config.walletClient || !config.agentIdContract) {
+        throw new Error("walletClient and agentIdContract are required for mintAgentID");
+      }
+      const profileRef = await uploadAgentProfileTo0G(params.profile);
+      const memoryRef = params.memory ? await persistAgentMemoryTo0G(params.memory) : null;
+      return config.walletClient.writeContract({
+        address: config.agentIdContract,
+        abi: kavroAgentIdAbi,
+        functionName: "mintAgentID",
+        args: [
+          params.owner,
+          params.agentType,
+          profileRef.uri,
+          memoryRef?.uri ?? "",
+          params.behaviorCommitment ?? "0x0000000000000000000000000000000000000000000000000000000000000000"
+        ]
+      } as never);
+    },
+
+    persistAgentMemory: persistAgentMemoryTo0G,
 
     runDueDiligence: runDueDiligenceAgent,
     runBidRecommendation: runBidRecommendationAgent,

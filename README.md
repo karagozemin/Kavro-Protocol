@@ -80,8 +80,10 @@ sequenceDiagram
 
 - `contracts/KavroDealRoom.sol` — creates rooms, opens funding, accepts sealed bid commitments, commits AI report refs, records repayment commitments, handles claim requests, and grants auditor access.
 - `contracts/KavroAgentRegistry.sol` — registers issuer, investor, auditor, settlement, and due diligence agents with 0G Storage metadata refs.
+- `contracts/KavroAgentID.sol` — Agent ID-ready prototype for tokenized credit-agent identity, encrypted metadata refs, memory refs, behavior commitments, and delegated usage authorization.
 - `contracts/IdentityRegistry.sol` — ERC-3643-style compliance gate for verified investor addresses.
-- ERC-7857 / Agent ID is documented as a roadmap extension; this repo does not fake a full ERC-7857 implementation.
+
+`KavroAgentID` is intentionally described as an Agent ID-ready prototype, not a full official ERC-7857 implementation.
 
 ## SDK Usage
 
@@ -92,6 +94,7 @@ const kavro = createKavroClient({
   chainId: 16602,
   dealRoomContract: process.env.NEXT_PUBLIC_KAVRO_DEAL_ROOM_ADDRESS as `0x${string}`,
   agentRegistryContract: process.env.NEXT_PUBLIC_KAVRO_AGENT_REGISTRY_ADDRESS as `0x${string}`,
+  agentIdContract: process.env.NEXT_PUBLIC_KAVRO_AGENT_ID_ADDRESS as `0x${string}`,
   explorerUrl: "https://chainscan-galileo.0g.ai",
   publicClient,
   walletClient
@@ -113,6 +116,13 @@ await kavro.createDealRoom({
 });
 
 await kavro.runDueDiligence({ title: "Atlas Receivables Series A", confidentialAmountsExcluded: true });
+await kavro.persistAgentMemory({
+  agentId: "issuer-agent-1",
+  roomId: "0",
+  kind: "deal_context",
+  summary: "Issuer opened a receivables-backed private credit room",
+  publicCommitment: dealRef.hash
+});
 await kavro.submitSealedBid({ dealId: 0n, bidSecret: "private terms", storageRef: dealRef.uri });
 const proof = kavro.getDealProofBundle({ dealId: "0", dealStorageRef: dealRef.uri });
 await kavro.verifyDealProof(proof);
@@ -181,7 +191,7 @@ See `HACKATHON.md` and `SUBMISSION.md` for the final checklist.
 - Production deployments need regulated KYC providers and institutional custody flows.
 - Confidential bid amount encryption depends on the selected privacy provider or TEE path. Kavro’s default contract stores commitments and encrypted storage references.
 - Real 0G Storage and 0G Compute require configured keys/providers. Local fallback is development-only.
-- ERC-7857 / Agent ID integration is planned as an extension, not claimed as complete here.
+- Kavro includes an Agent ID-ready prototype contract, but does not claim complete official ERC-7857 compliance.
 
 ## Roadmap
 
@@ -189,7 +199,7 @@ See `HACKATHON.md` and `SUBMISSION.md` for the final checklist.
 - DAO treasury credit rounds.
 - Multi-chain RWA settlement.
 - Institutional auditor dashboard.
-- Full Agent ID / ERC-7857-style encrypted metadata integration.
+- Full official Agent ID / ERC-7857-style encrypted metadata integration.
 - Private strategy and bid optimization agents.
 
 ## Official 0G References

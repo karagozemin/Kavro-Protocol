@@ -15,22 +15,29 @@ async function main() {
   const agentRegistry = await AgentRegistry.deploy();
   await agentRegistry.waitForDeployment();
 
+  const AgentID = await ethers.getContractFactory("KavroAgentID");
+  const agentID = await AgentID.deploy();
+  await agentID.waitForDeployment();
+
   const DealRoom = await ethers.getContractFactory("KavroDealRoom");
   const dealRoom = await DealRoom.deploy(await identityRegistry.getAddress());
   await dealRoom.waitForDeployment();
 
   const dealRoomAddress = await dealRoom.getAddress();
   const agentRegistryAddress = await agentRegistry.getAddress();
+  const agentIDAddress = await agentID.getAddress();
   const identityRegistryAddress = await identityRegistry.getAddress();
   const explorer = process.env.NEXT_PUBLIC_0G_EXPLORER_URL ?? "https://chainscan-galileo.0g.ai";
 
   console.log("Kavro Protocol deployed on 0G Galileo");
   console.log("KavroDealRoom:", dealRoomAddress);
   console.log("KavroAgentRegistry:", agentRegistryAddress);
+  console.log("KavroAgentID:", agentIDAddress);
   console.log("IdentityRegistry:", identityRegistryAddress);
   console.log("");
   console.log(`NEXT_PUBLIC_KAVRO_DEAL_ROOM_ADDRESS=${dealRoomAddress}`);
   console.log(`NEXT_PUBLIC_KAVRO_AGENT_REGISTRY_ADDRESS=${agentRegistryAddress}`);
+  console.log(`NEXT_PUBLIC_KAVRO_AGENT_ID_ADDRESS=${agentIDAddress}`);
   console.log(`NEXT_PUBLIC_IDENTITY_REGISTRY_ADDRESS=${identityRegistryAddress}`);
   console.log(`NEXT_PUBLIC_0G_EXPLORER_URL=${explorer}`);
   console.log("");

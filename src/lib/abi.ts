@@ -257,3 +257,59 @@ export const kavroAgentRegistryAbi = [
     }]
   }
 ] as const;
+
+export const kavroAgentIdAbi = [
+  {
+    type: "function",
+    name: "mintAgentID",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "owner", type: "address" },
+      { name: "agentType", type: "uint8" },
+      { name: "encryptedMetadataRef", type: "string" },
+      { name: "memoryRef", type: "string" },
+      { name: "behaviorCommitment", type: "bytes32" }
+    ],
+    outputs: [{ name: "tokenId", type: "uint256" }]
+  },
+  {
+    type: "function",
+    name: "updateAgentMetadata",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "tokenId", type: "uint256" },
+      { name: "encryptedMetadataRef", type: "string" },
+      { name: "memoryRef", type: "string" },
+      { name: "behaviorCommitment", type: "bytes32" }
+    ],
+    outputs: []
+  },
+  {
+    type: "function",
+    name: "authorizeUsage",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "tokenId", type: "uint256" },
+      { name: "operator", type: "address" },
+      { name: "authorized", type: "bool" }
+    ],
+    outputs: []
+  },
+  {
+    type: "function",
+    name: "getAgentMetadata",
+    stateMutability: "view",
+    inputs: [{ name: "tokenId", type: "uint256" }],
+    outputs: [{
+      name: "",
+      type: "tuple",
+      components: [
+        { name: "agentType", type: "uint8" },
+        { name: "encryptedMetadataRef", type: "string" },
+        { name: "memoryRef", type: "string" },
+        { name: "behaviorCommitment", type: "bytes32" },
+        { name: "active", type: "bool" }
+      ]
+    }]
+  }
+] as const;
