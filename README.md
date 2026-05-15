@@ -109,13 +109,15 @@ await kavro.verifyDealProof(proof);
 
 ## 0G Integration Proof
 
-- 0G Chain contract address: `NEXT_PUBLIC_KAVRO_DEAL_ROOM_ADDRESS` after deployment.
+- 0G Chain contract address: `NEXT_PUBLIC_KAVRO_DEAL_ROOM_ADDRESS` after deployment. This must be filled before final HackQuest submission.
 - 0G Explorer link: `https://chainscan-galileo.0g.ai/address/<contract>`.
 - 0G Storage references: generated during the demo by `src/lib/0g/storage.ts`.
 - 0G Compute provider/model: configured with `0G_COMPUTE_API_KEY`, `NEXT_PUBLIC_0G_COMPUTE_ROUTER_URL`, and `NEXT_PUBLIC_0G_COMPUTE_MODEL`.
 - AI report hash/reference: returned by `/api/0g/agent` and shown in the UI.
 
 Local development has a clearly labeled `local-dev` fallback when 0G keys are missing. The fallback never claims to be a real 0G upload or inference.
+
+HackQuest requires actual 0G activity. Before submission, deploy the contracts, run at least one room workflow, and paste the contract address plus explorer link into `SUBMISSION.md`.
 
 ## Local Setup
 
@@ -151,6 +153,16 @@ Then copy the printed addresses into `.env.local`.
 6. Return to `/issuer`, generate allocation plan, mark funded, and record repayment commitment.
 7. Go to `/auditor`, grant disclosure and generate the auditor compliance summary.
 8. Open `/proofs` and show the proof bundle format.
+
+## Hackathon Submission Notes
+
+- Deadline: May 16, 2026, 23:59 UTC+8.
+- Primary track: Agentic Trading Arena / Verifiable Finance.
+- Secondary track: Privacy & Sovereign Infrastructure.
+- Mandatory proof: 0G contract address, 0G Explorer link, and clear evidence that 0G Storage, 0G Compute, or 0G Chain is actually used.
+- Public X post must include `#0GHackathon`, `#BuildOn0G`, `@0G_labs`, `@0g_CN`, `@0g_Eco`, and `@HackQuest_`.
+
+See `HACKATHON.md` and `SUBMISSION.md` for the final checklist.
 
 ## Known Limitations
 

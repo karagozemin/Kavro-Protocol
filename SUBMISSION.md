@@ -1,27 +1,80 @@
-# Kavro Protocol
+# Kavro Protocol — 0G APAC Hackathon Submission
 
-## One-Sentence Description
+## Basic Project Information
 
-Kavro Protocol enables confidential credit agents to evaluate, bid, audit, and settle private RWA funding rounds using 0G Storage, 0G Compute, and 0G Chain.
+**Project name:** Kavro Protocol
 
-## Short Summary
+**One-sentence description, under 30 words:**
+
+Kavro Protocol enables confidential credit agents to evaluate, bid, audit, and settle private RWA funding rounds using 0G Storage, Compute, and Chain.
+
+**Short summary:**
 
 Kavro is a 0G-native private credit-agent framework. Issuers create sealed RWA funding rooms, investors submit confidential bid commitments, 0G Compute agents generate due diligence and allocation recommendations, 0G Storage preserves encrypted deal memory and reports, and 0G Chain records commitments, permissions, and settlement proofs.
 
+## Problem
+
+Private credit and RWA funding still rely on emails, PDFs, spreadsheets, and siloed data rooms. Public on-chain funding improves settlement, but it can leak bid sizes, investor appetite, allocation logic, repayment exposure, and audit material.
+
+## Solution
+
+Kavro separates public verifiability from private credit intelligence:
+
+- public chain state stores commitments, permissions, lifecycle events, and proof refs
+- encrypted 0G Storage stores room memory, AI reports, audit logs, and agent metadata
+- 0G Compute runs structured issuer, investor, and auditor agents
+- Kavro SDK turns the workflow into reusable credit-agent infrastructure
+
 ## 0G Components Used
 
-- 0G Storage
-- 0G Compute
-- 0G Chain
-- Optional extension: Agent ID / ERC-7857-style encrypted agent metadata
+- **0G Chain:** `KavroDealRoom`, `KavroAgentRegistry`, and `IdentityRegistry` deployments record lifecycle state, bid commitments, AI report refs, repayment commitments, and auditor access.
+- **0G Storage:** encrypted deal metadata, private bid context, AI report output, auditor disclosure refs, and agent profile metadata.
+- **0G Compute:** due diligence, investor risk scoring, bid recommendation, issuer allocation planning, and auditor compliance summaries.
+- **Agent ID / ERC-7857 extension:** planned extension for tokenized agent identity and encrypted metadata authorization. Not claimed as a complete implementation.
+
+## Required 0G Integration Proof
+
+The final HackQuest submission must include actual on-chain activity.
+
+| Item | Value |
+| --- | --- |
+| 0G contract address | `TODO: deploy and paste KavroDealRoom address` |
+| 0G Agent Registry address | `TODO: deploy and paste KavroAgentRegistry address` |
+| 0G Explorer link | `TODO: paste chainscan-galileo or official 0G explorer address link` |
+| Storage refs | Generated in demo by `/api/0g/storage` |
+| Compute refs | Generated in demo by `/api/0g/agent` |
+| Proof bundle route | `/proofs` |
+
+Important: local fallback refs are for development only. They should not be presented as real 0G integration proof.
 
 ## Track Fit
 
-Primary: Agentic Trading Arena / Verifiable Finance
+**Primary track:** Track 2 — Agentic Trading Arena / Verifiable Finance
 
-Secondary: Privacy & Sovereign Infrastructure
+Kavro turns private credit funding into verifiable financial logic: sealed bid commitments, risk agents, allocation agents, repayment commitments, and auditor proof bundles.
 
-Also relevant: Agentic Economy & Autonomous Applications
+**Secondary track:** Track 5 — Privacy & Sovereign Infrastructure
+
+Kavro builds confidentiality rails for RWA funding by keeping sensitive deal and bid state encrypted while exposing verifiable commitments.
+
+**Also relevant:** Track 1 — Agentic Infrastructure & OpenClaw Lab
+
+Kavro includes agent roles, persistent storage-backed memory, structured agent outputs, and SDK abstractions. OpenClaw orchestration is a natural extension.
+
+## Repository
+
+GitHub: https://github.com/karagozemin/Kavro-Protocol
+
+## Demo Video Outline, Under 3 Minutes
+
+1. Open Kavro landing page and state: confidential credit-agent infrastructure on 0G.
+2. Show `/demo` with the eight-step proof flow.
+3. Create a Kavro Room as issuer and show 0G Storage metadata ref.
+4. Open funding and show the 0G Chain transaction / explorer link.
+5. Run 0G Due Diligence and Investor Bid Recommendation.
+6. Submit sealed bid commitment with encrypted storage ref.
+7. Generate issuer allocation plan, mark funded, and record repayment commitment.
+8. Grant auditor disclosure and show `/proofs` bundle.
 
 ## Public X Post Draft
 
@@ -34,3 +87,24 @@ Auditors verify permissioned disclosures.
 
 #0GHackathon #BuildOn0G
 @0G_labs @0g_CN @0g_Eco @HackQuest_
+
+Attach: demo screenshot or 30-45s clip showing `/demo`, `/investor` agent output, and `/proofs`.
+
+## Optional Bonus Materials
+
+- Frontend demo link after deployment
+- Short technical article: how Kavro uses 0G Storage + Compute + Chain
+- Pitch deck with market framing for private credit/RWA workflows
+- Backend API notes for `/api/0g/storage` and `/api/0g/agent`
+
+## Final Submission Checklist
+
+- [ ] GitHub repo is public or shared with judges
+- [ ] README is complete
+- [ ] Demo video public link is ready
+- [ ] Public X post link is ready
+- [ ] 0G contract address is deployed and pasted
+- [ ] Explorer link shows verifiable 0G activity
+- [ ] 0G Storage or 0G Compute real integration proof is captured
+- [ ] `/proofs` route shows proof bundle
+- [ ] No private keys committed

@@ -4,6 +4,8 @@
 
 Show that Kavro is a 0G-native confidential credit-agent framework, not a generic RWA app.
 
+The final video must be under 3 minutes and must show real 0G usage, not slides only.
+
 ## Three-Minute Walkthrough
 
 1. Open `/demo`.
@@ -15,6 +17,14 @@ Show that Kavro is a 0G-native confidential credit-agent framework, not a generi
 7. Return to `/issuer`, generate allocation plan, mark funded, and record repayment commitment.
 8. Open `/auditor`, grant disclosure and generate compliance summary.
 9. Open `/proofs`, show the proof bundle.
+
+## Must Show On Screen
+
+- 0G contract address or explorer page
+- 0G Storage ref for deal metadata or AI report
+- 0G Compute agent output
+- sealed bid commitment transaction
+- proof bundle route
 
 ## Judge Talking Points
 
