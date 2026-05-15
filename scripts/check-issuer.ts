@@ -3,15 +3,15 @@ import hardhat from "hardhat";
 const { ethers } = hardhat;
 
 async function main() {
-  const dealRoomAddress = process.env.NEXT_PUBLIC_DEAL_ROOM_ADDRESS;
+  const dealRoomAddress = process.env.NEXT_PUBLIC_KAVRO_DEAL_ROOM_ADDRESS;
   if (!dealRoomAddress) {
-    throw new Error("NEXT_PUBLIC_DEAL_ROOM_ADDRESS env var required");
+    throw new Error("NEXT_PUBLIC_KAVRO_DEAL_ROOM_ADDRESS env var required");
   }
 
   const dealIdEnv = process.env.DEAL_ID;
   const dealId = dealIdEnv ? BigInt(dealIdEnv) : null;
 
-  const DealRoom = await ethers.getContractFactory("ObscuraDealRoom");
+  const DealRoom = await ethers.getContractFactory("KavroDealRoom");
   const dealRoom = DealRoom.attach(dealRoomAddress);
 
   const count = await dealRoom.getDealsCount();

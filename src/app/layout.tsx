@@ -13,10 +13,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Obscura Finance",
-  description: "Private credit funding with sealed bids, confidential token transfers, and permissioned audit disclosure.",
+  title: "Kavro Protocol",
+  description: "Confidential credit-agent infrastructure on 0G.",
   icons: {
-    icon: "/obscura-logo.png",
+    icon: "/kavro-logo.svg",
   },
 };
 
@@ -37,9 +37,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 {children}
               </main>
               <footer className="border-t border-border py-6 text-center text-xs text-text-2">
-                <span className="text-purple-gradient font-medium">Obscura Finance</span>
+                <span className="text-purple-gradient font-medium">Kavro Protocol</span>
                 <span className="mx-2 text-text-3">·</span>
-                Confidential RWA Protocol on Arbitrum Sepolia
+                Confidential credit-agent infrastructure on 0G Galileo
               </footer>
             </div>
           </div>

@@ -12,6 +12,8 @@ const navItems = [
   { href: "/investor",label: "Investor" },
   { href: "/auditor", label: "Auditor"  },
   { href: "/demo",    label: "Demo"     },
+  { href: "/proofs",  label: "Proofs"   },
+  { href: "/architecture", label: "Architecture" },
   { href: "/admin",   label: "Admin"    },
 ];
 
@@ -25,8 +27,8 @@ export function Nav() {
         <Link href="/" className="flex items-center gap-3 group">
           <div className="h-11 w-11 overflow-hidden rounded-xl border border-purple/30 bg-purple-subtle flex items-center justify-center group-hover:border-purple/30 transition-colors">
             <Image
-              src="/obscura-logo.png"
-              alt="Obscura Finance"
+              src="/kavro-logo.svg"
+              alt="Kavro Protocol"
               width={40}
               height={40}
               className="h-10 w-10 object-contain"
@@ -34,7 +36,7 @@ export function Nav() {
             />
           </div>
           <span className="text-lg font-semibold tracking-tight text-text-1">
-            Obscura
+            Kavro
           </span>
         </Link>
 

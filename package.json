@@ -1,5 +1,5 @@
 {
-  "name": "obscura-finance",
+  "name": "kavro-protocol",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,12 +10,11 @@
     "typecheck": "tsc --noEmit",
     "hardhat": "hardhat",
     "compile:contracts": "hardhat compile",
-    "deploy:arb": "hardhat run scripts/deploy.ts --network arbitrumSepolia"
+    "deploy:0g": "hardhat run scripts/deploy-0g.ts --network ogGalileo",
+    "deploy:arb": "hardhat run scripts/deploy.ts --network arbitrumSepolia",
+    "install:0g-storage": "npm install @0gfoundation/0g-storage-ts-sdk ethers --legacy-peer-deps"
   },
   "dependencies": {
-    "@iexec-nox/handle": "^0.1.0-beta.10",
-    "@iexec-nox/nox-confidential-contracts": "^0.1.0",
-    "@iexec-nox/nox-protocol-contracts": "^0.2.2",
     "@openzeppelin/contracts": "^5.6.1",
     "@tanstack/react-query": "^5.51.5",
     "clsx": "^2.1.1",

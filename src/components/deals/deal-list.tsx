@@ -91,7 +91,7 @@ export function DealList({ mode }: { mode: Mode }) {
   if (!DEAL_ROOM_ADDRESS) {
     return (
       <Card>
-        <p className="text-sm text-text-2">Deal contract not configured. Set <code className="text-gold">NEXT_PUBLIC_DEAL_ROOM_ADDRESS</code> after deployment.</p>
+        <p className="text-sm text-text-2">Kavro deal contract not configured. Set <code className="text-gold">NEXT_PUBLIC_KAVRO_DEAL_ROOM_ADDRESS</code> after 0G deployment.</p>
       </Card>
     );
   }
@@ -99,7 +99,7 @@ export function DealList({ mode }: { mode: Mode }) {
   if (!dealCount) {
     return (
       <Card>
-        <p className="text-sm text-text-2">No deals yet. Create the first private funding round.</p>
+        <p className="text-sm text-text-2">No Kavro Rooms yet. Create the first private credit-agent funding round.</p>
       </Card>
     );
   }
@@ -113,7 +113,7 @@ export function DealList({ mode }: { mode: Mode }) {
     };
   };
 
-  const issuerAction = async (fn: "setFundingOpen" | "setFunded" | "closeDeal", index: number) => {
+  const issuerAction = async (fn: "openFunding" | "markFunded" | "closeDeal", index: number) => {
     const fees = await getFees();
     writeContract({ address: dealRoomAddress, abi: dealRoomAbi, functionName: fn, args: [BigInt(index)], ...fees });
   };
@@ -127,15 +127,15 @@ export function DealList({ mode }: { mode: Mode }) {
 
         const deal = result.result as {
           issuer: string;
-          metadata: { title: string; category: string; maturityDate: bigint; description: string; documentHash: string };
+          metadata: { title: string; category: string; maturityDate: bigint; description: string; storageRef: string };
           state: number;
-          totalCommitted: `0x${string}`;
-          totalRepaid: `0x${string}`;
-          totalClaimed: `0x${string}`;
+          aiReportRef: string;
+          repaymentCommitment: `0x${string}`;
+          bidCount: bigint;
         };
 
         const bid = bidResults?.[index]?.result as
-          | { sealedBid: string; amount: `0x${string}`; claimed: boolean }
+          | { bidCommitment: string; storageRef: string; aiReportHash: `0x${string}`; claimed: boolean }
           | undefined;
 
         const isIssuer = !!address && deal.issuer.toLowerCase() === address.toLowerCase();
@@ -145,7 +145,7 @@ export function DealList({ mode }: { mode: Mode }) {
             {/* Header */}
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-widest text-text-3">Deal {index}</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-text-3">Kavro Room {index}</p>
                 <h3 className="mt-1 text-lg font-semibold text-text-1">{deal.metadata.title || "Untitled Deal"}</h3>
                 <p className="text-sm text-text-2">{deal.metadata.category}</p>
               </div>
@@ -171,16 +171,29 @@ export function DealList({ mode }: { mode: Mode }) {
                 </span>
               </div>
               <div className="flex items-center justify-between rounded-lg border border-border bg-surface px-3 py-2">
-                <span className="text-text-3 uppercase tracking-widest">Committed</span>
-                <span className="text-gold text-xs">Encrypted</span>
+                <span className="text-text-3 uppercase tracking-widest">Sealed Bids</span>
+                <span className="text-gold text-xs">{Number(deal.bidCount ?? 0)}</span>
               </div>
               <div className="flex items-center justify-between rounded-lg border border-border bg-surface px-3 py-2">
-                <span className="text-text-3 uppercase tracking-widest">Repaid</span>
-                <span className="text-gold text-xs">Encrypted</span>
+                <span className="text-text-3 uppercase tracking-widest">Repayment</span>
+                <span className="font-mono text-text-2">{deal.repaymentCommitment && deal.repaymentCommitment !== "0x0000000000000000000000000000000000000000000000000000000000000000" ? `${deal.repaymentCommitment.slice(0, 10)}...` : "Pending"}</span>
               </div>
             </div>
 
-            <p className="mt-2 text-xs text-text-3">Amounts hidden onchain · iExec Nox FHE</p>
+            <div className="mt-3 grid gap-2 text-xs md:grid-cols-3">
+              <div className="rounded-lg border border-border bg-surface px-3 py-2">
+                <span className="block uppercase tracking-widest text-text-3">0G Storage status</span>
+                <span className="mt-1 block text-gold">metadata committed</span>
+              </div>
+              <div className="rounded-lg border border-border bg-surface px-3 py-2">
+                <span className="block uppercase tracking-widest text-text-3">Deal metadata ref</span>
+                <span className="mt-1 block break-all font-mono text-text-2">{deal.metadata.storageRef || "not set"}</span>
+              </div>
+              <div className="rounded-lg border border-border bg-surface px-3 py-2">
+                <span className="block uppercase tracking-widest text-text-3">AI report ref</span>
+                <span className="mt-1 block break-all font-mono text-text-2">{deal.aiReportRef || "generated during demo"}</span>
+              </div>
+            </div>
 
             {/* Issuer actions */}
             {mode === "issuer" && (
@@ -188,10 +201,10 @@ export function DealList({ mode }: { mode: Mode }) {
                 <div>
                   <p className="mb-3 text-xs font-semibold uppercase tracking-widest text-gold">Deal Controls</p>
                   <div className="flex flex-wrap gap-2">
-                    <Button variant="outline" size="sm" onClick={() => issuerAction("setFundingOpen", index)} disabled={actionPending || !isIssuer}>
+                    <Button variant="outline" size="sm" onClick={() => issuerAction("openFunding", index)} disabled={actionPending || !isIssuer}>
                       {actionPending ? "Submitting…" : "Open Funding"}
                     </Button>
-                    <Button variant="outline" size="sm" onClick={() => issuerAction("setFunded", index)} disabled={actionPending || !isIssuer}>
+                    <Button variant="outline" size="sm" onClick={() => issuerAction("markFunded", index)} disabled={actionPending || !isIssuer}>
                       Mark Funded
                     </Button>
                     <Button variant="outline" size="sm" onClick={() => issuerAction("closeDeal", index)} disabled={actionPending || !isIssuer}>
@@ -215,11 +228,13 @@ export function DealList({ mode }: { mode: Mode }) {
 
             {/* AI Due Diligence Brief — all modes */}
             <AiBrief
+              dealId={index}
+              mode={mode}
               title={deal.metadata.title}
               category={deal.metadata.category}
               description={deal.metadata.description}
               maturityDate={deal.metadata.maturityDate}
-              documentHash={deal.metadata.documentHash}
+              storageRef={deal.metadata.storageRef}
             />
 
             {/* Investor actions */}
@@ -234,12 +249,12 @@ export function DealList({ mode }: { mode: Mode }) {
                 <div className="rounded-xl border border-border bg-surface p-4 text-sm space-y-2">
                   <p className="text-xs font-semibold uppercase tracking-widest text-text-3 mb-3">Your Position</p>
                   <div className="flex items-center justify-between">
-                    <span className="text-text-2">Sealed Bid</span>
-                    <span className="font-mono text-xs text-text-1">{bid?.sealedBid ? `${bid.sealedBid.slice(0, 10)}…` : "—"}</span>
+                    <span className="text-text-2">Bid Commitment</span>
+                    <span className="font-mono text-xs text-text-1">{bid?.bidCommitment ? `${bid.bidCommitment.slice(0, 10)}...` : "-"}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-text-2">Committed</span>
-                    <span className="text-xs text-gold">Encrypted · Nox</span>
+                    <span className="text-text-2">Storage Ref</span>
+                    <span className="max-w-[14rem] truncate text-xs text-gold">{bid?.storageRef || "encrypted 0G ref pending"}</span>
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-text-2">Claimed</span>

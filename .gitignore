@@ -39,11 +39,12 @@ coverage/
 
 # Ignore OS generated files
 .DS_Store
-Thumbs.db       
+Thumbs.db
 next-env.d.ts
 next
 .next
-out 
+out
 artifacts
 cache
-typechain   
+typechain
+typechain-types

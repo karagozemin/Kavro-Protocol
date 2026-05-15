@@ -15,7 +15,8 @@ export function CreateDealForm() {
   const [category, setCategory] = useState("Private Credit");
   const [maturityDate, setMaturityDate] = useState("");
   const [description, setDescription] = useState("");
-  const [documentHash, setDocumentHash] = useState("");
+  const [storageRef, setStorageRef] = useState("");
+  const [storing, setStoring] = useState(false);
 
   const publicClient = usePublicClient();
   const { data: hash, writeContract, isPending, error } = useWriteContract();
@@ -25,13 +26,29 @@ export function CreateDealForm() {
 
   const handleSubmit = async () => {
     if (!maturityDate) return;
+    setStoring(true);
+    let ref = storageRef;
+    if (!ref) {
+      const res = await fetch("/api/0g/storage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          kind: "deal-metadata",
+          payload: { title, category, maturityDate, description, publicDemoMetadata: true }
+        })
+      });
+      const json = await res.json();
+      ref = json.uri;
+      setStorageRef(ref);
+    }
+    setStoring(false);
     const maturity = BigInt(Math.floor(new Date(maturityDate).getTime() / 1000));
     const fees = publicClient ? await publicClient.estimateFeesPerGas() : null;
     writeContract({
       address: DEAL_ROOM_ADDRESS as `0x${string}`,
       abi: dealRoomAbi,
       functionName: "createDeal",
-      args: [{ title, category, maturityDate: maturity, description, documentHash }],
+      args: [{ title, category, maturityDate: maturity, description, storageRef: ref }],
       ...(fees?.maxFeePerGas ? { maxFeePerGas: fees.maxFeePerGas } : {}),
       ...(fees?.maxPriorityFeePerGas ? { maxPriorityFeePerGas: fees.maxPriorityFeePerGas } : {}),
     });
@@ -61,8 +78,8 @@ export function CreateDealForm() {
           <Input id="maturity" type="date" value={maturityDate} onChange={(e) => setMaturityDate(e.target.value)} />
         </div>
         <div className="space-y-2">
-          <Label htmlFor="document">Document Hash</Label>
-          <Input id="document" value={documentHash} onChange={(e) => setDocumentHash(e.target.value)} placeholder="ipfs://..." />
+          <Label htmlFor="storage">0G Storage Ref</Label>
+          <Input id="storage" value={storageRef} onChange={(e) => setStorageRef(e.target.value)} placeholder="0g://... or generated on submit" />
         </div>
       </div>
       <div className="mt-4 space-y-2">
@@ -71,8 +88,8 @@ export function CreateDealForm() {
       </div>
 
       <div className="mt-6 flex flex-wrap items-center gap-3">
-        <Button variant="gold" onClick={handleSubmit} disabled={disabled || isPending || !maturityDate}>
-          {isPending ? "Submitting…" : "Create Deal"}
+        <Button variant="gold" onClick={handleSubmit} disabled={disabled || isPending || storing || !maturityDate}>
+          {storing ? "Storing on 0G..." : isPending ? "Submitting..." : "Create Kavro Room"}
         </Button>
         <TxLink hash={hash} />
         {isConfirming && <span className="text-xs text-text-2">Confirming…</span>}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useAccount, useConnect, useDisconnect } from "wagmi";
-import { arbitrumSepolia } from "wagmi/chains";
+import { ogGalileo } from "@/lib/wagmi";
 import { useState, useEffect } from "react";
 
 export function WalletButton() {
@@ -10,7 +10,7 @@ export function WalletButton() {
   const { connect, connectors, isPending } = useConnect();
   const { disconnect } = useDisconnect();
   const connector = connectors[0];
-  const isWrongChain = isConnected && chain?.id !== arbitrumSepolia.id;
+  const isWrongChain = isConnected && chain?.id !== ogGalileo.id;
 
   useEffect(() => { setMounted(true); }, []);
 

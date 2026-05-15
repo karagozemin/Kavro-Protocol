@@ -3,37 +3,37 @@ import hardhat from "hardhat";
 const { ethers } = hardhat;
 
 async function main() {
-  const network = hardhat.network.name;
+  if (hardhat.network.name !== "ogGalileo") {
+    console.warn(`Deploying with network '${hardhat.network.name}'. For the hackathon demo use --network ogGalileo.`);
+  }
 
   const IdentityRegistry = await ethers.getContractFactory("IdentityRegistry");
   const identityRegistry = await IdentityRegistry.deploy();
   await identityRegistry.waitForDeployment();
-  const registryAddress = await identityRegistry.getAddress();
-  console.log("IdentityRegistry deployed to:", registryAddress);
 
   const AgentRegistry = await ethers.getContractFactory("KavroAgentRegistry");
   const agentRegistry = await AgentRegistry.deploy();
   await agentRegistry.waitForDeployment();
-  const agentRegistryAddress = await agentRegistry.getAddress();
-  console.log("KavroAgentRegistry deployed to:", agentRegistryAddress);
 
   const DealRoom = await ethers.getContractFactory("KavroDealRoom");
-  const dealRoom = await DealRoom.deploy(registryAddress);
+  const dealRoom = await DealRoom.deploy(await identityRegistry.getAddress());
   await dealRoom.waitForDeployment();
+
   const dealRoomAddress = await dealRoom.getAddress();
-  console.log("KavroDealRoom deployed to:", dealRoomAddress);
+  const agentRegistryAddress = await agentRegistry.getAddress();
+  const identityRegistryAddress = await identityRegistry.getAddress();
+  const explorer = process.env.NEXT_PUBLIC_0G_EXPLORER_URL ?? "https://chainscan-galileo.0g.ai";
 
-  const explorer =
-    network === "ogGalileo"
-      ? "https://chainscan-galileo.0g.ai"
-      : "https://sepolia.arbiscan.io";
-
-  console.log("\nSet these env vars:");
+  console.log("Kavro Protocol deployed on 0G Galileo");
+  console.log("KavroDealRoom:", dealRoomAddress);
+  console.log("KavroAgentRegistry:", agentRegistryAddress);
+  console.log("IdentityRegistry:", identityRegistryAddress);
+  console.log("");
   console.log(`NEXT_PUBLIC_KAVRO_DEAL_ROOM_ADDRESS=${dealRoomAddress}`);
   console.log(`NEXT_PUBLIC_KAVRO_AGENT_REGISTRY_ADDRESS=${agentRegistryAddress}`);
-  console.log(`NEXT_PUBLIC_IDENTITY_REGISTRY_ADDRESS=${registryAddress}`);
+  console.log(`NEXT_PUBLIC_IDENTITY_REGISTRY_ADDRESS=${identityRegistryAddress}`);
   console.log(`NEXT_PUBLIC_0G_EXPLORER_URL=${explorer}`);
-  console.log("\nExplorer:");
+  console.log("");
   console.log(`${explorer}/address/${dealRoomAddress}`);
 }
 

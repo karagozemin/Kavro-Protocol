@@ -1,184 +1,178 @@
-<p align="center">
-	<img src="./public/obscura-readme-logo.png" alt="Obscura Finance" width="200" />
-</p>
+# Kavro Protocol
 
-# Obscura Finance
+**0G-native confidential credit-agent infrastructure for sealed RWA funding.**
 
-**Confidential RWA Deal Rooms for sealed private credit funding.**
+Kavro Protocol lets issuer, investor, and auditor agents privately evaluate, bid, disclose, and settle RWA credit funding rounds using 0G Storage, 0G Compute, and on-chain commitments.
 
-Obscura Finance is a confidential deal room where investors submit sealed bids, allocations stay hidden, repayments settle onchain, and auditors verify details through permissioned disclosure. The MVP demonstrates a practical private credit funding flow using iExec Nox Handles and ERC-7984 Confidential Tokens.
+## What It Does
 
-## Who uses Obscura Finance
+Kavro is a framework for private credit agents, not a single-purpose deal room. Issuers create sealed funding rooms, investors submit confidential bid commitments, AI agents generate private due diligence and allocation recommendations, repayments settle on-chain, and auditors receive permissioned disclosure without exposing sensitive deal terms publicly.
 
-| Role | Problem solved |
-|---|---|
-| **Private credit fund managers** | Run sealed-bid allocation rounds without leaking position sizes to competitors or the market |
-| **RWA issuers** (real estate, invoice, trade finance) | Accept investor commitments onchain without exposing individual allocations or deal terms publicly |
-| **Institutional LPs** | Participate in tokenized debt deals without revealing portfolio exposure or investment size |
-| **Compliance auditors / regulators** | Access permissioned disclosure of encrypted deal data on demand, without requiring off-chain data rooms |
+## Why It Matters
 
-The commodity Obscura produces: **verifiable, private credit commitments settled onchain** — the same workflow that today happens via emails, spreadsheets, and lawyers, executed transparently but confidentially on Arbitrum.
+Private credit and RWA funding still run through emails, PDFs, spreadsheets, and lawyer-controlled data rooms. Public blockchains improve settlement, but they expose bid sizes, allocations, investor appetite, and repayment exposure. Kavro separates public commitments from private credit intelligence.
 
-For full technical documentation — contract graph, access control matrix, encryption model, state machine, and frontend architecture — see **[ARCHITECTURE.md](ARCHITECTURE.md)**.
+## Why 0G
 
-## Why confidential RWA funding
-Private credit and RWA funding require onchain settlement, but investors cannot expose bid size, allocation, or repayment exposure publicly. Obscura Finance keeps allocations private by default and enables auditors to view sensitive details only when permissioned.
+- **0G Storage** stores encrypted deal memory, AI reports, audit logs, allocation summaries, and agent metadata.
+- **0G Compute** runs due diligence, risk scoring, bid recommendation, issuer allocation analysis, and auditor summaries.
+- **0G Chain** records deal lifecycle events, bid commitments, auditor permissions, repayment commitments, and settlement proofs.
+- **Agent architecture** makes the workflow reusable beyond one demo app.
 
-## Protocol flow
+## Architecture
+
+```mermaid
+flowchart LR
+  Issuer[Issuer Agent] --> Rooms[Kavro Rooms]
+  Investor[Investor Agent] --> Compute[0G Compute]
+  Auditor[Auditor Agent] --> Disclosure[Permissioned Disclosure]
+  SDK[Kavro SDK] --> Rooms
+  SDK --> Compute
+  SDK --> Storage[0G Storage]
+  SDK --> Chain[0G Chain]
+  Rooms --> Chain
+  Compute --> Reports[AI Reports]
+  Reports --> Storage
+  Disclosure --> Storage
+  Chain --> Proofs[Proof Bundle]
+  Storage --> Proofs
+```
+
+## Protocol Flow
 
 ```mermaid
 sequenceDiagram
-    participant I as Issuer
-    participant IR as IdentityRegistry (ERC-3643)
-    participant CT as Confidential Token (ERC-7984)
-    participant DR as ObscuraDealRoom (ERC-7540)
-    participant Inv as Investor
-    participant Aud as Auditor
+  participant I as Issuer Agent
+  participant R as Kavro Rooms
+  participant S as 0G Storage
+  participant C as 0G Compute
+  participant Ch as KavroDealRoom on 0G Chain
+  participant V as Investor Agent
+  participant A as Auditor Agent
 
-    I->>DR: createDeal(metadata)
-    I->>DR: setFundingOpen(dealId)
-    I->>IR: registerIdentity(investor, kycHash)
-
-    Inv->>CT: wrap(amount) → confidential cUSDC
-    Inv->>CT: setOperator(dealRoom, until)
-    Note over Inv: encrypt bid via iExec Nox Handle
-    Inv->>DR: submitBid(dealId, sealedBid, encryptedAmount, proof)
-    Note over DR: ERC-3643 isVerified check ✓
-    DR->>CT: confidentialTransferFrom → stores euint256 handle
-    DR-->>Inv: DepositRequest event (ERC-7540)
-
-    I->>DR: setFunded(dealId)
-    Note over I: encrypt repayment via Nox Handle
-    I->>DR: repay(dealId, encryptedAmount, proof)
-    DR->>CT: confidentialTransferFrom repayment
-
-    Inv->>DR: claim(dealId)
-    DR->>CT: confidentialTransfer → Investor
-    DR-->>Inv: RedeemRequest event (ERC-7540)
-
-    I->>DR: grantAuditorAccess(dealId, auditor, investor)
-    DR-->>Aud: Nox.allow(bidHandle, auditor)
-    Aud->>DR: getBidForInvestor(dealId, investor)
+  I->>S: Upload deal metadata / encrypted room memory
+  I->>Ch: createDeal(storageRef)
+  I->>Ch: openFunding(dealId)
+  V->>C: Run due diligence / bid recommendation
+  C->>S: Store structured AI report
+  V->>S: Store encrypted private bid context
+  V->>Ch: submitSealedBid(commitment, storageRef, reportHash)
+  I->>C: Run issuer allocation agent
+  I->>Ch: markFunded(dealId)
+  I->>Ch: recordRepayment(repaymentCommitment)
+  I->>Ch: grantAuditorAccess(disclosureRef)
+  A->>C: Run auditor compliance agent
+  A->>Ch: Verify events and proof refs
 ```
 
-## What works end-to-end
-- Issuer creates a deal with metadata (sample metadata only).
-- Funding state progresses onchain: Open → Funding → Funded → Repaid → Claimed.
-- Investors authorize the deal room operator and encrypt bid amounts with iExec Nox Handles.
-- Bid amounts stay encrypted onchain; only the investor and authorized auditor can decrypt.
-- Issuer repays onchain, investors claim repayment.
-- Auditor access is permissioned onchain.
-- Explorer links for every transaction.
+## Smart Contracts
 
-## ERC standard compliance
+- `contracts/KavroDealRoom.sol` — creates rooms, opens funding, accepts sealed bid commitments, commits AI report refs, records repayment commitments, handles claim requests, and grants auditor access.
+- `contracts/KavroAgentRegistry.sol` — registers issuer, investor, auditor, settlement, and due diligence agents with 0G Storage metadata refs.
+- `contracts/IdentityRegistry.sol` — ERC-3643-style compliance gate for verified investor addresses.
+- ERC-7857 / Agent ID is documented as a roadmap extension; this repo does not fake a full ERC-7857 implementation.
 
-### ERC-7984 — Confidential Token
-Bid amounts and repayments are never stored as plaintext. `IERC7984.confidentialTransferFrom` and `confidentialTransfer` move `euint256` handles between parties. Nox operators are authorized per-transaction.
+## SDK Usage
 
-### ERC-3643 — Identity & Compliance (T-REX)
-`IdentityRegistry.sol` implements `IIdentityRegistry` (ERC-3643 compliant interface). Investors must be registered with a KYC identity hash before `submitBid` is accepted. Issuers control the registry; KYC can be revoked. The `ICompliance` interface is also defined for future transfer-level compliance rules.
+```ts
+import { createKavroClient } from "@/sdk";
 
-### ERC-7540 — Async Vault
-`submitBid` maps to the ERC-7540 `requestDeposit` async pattern: each bid produces a `DepositRequest` event with a unique `requestId`. `claim` produces a `RedeemRequest` event. `pendingDepositRequest` and `claimableDepositRequest` views are implemented. Because amounts are confidential (ERC-7984), `assets` in events is `0` — the encrypted handle is accessed separately via `getBidForInvestor`.
+const kavro = createKavroClient({
+  chainId: 16602,
+  dealRoomContract: process.env.NEXT_PUBLIC_KAVRO_DEAL_ROOM_ADDRESS as `0x${string}`,
+  agentRegistryContract: process.env.NEXT_PUBLIC_KAVRO_AGENT_REGISTRY_ADDRESS as `0x${string}`,
+  explorerUrl: "https://chainscan-galileo.0g.ai",
+  publicClient,
+  walletClient
+});
 
-## iExec Nox usage
-- **Encrypted bids**: `BidForm` uses `@iexec-nox/handle` to encrypt amounts and send handles + proofs onchain.
-- **ERC-7984 token**: `ObscuraDealRoom` uses `IERC7984` confidential transfers and operator authorization.
-- **Nox types**: `euint256` handles are stored in contract state; plaintext amounts are never stored or emitted.
-- **Auditor access**: issuer grants ACL access via `Nox.allow` for specific bid handles.
+const dealRef = await kavro.uploadDealTo0G({
+  title: "Atlas Receivables Series A",
+  category: "Private Credit",
+  maturityDate: "2026-12-31",
+  description: "Receivables-backed credit room"
+});
 
-Key files:
-- `contracts/ObscuraDealRoom.sol`
-- `src/components/deals/bid-form.tsx`
-- `src/components/deals/repay-form.tsx`
-- `src/components/deals/encrypted-amount.tsx`
-- `src/lib/nox-handle.ts`
+await kavro.createDealRoom({
+  title: "Atlas Receivables Series A",
+  category: "Private Credit",
+  maturityDate: "2026-12-31",
+  description: "Receivables-backed credit room",
+  storageRef: dealRef.uri
+});
 
-## ChainGPT AI integration
+await kavro.runDueDiligence({ title: "Atlas Receivables Series A", confidentialAmountsExcluded: true });
+await kavro.submitSealedBid({ dealId: 0n, bidSecret: "private terms", storageRef: dealRef.uri });
+const proof = kavro.getDealProofBundle({ dealId: "0", dealStorageRef: dealRef.uri });
+await kavro.verifyDealProof(proof);
+```
 
-Each deal card includes an **AI Due Diligence Brief** powered by ChainGPT's Web3 LLM. Clicking "Generate Brief" streams a structured institutional analysis:
+## 0G Integration Proof
 
-- **Overview** — deal summary in context of the RWA category
-- **Risk Factors** — three category-specific risks
-- **Compliance** — ERC-3643 KYC gate and regulatory considerations
-- **Verdict** — one-sentence recommendation for institutional investors
+- 0G Chain contract address: `NEXT_PUBLIC_KAVRO_DEAL_ROOM_ADDRESS` after deployment.
+- 0G Explorer link: `https://chainscan-galileo.0g.ai/address/<contract>`.
+- 0G Storage references: generated during the demo by `src/lib/0g/storage.ts`.
+- 0G Compute provider/model: configured with `0G_COMPUTE_API_KEY`, `NEXT_PUBLIC_0G_COMPUTE_ROUTER_URL`, and `NEXT_PUBLIC_0G_COMPUTE_MODEL`.
+- AI report hash/reference: returned by `/api/0g/agent` and shown in the UI.
 
-The brief is generated from public deal metadata (title, category, description, maturity date). Encrypted amounts are never sent to the AI. Set `CHAINGPT_API_KEY` in `.env` to enable.
+Local development has a clearly labeled `local-dev` fallback when 0G keys are missing. The fallback never claims to be a real 0G upload or inference.
 
-## Tech stack
-- Next.js + TypeScript + Tailwind CSS
-- wagmi + viem
-- Hardhat
-- Arbitrum Sepolia
+## Local Setup
 
-## Project structure
-- `src/app`: UI routes (Landing, Issuer, Investor, Auditor, Demo)
-- `src/components`: UI, deal actions, and wallet components
-- `contracts`: Obscura deal room contract
-- `scripts`: deployment scripts
-
-## Local setup
 ```bash
 npm install
-```
-
-Create `.env` from the example:
-```bash
-cp .env.example .env
-```
-
-Set:
-- `NEXT_PUBLIC_RPC_URL` (optional)
-- `ARB_SEPOLIA_RPC_URL`
-- `DEPLOYER_PRIVATE_KEY`
-- `CONFIDENTIAL_TOKEN_ADDRESS`
-- `NEXT_PUBLIC_DEAL_ROOM_ADDRESS`
-- `NEXT_PUBLIC_CONFIDENTIAL_TOKEN_ADDRESS`
-- `NEXT_PUBLIC_IDENTITY_REGISTRY_ADDRESS`
-
-## Compile contracts
-```bash
+cp .env.example .env.local
 npm run compile:contracts
-```
-
-## Deploy (Arbitrum Sepolia)
-```bash
-npm run deploy:arb
-```
-
-Copy the deployed deal room address into `NEXT_PUBLIC_DEAL_ROOM_ADDRESS`.
-
-## Run the app
-```bash
 npm run dev
 ```
 
-## Demo flow (under 4 minutes)
-1. Connect wallet.
-2. Ensure you have a Confidential Token on Arbitrum Sepolia.
-3. Issuer creates a deal.
-4. Issuer opens funding.
-5. Investor authorizes operator, encrypts amount, and submits sealed bid.
-6. Issuer marks the deal funded, encrypts repayment, then repays.
-7. Investor claims repayment.
-8. Issuer grants auditor access for a specific investor.
-9. Auditor views permissioned disclosure via Auditor Lookup.
+Optional real 0G Storage SDK install:
 
-## Contract addresses
-- Obscura Deal Room (Arbitrum Sepolia): `0xC193905feD3B1A2Fc8A84bB1a777cB1fb02aa04f`
-- Identity Registry — ERC-3643 (Arbitrum Sepolia): `0xE07395aca1Fa3374C2a45FE95d653451D73770E1`
-- Confidential Token (ERC-7984 cUSDC, Arbitrum Sepolia): `0x1ccec6bc60db15e4055d43dc2531bb7d4e5b808e`
-- Underlying USDC ERC-20 (Arbitrum Sepolia): `0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d`
+```bash
+npm run install:0g-storage
+```
 
-## Sample metadata vs real state
-- **Sample metadata only:** title, category, description, document hash.
-- **Real onchain state:** deals, bids, repayments, claims, transaction hashes.
+Deploy to 0G Galileo:
 
-## Known limitations
-- Obscura Finance requires a real ERC-7984 Confidential Token address. A mock token is intentionally not provided because the core privacy flow must be backed by real confidential token primitives.
-- This MVP assumes an existing ERC-7984 Confidential Token deployment on Arbitrum Sepolia.
-- Bid commitment generation is left to the investor (use a hash of offchain terms).
-- Deal closure is manual (issuer closes after claims) since totals remain encrypted.
+```bash
+export DEPLOYER_PRIVATE_KEY=0x...
+npm run deploy:0g
+```
 
-## License
-MIT
+Then copy the printed addresses into `.env.local`.
+
+## Demo Script Under 3 Minutes
+
+1. Open `/demo` and show the 0G Galileo network, explorer, and proof flow.
+2. Go to `/issuer`, create a Kavro Room, and point out the 0G Storage metadata ref.
+3. Open funding and show the 0G Chain transaction link.
+4. Go to `/investor`, run 0G Due Diligence and Investor Bid Recommendation.
+5. Store private bid context, submit a sealed bid commitment, and show the tx hash.
+6. Return to `/issuer`, generate allocation plan, mark funded, and record repayment commitment.
+7. Go to `/auditor`, grant disclosure and generate the auditor compliance summary.
+8. Open `/proofs` and show the proof bundle format.
+
+## Known Limitations
+
+- Demo metadata is sample RWA/private credit data.
+- Production deployments need regulated KYC providers and institutional custody flows.
+- Confidential bid amount encryption depends on the selected privacy provider or TEE path. Kavro’s default contract stores commitments and encrypted storage references.
+- Real 0G Storage and 0G Compute require configured keys/providers. Local fallback is development-only.
+- ERC-7857 / Agent ID integration is planned as an extension, not claimed as complete here.
+
+## Roadmap
+
+- Agent marketplace for private credit agents.
+- DAO treasury credit rounds.
+- Multi-chain RWA settlement.
+- Institutional auditor dashboard.
+- Full Agent ID / ERC-7857-style encrypted metadata integration.
+- Private strategy and bid optimization agents.
+
+## Official 0G References
+
+- https://docs.0g.ai/developer-hub/building-on-0g/storage/sdk
+- https://docs.0g.ai/developer-hub/building-on-0g/compute-network/inference
+- https://docs.0g.ai/developer-hub/building-on-0g/contracts-on-0g/deploy-contracts
+- https://docs.0g.ai/developer-hub/testnet/testnet-overview
+- https://docs.0g.ai/developer-hub/building-on-0g/inft/erc7857

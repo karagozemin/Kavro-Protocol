@@ -7,8 +7,8 @@ export default function AuditorPage() {
     <div className="space-y-10">
       <SectionHeading
         tag="Auditor Dashboard"
-        title="Permissioned Bid Disclosure"
-        description="Access is granted per-deal by the issuer. Bid handles are encrypted with iExec Nox ACL — you can only decrypt what you've been authorised to view."
+        title="Auditor Agent Console"
+        description="Verify permissioned 0G Storage disclosures, run compliance summaries through 0G Compute, and inspect on-chain proof events without public leakage."
       />
       <DealList mode="auditor" />
       <AuditLookup />

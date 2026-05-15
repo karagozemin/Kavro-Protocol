@@ -7,7 +7,6 @@ import { DEAL_ROOM_ADDRESS } from "@/lib/contracts";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { EncryptedAmount } from "@/components/deals/encrypted-amount";
 
 export function AuditLookup() {
   const [dealId, setDealId] = useState("");
@@ -23,13 +22,13 @@ export function AuditLookup() {
     query: { enabled: !!parsedDealId && !!investor && !!DEAL_ROOM_ADDRESS },
   });
 
-  const bid = data as { sealedBid: string; amount: `0x${string}`; claimed: boolean } | undefined;
+  const bid = data as { bidCommitment: string; storageRef: string; aiReportHash: `0x${string}`; claimed: boolean } | undefined;
 
   return (
     <Card>
       <p className="text-xs font-semibold uppercase tracking-widest text-gold">Auditor Lookup</p>
       <h3 className="mt-1 text-lg font-semibold text-text-1">Permissioned Bid Disclosure</h3>
-      <p className="mt-1 text-sm text-text-2">Enter a deal ID and investor address to view ACL-permissioned bid details.</p>
+      <p className="mt-1 text-sm text-text-2">Enter a deal ID and investor address to view permissioned commitment and 0G disclosure references.</p>
       <div className="mt-3 inline-flex items-center gap-2 rounded-lg border border-warning/30 bg-warning/10 px-3 py-1.5 text-xs font-medium text-warning">
         Lookup works only when connected with the authorized auditor wallet.
       </div>
@@ -50,12 +49,12 @@ export function AuditLookup() {
           <p className="text-xs font-semibold uppercase tracking-widest text-gold">Bid Data</p>
           <div className="space-y-2 text-sm">
             <div className="flex items-center justify-between">
-              <span className="text-text-2">Sealed Bid</span>
-              <span className="font-mono text-xs text-text-1 max-w-[220px] truncate">{bid.sealedBid}</span>
+              <span className="text-text-2">Bid Commitment</span>
+              <span className="font-mono text-xs text-text-1 max-w-[220px] truncate">{bid.bidCommitment}</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-text-2">Encrypted Amount</span>
-              <EncryptedAmount handle={bid.amount} />
+              <span className="text-text-2">0G Storage Ref</span>
+              <span className="font-mono text-xs text-gold max-w-[220px] truncate">{bid.storageRef}</span>
             </div>
             <div className="flex items-center justify-between">
               <span className="text-text-2">Claimed</span>
@@ -68,7 +67,7 @@ export function AuditLookup() {
           Enter deal ID and investor address to load permissioned bid data.
         </div>
       )}
-      <p className="mt-3 text-xs text-text-3">ACL access required · Encrypted with iExec Nox</p>
+      <p className="mt-3 text-xs text-text-3">Permissioned access required · private data stays in encrypted 0G Storage</p>
     </Card>
   );
 }

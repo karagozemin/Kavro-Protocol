@@ -1,4 +1,4 @@
-export const dealStateLabels = ["Open", "Funding", "Funded", "Repaid", "Claimed"] as const;
+export const dealStateLabels = ["Draft", "Funding", "Funded", "Repaid", "Closed"] as const;
 
 const stateStyles: Record<number, string> = {
   0: "border-border-2 bg-surface-2 text-text-2",

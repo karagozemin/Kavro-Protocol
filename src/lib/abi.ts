@@ -68,7 +68,7 @@ export const dealRoomAbi = [
           { name: "category", type: "string" },
           { name: "maturityDate", type: "uint64" },
           { name: "description", type: "string" },
-          { name: "documentHash", type: "string" }
+          { name: "storageRef", type: "string" }
         ]
       }
     ],
@@ -76,38 +76,37 @@ export const dealRoomAbi = [
   },
   {
     type: "function",
-    name: "setFundingOpen",
+    name: "openFunding",
     stateMutability: "nonpayable",
     inputs: [{ name: "dealId", type: "uint256" }],
     outputs: []
   },
   {
     type: "function",
-    name: "setFunded",
+    name: "markFunded",
     stateMutability: "nonpayable",
     inputs: [{ name: "dealId", type: "uint256" }],
     outputs: []
   },
   {
     type: "function",
-    name: "submitBid",
+    name: "submitSealedBid",
     stateMutability: "nonpayable",
     inputs: [
       { name: "dealId", type: "uint256" },
-      { name: "sealedBid", type: "bytes32" },
-      { name: "encryptedAmount", type: "bytes32" },
-      { name: "inputProof", type: "bytes" }
+      { name: "bidCommitment", type: "bytes32" },
+      { name: "storageRef", type: "string" },
+      { name: "aiReportHash", type: "bytes32" }
     ],
     outputs: []
   },
   {
     type: "function",
-    name: "repay",
+    name: "recordRepayment",
     stateMutability: "nonpayable",
     inputs: [
       { name: "dealId", type: "uint256" },
-      { name: "encryptedAmount", type: "bytes32" },
-      { name: "inputProof", type: "bytes" }
+      { name: "repaymentCommitment", type: "bytes32" }
     ],
     outputs: []
   },
@@ -125,7 +124,20 @@ export const dealRoomAbi = [
     inputs: [
       { name: "dealId", type: "uint256" },
       { name: "auditor", type: "address" },
-      { name: "investor", type: "address" }
+      { name: "investor", type: "address" },
+      { name: "disclosureRef", type: "string" }
+    ],
+    outputs: []
+  },
+  {
+    type: "function",
+    name: "setAIReportRef",
+    stateMutability: "nonpayable",
+    inputs: [
+      { name: "dealId", type: "uint256" },
+      { name: "agentType", type: "uint8" },
+      { name: "reportHash", type: "bytes32" },
+      { name: "storageRef", type: "string" }
     ],
     outputs: []
   },
@@ -155,13 +167,13 @@ export const dealRoomAbi = [
               { name: "category", type: "string" },
               { name: "maturityDate", type: "uint64" },
               { name: "description", type: "string" },
-              { name: "documentHash", type: "string" }
+              { name: "storageRef", type: "string" }
             ]
           },
           { name: "state", type: "uint8" },
-          { name: "totalCommitted", type: "bytes32" },
-          { name: "totalRepaid", type: "bytes32" },
-          { name: "totalClaimed", type: "bytes32" }
+          { name: "aiReportRef", type: "string" },
+          { name: "repaymentCommitment", type: "bytes32" },
+          { name: "bidCount", type: "uint256" }
         ]
       }
     ]
@@ -186,8 +198,9 @@ export const dealRoomAbi = [
         name: "",
         type: "tuple",
         components: [
-          { name: "sealedBid", type: "bytes32" },
-          { name: "amount", type: "bytes32" },
+          { name: "bidCommitment", type: "bytes32" },
+          { name: "storageRef", type: "string" },
+          { name: "aiReportHash", type: "bytes32" },
           { name: "claimed", type: "bool" },
           { name: "requestId", type: "uint256" }
         ]
@@ -210,111 +223,37 @@ export const dealRoomAbi = [
     stateMutability: "view",
     inputs: [],
     outputs: [{ name: "", type: "address" }]
-  },
-  {
-    type: "function",
-    name: "pendingDepositRequest",
-    stateMutability: "view",
-    inputs: [
-      { name: "requestId", type: "uint256" },
-      { name: "controller", type: "address" }
-    ],
-    outputs: [{ name: "", type: "uint256" }]
-  },
-  {
-    type: "event",
-    name: "DepositRequest",
-    inputs: [
-      { name: "controller", type: "address", indexed: true },
-      { name: "owner", type: "address", indexed: true },
-      { name: "requestId", type: "uint256", indexed: true },
-      { name: "sender", type: "address", indexed: false },
-      { name: "assets", type: "uint256", indexed: false }
-    ]
-  },
-  {
-    type: "event",
-    name: "RedeemRequest",
-    inputs: [
-      { name: "controller", type: "address", indexed: true },
-      { name: "owner", type: "address", indexed: true },
-      { name: "requestId", type: "uint256", indexed: true },
-      { name: "sender", type: "address", indexed: false },
-      { name: "shares", type: "uint256", indexed: false }
-    ]
   }
 ] as const;
 
-export const erc7984Abi = [
+export const kavroAgentRegistryAbi = [
   {
     type: "function",
-    name: "setOperator",
+    name: "registerAgent",
     stateMutability: "nonpayable",
     inputs: [
-      { name: "operator", type: "address" },
-      { name: "until", type: "uint48" }
+      { name: "agentAddress", type: "address" },
+      { name: "agentType", type: "uint8" },
+      { name: "metadataRef", type: "string" }
     ],
     outputs: []
   },
   {
     type: "function",
-    name: "confidentialBalanceOf",
+    name: "getAgent",
     stateMutability: "view",
-    inputs: [{ name: "owner", type: "address" }],
-    outputs: [{ name: "", type: "bytes32" }]
-  },
-  {
-    type: "function",
-    name: "wrap",
-    stateMutability: "nonpayable",
-    inputs: [
-      { name: "to", type: "address" },
-      { name: "amount", type: "uint256" }
-    ],
-    outputs: [{ name: "", type: "bytes32" }]
-  },
-  {
-    type: "function",
-    name: "underlying",
-    stateMutability: "view",
-    inputs: [],
-    outputs: [{ name: "", type: "address" }]
-  }
-] as const;
-
-export const erc20Abi = [
-  {
-    type: "function",
-    name: "approve",
-    stateMutability: "nonpayable",
-    inputs: [
-      { name: "spender", type: "address" },
-      { name: "amount", type: "uint256" }
-    ],
-    outputs: [{ name: "", type: "bool" }]
-  },
-  {
-    type: "function",
-    name: "allowance",
-    stateMutability: "view",
-    inputs: [
-      { name: "owner", type: "address" },
-      { name: "spender", type: "address" }
-    ],
-    outputs: [{ name: "", type: "uint256" }]
-  },
-  {
-    type: "function",
-    name: "balanceOf",
-    stateMutability: "view",
-    inputs: [{ name: "account", type: "address" }],
-    outputs: [{ name: "", type: "uint256" }]
-  },
-  {
-    type: "function",
-    name: "decimals",
-    stateMutability: "view",
-    inputs: [],
-    outputs: [{ name: "", type: "uint8" }]
+    inputs: [{ name: "agentAddress", type: "address" }],
+    outputs: [{
+      name: "",
+      type: "tuple",
+      components: [
+        { name: "agentAddress", type: "address" },
+        { name: "agentType", type: "uint8" },
+        { name: "status", type: "uint8" },
+        { name: "metadataRef", type: "string" },
+        { name: "registeredAt", type: "uint64" },
+        { name: "updatedAt", type: "uint64" }
+      ]
+    }]
   }
 ] as const;

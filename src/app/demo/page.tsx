@@ -1,52 +1,65 @@
 import { SectionHeading } from "@/components/section-heading";
 import Link from "next/link";
 import { buttonStyles } from "@/components/ui/button";
+import { ZERO_G_EXPLORER_URL } from "@/lib/contracts";
 
 const steps = [
-  { role: "Any",      action: "Connect your wallet to Arbitrum Sepolia" },
-  { role: "Any",      action: "Get testnet USDC from Circle Faucet" },
-  { role: "Any",      action: "Wrap USDC into cUSDC via the Wrap panel" },
-  { role: "Issuer",   action: "Create a private credit deal with metadata" },
-  { role: "Issuer",   action: "Open funding round → deal moves to Funding state" },
-  { role: "Investor", action: "Authorize the deal room as operator" },
-  { role: "Investor", action: "Encrypt bid amount with iExec Nox" },
-  { role: "Investor", action: "Submit sealed bid onchain" },
-  { role: "Issuer",   action: "Mark deal Funded → close the funding window" },
-  { role: "Issuer",   action: "Authorize operator, encrypt repayment amount, and repay" },
-  { role: "Investor", action: "Claim proportional repayment onchain" },
-  { role: "Issuer",   action: "Grant auditor ACL access for a specific investor bid" },
-  { role: "Auditor",  action: "View and decrypt permissioned bid disclosure" },
+  ["Issuer", "Create a Kavro Room with RWA/private credit metadata"],
+  ["Storage", "Upload room metadata to 0G Storage and commit the reference on-chain"],
+  ["Investor", "Run 0G Compute due diligence and bid recommendation"],
+  ["Investor", "Submit sealed bid commitment plus encrypted 0G Storage ref"],
+  ["Issuer", "Generate issuer allocation plan and mark the room funded"],
+  ["Settlement", "Record repayment commitment on 0G Chain"],
+  ["Auditor", "Grant permissioned disclosure and generate compliance summary"],
+  ["Proof", "Review proof bundle: explorer links, storage refs, AI report refs"]
 ];
 
 const roleColor: Record<string, string> = {
-  Any:      "border-border bg-surface-2 text-text-2",
-  Issuer:   "border-purple/30 bg-purple-subtle text-gold",
+  Issuer: "border-gold/30 bg-gold/10 text-gold",
   Investor: "border-success/25 bg-success-bg text-success",
-  Auditor:  "border-blue-500/25 bg-blue-950/40 text-blue-400",
+  Auditor: "border-blue-500/25 bg-blue-950/40 text-blue-400",
+  Storage: "border-purple/30 bg-purple-subtle text-purple-bright",
+  Settlement: "border-border bg-surface-2 text-text-2",
+  Proof: "border-platinum/20 bg-surface-2 text-platinum"
 };
 
 export default function DemoPage() {
   return (
     <div className="space-y-10">
       <SectionHeading
-        tag="Demo Mode"
-        title="Guided Confidential Funding Flow"
-        description="Every step triggers a real onchain transaction. Deal state, encrypted bids, and repayments are pulled live — nothing is simulated."
+        tag="Kavro Rooms Demo"
+        title="Three-minute 0G credit-agent proof flow"
+        description="A guided sequence for judges: issuer, investor, auditor, 0G Storage, 0G Compute, 0G Chain, and a proof bundle in one workflow."
       />
 
+      <div className="rounded-2xl border border-border bg-card p-5">
+        <p className="text-xs font-semibold uppercase tracking-widest text-gold">Network</p>
+        <div className="mt-3 grid gap-3 text-sm md:grid-cols-3">
+          <div className="rounded-lg border border-border bg-surface px-3 py-2">
+            <span className="block text-text-3">Chain</span>
+            <span className="font-medium text-text-1">0G-Galileo-Testnet</span>
+          </div>
+          <div className="rounded-lg border border-border bg-surface px-3 py-2">
+            <span className="block text-text-3">Chain ID</span>
+            <span className="font-mono text-text-1">16602</span>
+          </div>
+          <a href={ZERO_G_EXPLORER_URL} target="_blank" className="rounded-lg border border-border bg-surface px-3 py-2 transition-colors hover:border-gold/40">
+            <span className="block text-text-3">Explorer</span>
+            <span className="font-medium text-gold">chainscan-galileo.0g.ai</span>
+          </a>
+        </div>
+      </div>
+
       <div className="space-y-3">
-        {steps.map((step, i) => (
-          <div
-            key={i}
-            className="flex items-start gap-4 rounded-xl border border-border bg-card p-4 transition-colors hover:border-border-2"
-          >
-            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-purple/30 bg-purple-subtle text-xs font-bold text-gold">
+        {steps.map(([role, action], i) => (
+          <div key={i} className="flex items-start gap-4 rounded-xl border border-border bg-card p-4">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-gold/30 bg-surface text-xs font-bold text-gold">
               {String(i + 1).padStart(2, "0")}
             </div>
             <div className="flex flex-1 items-center justify-between gap-4">
-              <p className="text-sm text-text-1">{step.action}</p>
-              <span className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-medium ${roleColor[step.role]}`}>
-                {step.role}
+              <p className="text-sm text-text-1">{action}</p>
+              <span className={`shrink-0 rounded-full border px-2.5 py-0.5 text-xs font-medium ${roleColor[role]}`}>
+                {role}
               </span>
             </div>
           </div>
@@ -54,15 +67,13 @@ export default function DemoPage() {
       </div>
 
       <div className="rounded-2xl border border-border bg-card p-6">
-        <p className="text-xs font-semibold uppercase tracking-widest text-gold mb-4">Jump to a role</p>
+        <p className="mb-4 text-xs font-semibold uppercase tracking-widest text-gold">Jump to a role</p>
         <div className="flex flex-wrap gap-3">
-          <Link href="/issuer"   className={buttonStyles({ variant: "outline" })}>Issuer Dashboard</Link>
-          <Link href="/investor" className={buttonStyles({ variant: "outline" })}>Investor Dashboard</Link>
-          <Link href="/auditor"  className={buttonStyles({ variant: "outline" })}>Auditor Dashboard</Link>
+          <Link href="/issuer" className={buttonStyles({ variant: "outline" })}>Issuer Agent</Link>
+          <Link href="/investor" className={buttonStyles({ variant: "outline" })}>Investor Agent</Link>
+          <Link href="/auditor" className={buttonStyles({ variant: "outline" })}>Auditor Agent</Link>
+          <Link href="/proofs" className={buttonStyles({ variant: "gold" })}>Proof Bundle</Link>
         </div>
-        <p className="mt-4 text-xs text-text-3">
-          Deal state, encrypted amounts, and transaction hashes are always sourced directly from the deployed contract — they cannot be faked.
-        </p>
       </div>
     </div>
   );
