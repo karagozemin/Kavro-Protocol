@@ -7,14 +7,11 @@ import { WalletButton } from "@/components/wallet-button";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { href: "/",        label: "Overview" },
+  { href: "/demo",    label: "Demo"     },
   { href: "/issuer",  label: "Issuer"   },
   { href: "/investor",label: "Investor" },
   { href: "/auditor", label: "Auditor"  },
-  { href: "/demo",    label: "Demo"     },
-  { href: "/proofs",  label: "Proofs"   },
-  { href: "/architecture", label: "Architecture" },
-  { href: "/admin",   label: "Admin"    },
+  { href: "/proofs",  label: "Proofs"   }
 ];
 
 export function Nav() {
@@ -22,20 +19,20 @@ export function Nav() {
 
   return (
     <nav className="glass-nav sticky top-0 z-50 border-b border-border">
-      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="h-11 w-11 overflow-hidden rounded-xl border border-purple/30 bg-purple-subtle flex items-center justify-center group-hover:border-purple/30 transition-colors">
+          <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-purple/30 bg-purple-subtle transition-colors group-hover:border-purple/30">
             <Image
               src="/kavro-logo.svg"
               alt="Kavro Protocol"
-              width={40}
-              height={40}
-              className="h-10 w-10 object-contain"
+              width={34}
+              height={34}
+              className="h-8 w-8 object-contain"
               priority
             />
           </div>
-          <span className="text-lg font-semibold tracking-tight text-text-1">
+          <span className="text-base font-semibold tracking-tight text-text-1">
             Kavro
           </span>
         </Link>
@@ -49,7 +46,7 @@ export function Nav() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative px-3 py-1.5 text-sm rounded-md transition-colors",
+                  "relative rounded-md px-2.5 py-1.5 text-sm transition-colors",
                   active
                     ? "text-gold"
                     : "text-text-2 hover:text-text-1"
@@ -64,7 +61,12 @@ export function Nav() {
           })}
         </div>
 
-        <WalletButton />
+        <div className="flex items-center gap-3">
+          <Link href="/architecture" className="hidden text-xs font-medium text-text-3 transition-colors hover:text-text-1 lg:inline-flex">
+            Docs
+          </Link>
+          <WalletButton />
+        </div>
       </div>
     </nav>
   );
