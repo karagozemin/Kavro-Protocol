@@ -7,7 +7,9 @@ const layers = [
   ["Kavro SDK", "Reusable TypeScript client for storage, compute, contracts, and proof bundles."],
   ["Kavro Contracts", "0G Chain commitments, permissions, repayment state, and settlement proofs."],
   ["Kavro Storage", "Encrypted room memory, AI reports, audit logs, and agent profiles on 0G Storage."],
-  ["Kavro Compute", "Structured private-credit agent analysis through 0G Compute inference."]
+  ["Kavro Compute", "Structured private-credit agent analysis through 0G Compute inference."],
+  ["Agent ID Extension", "Planned tokenized agent identity with encrypted metadata and delegated usage."],
+  ["Private Execution Path", "Roadmap sealed inference and TEE-backed analysis for confidential bid strategy."]
 ];
 
 export default function ArchitecturePage() {

@@ -19,6 +19,17 @@ Private credit and RWA funding still run through emails, PDFs, spreadsheets, and
 - **0G Chain** records deal lifecycle events, bid commitments, auditor permissions, repayment commitments, and settlement proofs.
 - **Agent architecture** makes the workflow reusable beyond one demo app.
 
+Kavro maps directly to 0G's AI x Web3 stack:
+
+| 0G module | Kavro usage |
+| --- | --- |
+| 0G Storage | Persistent encrypted deal memory, report archives, audit logs, agent profiles, and long-context room state |
+| 0G Compute Network | Decentralized inference for due diligence, investor risk, bid recommendation, issuer allocation, and auditor compliance agents |
+| 0G Chain | Verifiable commitments, room lifecycle, permission events, settlement proofs, and explorer-visible activity |
+| Persistent Memory | Roadmap target for cross-session credit-agent memory and long-context RWA deal intelligence |
+| Agent ID | Roadmap target for tokenized agent identity, encrypted metadata, delegated usage, and ownership/composability |
+| Privacy & Security | Roadmap path for sealed inference, TEE-backed private analysis, and encrypted Agent ID metadata |
+
 ## Architecture
 
 ```mermaid

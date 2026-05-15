@@ -10,6 +10,7 @@ Kavro Protocol is a 0G-native confidential credit-agent framework. It is organiz
 | Kavro Contracts | 0G Chain deal lifecycle, commitments, permissions, repayment state |
 | Kavro Storage | Encrypted deal memory, AI reports, audit logs, and agent profiles |
 | Kavro Compute | Structured private-credit agent analysis |
+| Kavro Agent Identity | Roadmap Agent ID / ERC-7857-style tokenized agent metadata and delegated usage |
 
 ## Contract Layer
 
@@ -54,3 +55,13 @@ flowchart TD
 - RPC default: `https://evmrpc-testnet.0g.ai`
 - Hardhat network: `ogGalileo`
 - Solidity config uses `evmVersion: "cancun"`.
+
+## 0G Resource Mapping
+
+Kavro is designed to use 0G's modular stack as infrastructure rather than as an afterthought.
+
+- **0G Storage:** the Log/KV-oriented storage layer is treated as persistent encrypted room memory for deal metadata, AI reports, audit logs, bid-evaluation summaries, and agent profiles.
+- **0G Compute Network:** issuer, investor, auditor, allocation, and settlement agents call structured inference endpoints. Production versions can use sealed inference or TEE-backed execution for private credit analysis.
+- **Persistent Memory:** once generally available, Kavro agents can use it for cross-session credit memory, covenant history, investor preferences, and long-context issuer state.
+- **Agent ID:** planned extension for tokenized credit-agent identities with encrypted metadata references, usage authorization, delegated operation, and tradable ownership.
+- **Privacy & Security:** Kavro's public contracts store commitments and references; sensitive terms remain encrypted or processed through private execution paths.

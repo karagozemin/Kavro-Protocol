@@ -28,9 +28,10 @@ Kavro separates public verifiability from private credit intelligence:
 ## 0G Components Used
 
 - **0G Chain:** `KavroDealRoom`, `KavroAgentRegistry`, and `IdentityRegistry` deployments record lifecycle state, bid commitments, AI report refs, repayment commitments, and auditor access.
-- **0G Storage:** encrypted deal metadata, private bid context, AI report output, auditor disclosure refs, and agent profile metadata.
-- **0G Compute:** due diligence, investor risk scoring, bid recommendation, issuer allocation planning, and auditor compliance summaries.
+- **0G Storage:** encrypted deal metadata, private bid context, AI report output, auditor disclosure refs, and agent profile metadata. Kavro uses it as persistent room memory for structured and unstructured private credit data.
+- **0G Compute:** due diligence, investor risk scoring, bid recommendation, issuer allocation planning, and auditor compliance summaries. The agent outputs are structured JSON for verifiable finance workflows.
 - **Agent ID / ERC-7857 extension:** planned extension for tokenized agent identity and encrypted metadata authorization. Not claimed as a complete implementation.
+- **Privacy / secure execution extension:** planned path for sealed inference and TEE-backed private analysis so proprietary bid and credit strategies are not leaked.
 
 ## Required 0G Integration Proof
 
@@ -60,6 +61,16 @@ Kavro builds confidentiality rails for RWA funding by keeping sensitive deal and
 **Also relevant:** Track 1 — Agentic Infrastructure & OpenClaw Lab
 
 Kavro includes agent roles, persistent storage-backed memory, structured agent outputs, and SDK abstractions. OpenClaw orchestration is a natural extension.
+
+## Judging Criteria Alignment
+
+| Criteria | Kavro answer |
+| --- | --- |
+| 0G technical integration depth | Storage refs, Compute agents, Chain commitments, proof bundle, and SDK abstraction |
+| Technical completeness | Contracts, deploy script, frontend routes, API adapters, SDK, docs, and submission materials |
+| Product value | Private credit/RWA funding needs privacy, auditability, compliance, and AI due diligence |
+| UX/demo quality | `/demo`, `/issuer`, `/investor`, `/auditor`, `/proofs`, and `/architecture` routes explain the flow in under 3 minutes |
+| Team capability/documentation | README, ARCHITECTURE, DEMO, HACKATHON, and SUBMISSION files are judge-oriented |
 
 ## Repository
 

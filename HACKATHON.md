@@ -41,6 +41,22 @@ Kavro has agent roles, persistent memory on 0G Storage, structured inference via
 5. README / documentation
 6. Public X post with `#0GHackathon`, `#BuildOn0G`, `@0G_labs`, `@0g_CN`, `@0g_Eco`, `@HackQuest_`
 
+## 0G Modules To Emphasize
+
+- **0G Storage:** ultra-low-cost decentralized storage optimized for AI. In Kavro, it stores encrypted private-credit room memory, AI reports, audit logs, and agent profiles.
+- **Compute Network:** decentralized GPU inference and training marketplace. In Kavro, it powers due diligence, risk scoring, allocation, and compliance agents.
+- **Persistent Memory:** coming soon. Kavro should position this as the long-term memory layer for cross-session credit-agent intelligence.
+- **Agent ID:** tokenized identity for AI agents. Kavro should position this as the extension for encrypted agent metadata, delegated usage, and ownership/composability.
+- **Privacy & Security:** TEE secure execution and privacy-preserving inference are highly relevant to sealed bid strategy protection and auditor disclosure.
+
+## Judging Criteria Checklist
+
+- [ ] Deep 0G technical integration
+- [ ] Working on-chain deployment and explorer activity
+- [ ] Clear private-credit market value
+- [ ] Polished 3-minute UX demo
+- [ ] Strong README, architecture, and submission notes
+
 ## Critical Risk
 
 The hackathon requires actual 0G integration proof. A placeholder-only project can be invalid.
