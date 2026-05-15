@@ -1,9 +1,10 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
-import { usePublicClient, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
-import { dealRoomAbi } from "@/lib/abi";
-import { DEAL_ROOM_ADDRESS } from "@/lib/contracts";
+import { useAccount, usePublicClient, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
+import { dealRoomAbi, identityRegistryAbi } from "@/lib/abi";
+import { DEAL_ROOM_ADDRESS, IDENTITY_REGISTRY_ADDRESS } from "@/lib/contracts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,6 +12,7 @@ import { keccak256, toBytes } from "viem";
 import { TxLink } from "@/components/tx/tx-link";
 
 export function BidForm({ dealId }: { dealId: number }) {
+  const { address, isConnected } = useAccount();
   const [privateBidMemo, setPrivateBidMemo] = useState("");
   const [bidCommitment, setBidCommitment] = useState<`0x${string}` | "">("");
   const [storageRef, setStorageRef] = useState("");
@@ -21,6 +23,16 @@ export function BidForm({ dealId }: { dealId: number }) {
 
   const { data: bidHash, writeContract, isPending, error } = useWriteContract();
   const { isLoading: confirming } = useWaitForTransactionReceipt({ hash: bidHash });
+  const { data: isVerified, isLoading: checkingIdentity } = useReadContract({
+    address: IDENTITY_REGISTRY_ADDRESS as `0x${string}`,
+    abi: identityRegistryAbi,
+    functionName: "isVerified",
+    args: address ? [address] : undefined,
+    query: { enabled: isConnected && !!address && !!IDENTITY_REGISTRY_ADDRESS }
+  });
+
+  const requiresIdentity = Boolean(IDENTITY_REGISTRY_ADDRESS);
+  const canSubmitIdentity = !requiresIdentity || isVerified === true;
 
   const generateCommitment = () => {
     const secret = privateBidMemo || `kavro-private-bid-${dealId}-${Date.now()}`;
@@ -53,7 +65,7 @@ export function BidForm({ dealId }: { dealId: number }) {
   };
 
   const handleBid = async () => {
-    if (!bidCommitment || !storageRef) return;
+    if (!bidCommitment || !storageRef || !canSubmitIdentity) return;
     const fees = publicClient ? await publicClient.estimateFeesPerGas() : null;
     writeContract({
       address: DEAL_ROOM_ADDRESS as `0x${string}`,
@@ -105,12 +117,32 @@ export function BidForm({ dealId }: { dealId: number }) {
         <Button variant="outline" onClick={storePrivateBid} disabled={storing || !bidCommitment}>
           {storing ? "Storing..." : "Store Private Bid on 0G"}
         </Button>
-        <Button onClick={handleBid} disabled={!DEAL_ROOM_ADDRESS || isPending || !bidCommitment || !storageRef}>
+        <Button onClick={handleBid} disabled={!DEAL_ROOM_ADDRESS || isPending || !bidCommitment || !storageRef || !canSubmitIdentity}>
           {isPending ? "Submitting" : "Submit Sealed Bid"}
         </Button>
         {confirming && <span className="text-xs text-white/60">Confirming...</span>}
         <TxLink hash={bidHash} />
       </div>
+      {requiresIdentity && isConnected && checkingIdentity ? (
+        <div className="rounded-lg border border-border bg-surface px-3 py-2 text-xs text-text-2">
+          Checking investor KYC status before sealed bid submission...
+        </div>
+      ) : null}
+      {requiresIdentity && isConnected && isVerified === false ? (
+        <div className="rounded-lg border border-warning/30 bg-warning/5 px-3 py-2 text-xs text-warning">
+          This investor wallet is not KYC verified in the Identity Registry, so the contract will reject
+          <span className="font-mono"> submitSealedBid</span>. Connect the registry admin wallet on{" "}
+          <Link href="/admin" className="font-semibold underline underline-offset-2">
+            Admin
+          </Link>{" "}
+          and register this address first.
+        </div>
+      ) : null}
+      {requiresIdentity && !isConnected ? (
+        <div className="rounded-lg border border-warning/30 bg-warning/5 px-3 py-2 text-xs text-warning">
+          Connect the investor wallet before submitting a sealed bid.
+        </div>
+      ) : null}
       <div className="text-xs text-white/60">
         Kavro submits only a commitment and 0G Storage reference. Plaintext bid amounts are not written to public chain state.
       </div>
