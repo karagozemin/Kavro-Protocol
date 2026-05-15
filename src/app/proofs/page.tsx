@@ -1,4 +1,5 @@
 import { SectionHeading } from "@/components/section-heading";
+import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
 import { DEAL_ROOM_ADDRESS, KAVRO_AGENT_ID_ADDRESS, KAVRO_AGENT_REGISTRY_ADDRESS } from "@/lib/contracts";
 import { generateProofOfCreditPacket } from "@/lib/credit-proof";
@@ -13,15 +14,17 @@ const mainnetProof = {
   aiReportStorageRef: "0g://mainnet/kavro/compute/underwriting-swarm-0",
   bidStorageRef: "0g://mainnet/kavro/bids/sealed-investor-0",
   disclosureRef: "0g://mainnet/kavro/disclosures/auditor-capsule-0",
-  txs: [
-    "https://chainscan.0g.ai/tx/0xd79059b64ab52d4a881276d2dee751ae5d5bbee21076ab72bbe527a3ea5cbbb8",
-    "https://chainscan.0g.ai/tx/0x2f98efd3911c6c8978059bf1fbcd1ba0adab1ef484661f818b64453b915465eb",
-    "https://chainscan.0g.ai/tx/0x13776437afde18eaa92b3e54aac654632d6f26629c15b835bab0e33a70ed487d",
-    "https://chainscan.0g.ai/tx/0x959a57b4d5a28f6077280fbd3c6276d87befbaf0006e5d928e791aa2b2263f66",
-    "https://chainscan.0g.ai/tx/0xd5c8c37ebcf4a876197f50d3ae2994d489d67bd5aebdc08d5da8ef1949a3672d",
-    "https://chainscan.0g.ai/tx/0xb1b14dc11bbb02247a9d800a1c1d1d8ed58caaa08a93d80f05c0159806adb4c9",
-    "https://chainscan.0g.ai/tx/0x1c5f03282c9c52f94c9516a5a4a7718345dcdf3fe268e665a6c62eaeac9ca179",
-    "https://chainscan.0g.ai/tx/0x70ed4382cb2ac87bc134d6cde0b6d1db05c97577ee019414289372c422c19b5d"
+  bidCommitment: "0x326dd7467cc9f0d43f0b4d6efecf53eca8ee7cab4ee0a34e56f1d4698ea7477c",
+  aiRiskScore: 74,
+  lifecycle: [
+    ["KYC identity registered", "Issuer/investor address verified before sealed bidding", "0xd79059b64ab52d4a881276d2dee751ae5d5bbee21076ab72bbe527a3ea5cbbb8"],
+    ["DealCreated", "Private credit room anchored with a 0G Storage metadata ref", "0x2f98efd3911c6c8978059bf1fbcd1ba0adab1ef484661f818b64453b915465eb"],
+    ["FundingOpened", "Issuer opened the sealed funding round", "0x13776437afde18eaa92b3e54aac654632d6f26629c15b835bab0e33a70ed487d"],
+    ["AIReportCommitted", "Underwriting Swarm report ref and hash committed", "0x959a57b4d5a28f6077280fbd3c6276d87befbaf0006e5d928e791aa2b2263f66"],
+    ["SealedBidSubmitted", "Investor bid terms hidden behind a commitment and storage ref", "0xd5c8c37ebcf4a876197f50d3ae2994d489d67bd5aebdc08d5da8ef1949a3672d"],
+    ["DealFunded", "Issuer marked the clearing round funded", "0xb1b14dc11bbb02247a9d800a1c1d1d8ed58caaa08a93d80f05c0159806adb4c9"],
+    ["RepaymentRecorded", "Repayment state committed on 0G Chain", "0x1c5f03282c9c52f94c9516a5a4a7718345dcdf3fe268e665a6c62eaeac9ca179"],
+    ["AuditorAccessGranted", "Permissioned disclosure capsule granted to auditor", "0x70ed4382cb2ac87bc134d6cde0b6d1db05c97577ee019414289372c422c19b5d"]
   ]
 };
 
@@ -33,10 +36,11 @@ export default function ProofsPage() {
     dealId: "0",
     issuerAgent: "0x267C17E938cb6C504bE4710F580780B9199299D7",
     underwritingReportRef: mainnetProof.aiReportStorageRef,
-    bidCommitments: ["0xd5c8c37ebcf4a876197f50d3ae2994d489d67bd5aebdc08d5da8ef1949a3672d"],
+    aiRiskScore: mainnetProof.aiRiskScore,
+    bidCommitments: [mainnetProof.bidCommitment],
     auditorDisclosureRef: mainnetProof.disclosureRef,
     repaymentState: "repaid",
-    explorerLinks: mainnetProof.txs
+    explorerLinks: mainnetProof.lifecycle.map(([, , hash]) => `${mainnetProof.explorer}/tx/${hash}`)
   });
 
   return (
@@ -47,7 +51,37 @@ export default function ProofsPage() {
         description="A judge-facing packet proving the room, underwriting report, sealed bid commitments, disclosure capsule, repayment state, and 0G refs."
       />
 
-      <div className="grid gap-5 md:grid-cols-2">
+      <Card variant="gold" className="overflow-hidden">
+        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
+          <div>
+            <div className="flex flex-wrap gap-2">
+              <Badge variant="success">0G Mainnet</Badge>
+              <Badge variant="gold">Deal ID 0</Badge>
+              <Badge variant="success">Sealed bid verified</Badge>
+              <Badge variant="success">Repayment recorded</Badge>
+            </div>
+            <h2 className="mt-5 text-2xl font-semibold text-text-1">Singapore Invoice Financing Clearing Round</h2>
+            <p className="mt-3 max-w-2xl text-sm leading-relaxed text-text-2">
+              Kavro proves a full private-credit lifecycle: issuer room creation, 0G Compute underwriting, sealed investor bid commitment, funded state, repayment commitment, and auditor disclosure without exposing private bid terms publicly.
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-3">
+            {[
+              ["Risk score", `${mainnetProof.aiRiskScore}/100`],
+              ["Bid privacy", "sealed"],
+              ["Settlement", "repaid"],
+              ["Proof layer", "0G Chain"]
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-xl border border-border bg-surface p-4">
+                <span className="block text-xs uppercase tracking-widest text-text-3">{label}</span>
+                <span className="mt-2 block text-lg font-semibold text-text-1">{value}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </Card>
+
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
         <Card>
           <p className="text-xs font-semibold uppercase tracking-widest text-gold">0G Chain</p>
           <div className="mt-4 space-y-3 text-sm">
@@ -70,8 +104,51 @@ export default function ProofsPage() {
         </Card>
 
         <Card>
-          <p className="text-xs font-semibold uppercase tracking-widest text-gold">Proof-of-Credit Packet</p>
-          <pre className="mt-4 overflow-auto rounded-lg border border-border bg-surface p-4 text-xs text-text-2">
+          <p className="text-xs font-semibold uppercase tracking-widest text-gold">Lifecycle proof</p>
+          <div className="mt-4 space-y-3">
+            {mainnetProof.lifecycle.map(([label, detail, hash], index) => (
+              <a
+                key={hash}
+                href={`${mainnetProof.explorer}/tx/${hash}`}
+                target="_blank"
+                className="grid gap-3 rounded-xl border border-border bg-surface p-4 transition-colors hover:border-gold/40 md:grid-cols-[auto_1fr_auto]"
+              >
+                <span className="flex h-8 w-8 items-center justify-center rounded-lg border border-gold/30 bg-gold/10 text-xs font-bold text-gold">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <span>
+                  <span className="block text-sm font-semibold text-text-1">{label}</span>
+                  <span className="mt-1 block text-xs text-text-3">{detail}</span>
+                </span>
+                <span className="self-center font-mono text-xs text-gold">View tx</span>
+              </a>
+            ))}
+          </div>
+        </Card>
+      </div>
+
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <Card>
+          <p className="text-xs font-semibold uppercase tracking-widest text-gold">0G Storage / Compute refs</p>
+          <div className="mt-4 space-y-3 text-sm">
+            {[
+              ["Deal metadata", mainnetProof.dealStorageRef],
+              ["AI report", mainnetProof.aiReportStorageRef],
+              ["Sealed bid memory", mainnetProof.bidStorageRef],
+              ["Auditor disclosure", mainnetProof.disclosureRef],
+              ["Bid commitment", mainnetProof.bidCommitment]
+            ].map(([label, ref]) => (
+              <div key={label} className="rounded-lg border border-border bg-surface p-3">
+                <span className="block text-text-3">{label}</span>
+                <span className="mt-1 block break-all font-mono text-text-2">{ref}</span>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        <Card>
+          <p className="text-xs font-semibold uppercase tracking-widest text-gold">Raw packet</p>
+          <pre className="mt-4 max-h-[520px] overflow-auto rounded-lg border border-border bg-surface p-4 text-xs text-text-2">
 {JSON.stringify({
   ...packet,
   dealRoomContract: dealRoom,
@@ -82,33 +159,6 @@ export default function ProofsPage() {
           </pre>
         </Card>
       </div>
-
-      <Card>
-        <p className="text-xs font-semibold uppercase tracking-widest text-gold">0G Storage / Compute refs</p>
-        <div className="mt-4 grid gap-3 text-sm md:grid-cols-3">
-          {[
-            ["Deal metadata storage reference", mainnetProof.dealStorageRef],
-            ["AI report storage reference", mainnetProof.aiReportStorageRef],
-            ["Audit log storage reference", mainnetProof.disclosureRef]
-          ].map(([label, ref]) => (
-            <div key={label} className="rounded-lg border border-border bg-surface p-3">
-              <span className="block text-text-3">{label}</span>
-              <span className="mt-1 block break-all font-mono text-text-2">{ref}</span>
-            </div>
-          ))}
-        </div>
-      </Card>
-
-      <Card>
-        <p className="text-xs font-semibold uppercase tracking-widest text-gold">Mainnet lifecycle transactions</p>
-        <div className="mt-4 grid gap-2 text-xs md:grid-cols-2">
-          {mainnetProof.txs.map((tx) => (
-            <a key={tx} href={tx} target="_blank" className="break-all rounded-lg border border-border bg-surface p-3 font-mono text-text-2 hover:text-gold">
-              {tx}
-            </a>
-          ))}
-        </div>
-      </Card>
     </div>
   );
 }
