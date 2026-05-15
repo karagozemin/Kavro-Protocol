@@ -12,6 +12,8 @@ Kavro is a framework for private credit agents, not a single-purpose deal room. 
 
 Private credit and RWA funding still run through emails, PDFs, spreadsheets, and lawyer-controlled data rooms. Public blockchains improve settlement, but they expose bid sizes, allocations, investor appetite, and repayment exposure. Kavro separates public commitments from private credit intelligence.
 
+Most AI x Web3 agent projects are horizontal marketplaces, memory layers, or trading bots. Kavro is a vertical protocol for a high-value institutional workflow: confidential private-credit funding with issuer, investor, auditor, and settlement agents.
+
 ## Why 0G
 
 - **0G Storage** stores encrypted deal memory, AI reports, audit logs, allocation summaries, and agent metadata.

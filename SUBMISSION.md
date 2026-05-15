@@ -25,6 +25,20 @@ Kavro separates public verifiability from private credit intelligence:
 - 0G Compute runs structured issuer, investor, and auditor agents
 - Kavro SDK turns the workflow into reusable credit-agent infrastructure
 
+## Competitive Differentiation
+
+Many 0G APAC projects are broad agent marketplaces, memory layers, security auditors, payment rails, or trading bots. Kavro is deliberately narrower and more institutional: a vertical protocol for confidential RWA/private-credit funding.
+
+Kavro's wedge is the full issuer-investor-auditor-settlement workflow:
+
+- issuer creates sealed credit rooms
+- investor agents run private risk analysis and submit bid commitments
+- issuer agents generate allocation plans
+- auditors receive permissioned disclosure refs
+- 0G Chain produces verifiable lifecycle and settlement proofs
+
+This gives Kavro a clearer financial use case than generic agent infrastructure while still using 0G as core infrastructure.
+
 ## 0G Components Used
 
 - **0G Chain:** `KavroDealRoom`, `KavroAgentRegistry`, and `IdentityRegistry` deployments record lifecycle state, bid commitments, AI report refs, repayment commitments, and auditor access.

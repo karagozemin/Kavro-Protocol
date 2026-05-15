@@ -69,6 +69,23 @@ Before submission, deploy the contracts and generate at least one real proof flo
 - at least one 0G Storage ref or 0G Compute output generated through real credentials
 - screenshot/video showing the proof route and agent output
 
+## Competitive Read
+
+The field is crowded with:
+
+- generic agent marketplaces
+- agent memory protocols
+- TEE trading agents
+- smart contract security auditors
+- agent payment rails
+- privacy terminals
+
+Kavro should avoid sounding horizontal. The winning position is vertical and institutional:
+
+**confidential credit-agent infrastructure for private RWA funding.**
+
+Judges should remember Kavro as the project where issuer, investor, auditor, and settlement agents run a complete private-credit workflow on 0G.
+
 ## Final Runbook
 
 ```bash
