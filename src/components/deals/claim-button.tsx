@@ -1,7 +1,7 @@
 "use client";
 
 import { useAccount, useBalance, useChainId, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
-import { ogGalileo } from "@/lib/wagmi";
+import { active0GChain } from "@/lib/wagmi";
 import { dealRoomAbi } from "@/lib/abi";
 import { DEAL_ROOM_ADDRESS } from "@/lib/contracts";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import { TxLink } from "@/components/tx/tx-link";
 export function ClaimButton({ dealId }: { dealId: number }) {
   const { address, isConnected } = useAccount();
   const chainId = useChainId();
-  const isCorrectChain = chainId === ogGalileo.id;
+  const isCorrectChain = chainId === active0GChain.id;
   const { data: nativeBalance } = useBalance({ address, query: { enabled: !!address } });
   const hasGas = (nativeBalance?.value ?? 0n) > 0n;
   const { data: hash, writeContract, isPending, error } = useWriteContract();
@@ -39,9 +39,9 @@ export function ClaimButton({ dealId }: { dealId: number }) {
       {!isConnected ? (
         <div className="text-xs text-amber-300">Connect wallet to claim.</div>
       ) : !isCorrectChain ? (
-        <div className="text-xs text-amber-300">Switch to 0G Galileo to claim.</div>
+        <div className="text-xs text-amber-300">Switch to {active0GChain.name} to claim.</div>
       ) : !hasGas ? (
-        <div className="text-xs text-amber-300">You need testnet 0G for gas.</div>
+        <div className="text-xs text-amber-300">You need 0G for gas.</div>
       ) : null}
       {error ? <div className="text-xs text-red-300">{error.message}</div> : null}
     </>

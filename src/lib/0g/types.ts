@@ -71,7 +71,7 @@ export interface UnderwritingSwarmOutput {
 export interface ProofOfCreditPacket {
   packetType: "proof_of_credit";
   dealId: string;
-  chainId: 16602;
+  chainId: number;
   issuerAgent: string;
   investorBids: "sealed";
   underwritingReportRef: string;

@@ -24,6 +24,9 @@ const roleColor: Record<string, string> = {
   Proof: "border-platinum/20 bg-surface-2 text-platinum"
 };
 
+const activeChainId = Number(process.env.NEXT_PUBLIC_0G_CHAIN_ID ?? 16661);
+const activeChainName = activeChainId === 16661 ? "0G-Mainnet" : "0G-Galileo-Testnet";
+
 export default function DemoPage() {
   return (
     <div className="space-y-10">
@@ -38,15 +41,15 @@ export default function DemoPage() {
         <div className="mt-3 grid gap-3 text-sm md:grid-cols-3">
           <div className="rounded-lg border border-border bg-surface px-3 py-2">
             <span className="block text-text-3">Chain</span>
-            <span className="font-medium text-text-1">0G-Galileo-Testnet</span>
+            <span className="font-medium text-text-1">{activeChainName}</span>
           </div>
           <div className="rounded-lg border border-border bg-surface px-3 py-2">
             <span className="block text-text-3">Chain ID</span>
-            <span className="font-mono text-text-1">16602</span>
+            <span className="font-mono text-text-1">{activeChainId}</span>
           </div>
           <a href={ZERO_G_EXPLORER_URL} target="_blank" className="rounded-lg border border-border bg-surface px-3 py-2 transition-colors hover:border-gold/40">
             <span className="block text-text-3">Explorer</span>
-            <span className="font-medium text-gold">chainscan-galileo.0g.ai</span>
+            <span className="font-medium text-gold">{ZERO_G_EXPLORER_URL.replace(/^https?:\/\//, "")}</span>
           </a>
         </div>
       </div>

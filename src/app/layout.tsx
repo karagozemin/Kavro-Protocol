@@ -39,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <footer className="border-t border-border py-6 text-center text-xs text-text-2">
                 <span className="text-purple-gradient font-medium">Kavro Protocol</span>
                 <span className="mx-2 text-text-3">·</span>
-                Confidential credit-agent infrastructure on 0G Galileo
+                Confidential credit-agent infrastructure on 0G
               </footer>
             </div>
           </div>

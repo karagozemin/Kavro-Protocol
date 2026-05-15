@@ -2,7 +2,7 @@
 
 import dynamic from "next/dynamic";
 
-const ColorBends = dynamic(() => import("./ColorBends"), { ssr: false });
+const ColorBends = dynamic(() => import("@/components/effects/ColorBends"), { ssr: false });
 
 export function ColorBendsBackground() {
   return (

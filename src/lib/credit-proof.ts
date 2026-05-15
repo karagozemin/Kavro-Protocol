@@ -4,7 +4,7 @@ export function generateProofOfCreditPacket(input: Partial<ProofOfCreditPacket> 
   return {
     packetType: "proof_of_credit",
     dealId: input.dealId,
-    chainId: 16602,
+    chainId: input.chainId ?? 16661,
     issuerAgent: input.issuerAgent ?? "verified-or-pending",
     investorBids: "sealed",
     underwritingReportRef: input.underwritingReportRef ?? "generated-during-demo",

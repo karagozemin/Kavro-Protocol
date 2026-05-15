@@ -93,11 +93,11 @@ sequenceDiagram
 import { createKavroClient } from "@/sdk";
 
 const kavro = createKavroClient({
-  chainId: 16602,
+  chainId: 16661,
   dealRoomContract: process.env.NEXT_PUBLIC_KAVRO_DEAL_ROOM_ADDRESS as `0x${string}`,
   agentRegistryContract: process.env.NEXT_PUBLIC_KAVRO_AGENT_REGISTRY_ADDRESS as `0x${string}`,
   agentIdContract: process.env.NEXT_PUBLIC_KAVRO_AGENT_ID_ADDRESS as `0x${string}`,
-  explorerUrl: "https://chainscan-galileo.0g.ai",
+  explorerUrl: "https://chainscan.0g.ai",
   publicClient,
   walletClient
 });

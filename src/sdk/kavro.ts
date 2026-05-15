@@ -13,8 +13,8 @@ import { generateProofOfCreditPacket } from "@/lib/credit-proof";
 import type { KavroClientConfig, KavroDealParams, ProofBundle } from "@/sdk/types";
 
 export function createKavroClient(config: KavroClientConfig & { publicClient?: PublicClient; walletClient?: WalletClient }) {
-  const chainId = config.chainId ?? 16602;
-  const explorerUrl = config.explorerUrl ?? "https://chainscan-galileo.0g.ai";
+  const chainId = config.chainId ?? 16661;
+  const explorerUrl = config.explorerUrl ?? "https://chainscan.0g.ai";
 
   return {
     config: { ...config, chainId, explorerUrl },
