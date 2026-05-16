@@ -17,6 +17,7 @@ interface UploadOptions {
 
 const DEFAULT_RPC = "https://evmrpc-testnet.0g.ai";
 const DEFAULT_INDEXER = "https://indexer-storage-testnet-turbo.0g.ai";
+let warnedAboutLocalStorageFallback = false;
 
 async function sha256Hex(value: string) {
   const data = new TextEncoder().encode(value);
@@ -34,6 +35,12 @@ function has0GStorageConfig() {
       process.env.NEXT_PUBLIC_0G_STORAGE_INDEXER_URL &&
       (process.env["0G_STORAGE_PRIVATE_KEY"] || process.env.DEPLOYER_PRIVATE_KEY)
   );
+}
+
+function warnLocalStorageFallback(reason: string) {
+  if (warnedAboutLocalStorageFallback) return;
+  warnedAboutLocalStorageFallback = true;
+  console.warn(`0G Storage adapter using local-dev fallback: ${reason}`);
 }
 
 async function uploadWithLocalAdapter({ kind, payload, encrypted = true }: UploadOptions): Promise<ZeroGStorageRef> {
@@ -86,13 +93,20 @@ async function uploadWith0GStorage({ kind, payload, encrypted = true }: UploadOp
       createdAt: new Date().toISOString()
     };
   } catch (error) {
-    console.warn("0G Storage unavailable; using local development adapter.", error);
+    const message = error instanceof Error ? error.message : String(error);
+    warnLocalStorageFallback(message.includes("@0gfoundation/0g-storage-ts-sdk")
+      ? "install @0gfoundation/0g-storage-ts-sdk to enable real 0G Storage uploads"
+      : message);
     return uploadWithLocalAdapter({ kind, payload, encrypted });
   }
 }
 
 async function uploadTo0G(options: UploadOptions) {
-  return has0GStorageConfig() ? uploadWith0GStorage(options) : uploadWithLocalAdapter(options);
+  if (!has0GStorageConfig()) {
+    warnLocalStorageFallback("missing storage RPC/indexer/private key config");
+    return uploadWithLocalAdapter(options);
+  }
+  return uploadWith0GStorage(options);
 }
 
 export function uploadDealMetadataTo0G(deal: unknown) {
