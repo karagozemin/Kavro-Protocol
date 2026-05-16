@@ -10,6 +10,7 @@ import {
 import { uploadAIReportTo0G } from "@/lib/0g/storage";
 
 export const runtime = "nodejs";
+export const maxDuration = 60;
 
 const runners = {
   due_diligence: runDueDiligenceAgent,
