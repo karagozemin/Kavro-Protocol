@@ -43,9 +43,10 @@ async function uploadWith0GStorage({ kind, payload, encrypted = true }: UploadOp
   if (!privateKey) throw new Error("Missing OG_STORAGE_PRIVATE_KEY or DEPLOYER_PRIVATE_KEY");
 
   try {
-    const dynamicImport = new Function("specifier", "return import(specifier)") as (specifier: string) => Promise<typeof import("@0gfoundation/0g-storage-ts-sdk")>;
-    const sdk = await dynamicImport("@0gfoundation/0g-storage-ts-sdk");
-    const ethers = await import("ethers");
+    const [sdk, ethers] = await Promise.all([
+      import("@0gfoundation/0g-storage-ts-sdk"),
+      import("ethers")
+    ]);
     const provider = new ethers.JsonRpcProvider(rpcUrl);
     const signer = new ethers.Wallet(privateKey, provider);
     const indexer = new sdk.Indexer(indexerRpc);
