@@ -61,7 +61,9 @@ The final HackQuest submission must include actual on-chain activity.
 | Mainnet proof flow | `dealId=4` seeded on 0G Mainnet |
 | Real 0G Storage refs | Deal metadata `0g://0xacbf128bd73766fce19ede54bffb1125910176279f9938e3653c249d33049bf3`; AI report `0g://0x04f8f52606064971ad3e8c3afe6106cfc7f5dddcced63a931c8003885d764045`; bid memory `0g://0x0d042881668629b66256d7c4f6e27367333595d47f204fc30c6546bb2d98eaf4`; disclosure capsule `0g://0xfc073ad3e334ade18946bd97c25d918f037054a51763aca0700fc6386d4704cb` |
 | Real 0G Storage transactions | `0xf2bb1a67d1e11340e8ae7b6557dab6d5a93dea5e625980874e3920a4685ca0b8`, `0xb429d443e7eff9aee9e731bbf7f399a58eb703338bb99500992e1a215df8f921`, `0xcc040959af54c7866e79497b0744a43e6762b6202c9fa314950601ca8029b2ad`, `0x89e07e59693ffe98df4a2b27dc8fcb6d2565f5fd9fb6f2170f58d4ae563941b4` |
-| Compute refs | Real 0G Compute adapter output is committed through `/api/0g/agent`; missing Compute config returns a 503 |
+| 0G Compute provider | Direct provider `0xd9966e13a6026Fcca4b13E7ff95c94DE268C471C`, endpoint `https://compute-network-1.integratenetwork.work/v1/proxy`, model `zai-org/GLM-5-FP8` |
+| Compute refs | Real 0G Compute adapter output is committed through `/api/0g/agent`; generated report `0g://0x0ba09a6179250dd204a2827ff7ad394fbbdb225b0c21c91a2764505e07dafb05`; missing Compute config returns a 503 |
+| 0G Compute report archive transaction | `https://chainscan.0g.ai/tx/0x0d5165394c57c0c3b6455af67651c2e1c78d9c4708c982dd6d07dc4d11227580` |
 | Proof bundle route | `/proofs` |
 | Winner screen | Proof-of-Credit Packet |
 

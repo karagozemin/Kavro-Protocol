@@ -24,6 +24,8 @@ The final video must be under 3 minutes and must show real 0G usage, not slides 
 - 0G Explorer page: `https://chainscan.0g.ai/address/0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669`
 - 0G Storage ref for deal metadata or AI report
 - 0G Compute agent output
+- 0G Compute Direct provider: `0xd9966e13a6026Fcca4b13E7ff95c94DE268C471C`
+- 0G Compute generated report ref: `0g://0x0ba09a6179250dd204a2827ff7ad394fbbdb225b0c21c91a2764505e07dafb05`
 - Kavro Underwriting Swarm output
 - sealed bid commitment transaction
 - optional KavroAgentID tokenized agent identity / memory ref

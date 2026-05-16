@@ -22,6 +22,13 @@ const mainnetProof = {
     ["Sealed bid memory upload", "0x0d042881668629b66256d7c4f6e27367333595d47f204fc30c6546bb2d98eaf4", "0xcc040959af54c7866e79497b0744a43e6762b6202c9fa314950601ca8029b2ad"],
     ["Disclosure capsule upload", "0xfc073ad3e334ade18946bd97c25d918f037054a51763aca0700fc6386d4704cb", "0x89e07e59693ffe98df4a2b27dc8fcb6d2565f5fd9fb6f2170f58d4ae563941b4"]
   ],
+  computeProof: {
+    provider: "0xd9966e13a6026Fcca4b13E7ff95c94DE268C471C",
+    endpoint: "https://compute-network-1.integratenetwork.work/v1/proxy",
+    model: "zai-org/GLM-5-FP8",
+    generatedReportRef: "0g://0x0ba09a6179250dd204a2827ff7ad394fbbdb225b0c21c91a2764505e07dafb05",
+    generatedReportTx: "0x0d5165394c57c0c3b6455af67651c2e1c78d9c4708c982dd6d07dc4d11227580"
+  },
   aiRiskScore: 74,
   lifecycle: [
     ["KYC identity registered", "Issuer/investor address verified before sealed bidding", "0xd79059b64ab52d4a881276d2dee751ae5d5bbee21076ab72bbe527a3ea5cbbb8"],
@@ -143,6 +150,7 @@ export default function ProofsPage() {
               ["AI report", mainnetProof.aiReportStorageRef],
               ["Sealed bid memory", mainnetProof.bidStorageRef],
               ["Auditor disclosure", mainnetProof.disclosureRef],
+              ["0G Compute report", mainnetProof.computeProof.generatedReportRef],
               ["Bid commitment", mainnetProof.bidCommitment]
             ].map(([label, ref]) => (
               <div key={label} className="rounded-lg border border-border bg-surface p-3">
@@ -150,6 +158,15 @@ export default function ProofsPage() {
                 <span className="mt-1 block break-all font-mono text-text-2">{ref}</span>
               </div>
             ))}
+            <a
+              href={`${mainnetProof.explorer}/tx/${mainnetProof.computeProof.generatedReportTx}`}
+              target="_blank"
+              className="block rounded-lg border border-success/30 bg-success-bg p-3 text-sm transition-colors hover:border-success/60"
+            >
+              <span className="block text-xs font-semibold uppercase tracking-widest text-success">0G Compute Direct inference output</span>
+              <span className="mt-2 block break-all font-mono text-text-1">{mainnetProof.computeProof.provider}</span>
+              <span className="mt-1 block break-all font-mono text-text-2">{mainnetProof.computeProof.model}</span>
+            </a>
             {mainnetProof.storageUploads.map(([label, root, txHash]) => (
               <a
                 key={txHash}
@@ -179,6 +196,7 @@ export default function ProofsPage() {
     txHash,
     explorer: `${mainnetProof.explorer}/tx/${txHash}`
   })),
+  real0GComputeProof: mainnetProof.computeProof,
   integrations: [...integrations, "Agent ID-ready prototype", "Persistent Memory-ready adapter"]
 }, null, 2)}
           </pre>
