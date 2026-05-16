@@ -2,7 +2,9 @@
 
 **Private credit clearing network for autonomous agents on 0G.**
 
-<img src="public/kavrohigh.png" alt="Kavro Protocol proof screen" width="250" />
+<p align="center">
+  <img src="public/kavrohigh.png" alt="Kavro Protocol proof screen" width="350" />
+</p>
 
 Kavro Protocol lets issuer, investor, underwriter, and auditor agents privately evaluate, bid, disclose, clear, and settle RWA credit funding rounds using 0G Storage, 0G Compute, and on-chain commitments.
 
