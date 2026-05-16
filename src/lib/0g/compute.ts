@@ -7,11 +7,7 @@ import type {
   UnderwritingSwarmOutput
 } from "@/lib/0g/types";
 
-const COMPUTE_BASE_URL =
-  process.env["0G_COMPUTE_BASE_URL"] ??
-  process.env.NEXT_PUBLIC_0G_COMPUTE_BASE_URL ??
-  process.env["0G_COMPUTE_ROUTER_URL"] ??
-  process.env.NEXT_PUBLIC_0G_COMPUTE_ROUTER_URL;
+const COMPUTE_BASE_URL = process.env.NEXT_PUBLIC_0G_COMPUTE_BASE_URL;
 const COMPUTE_PROVIDER = process.env.NEXT_PUBLIC_0G_COMPUTE_PROVIDER_ADDRESS;
 const MODEL = process.env.NEXT_PUBLIC_0G_COMPUTE_MODEL ?? "zai-org/GLM-5-FP8";
 
@@ -21,22 +17,7 @@ async function resolveComputeService() {
   if (COMPUTE_BASE_URL) {
     return { endpoint: COMPUTE_BASE_URL, model: MODEL };
   }
-  if (!COMPUTE_PROVIDER) {
-    throw new Error("Missing 0G Compute base URL or provider address");
-  }
-  const privateKey = process.env.DEPLOYER_PRIVATE_KEY;
-  const rpcUrl = process.env.NEXT_PUBLIC_0G_RPC_URL ?? process.env.OG_MAINNET_RPC_URL;
-  if (!privateKey || !rpcUrl) {
-    throw new Error("Missing DEPLOYER_PRIVATE_KEY or 0G RPC URL for Compute SDK provider resolution");
-  }
-
-  const [{ createZGComputeNetworkBroker }, ethers] = await Promise.all([
-    import("@0gfoundation/0g-compute-ts-sdk"),
-    import("ethers")
-  ]);
-  const wallet = new ethers.Wallet(privateKey, new ethers.JsonRpcProvider(rpcUrl));
-  const broker = await createZGComputeNetworkBroker(wallet);
-  return broker.inference.getServiceMetadata(COMPUTE_PROVIDER);
+  throw new Error("Missing NEXT_PUBLIC_0G_COMPUTE_BASE_URL");
 }
 
 function systemPrompt(agentType: AgentKind) {
@@ -58,7 +39,7 @@ function parseJsonContent(content: unknown) {
 }
 
 async function run0GAgent(agentType: AgentKind, input: Record<string, unknown>): Promise<KavroAgentResult> {
-  const apiKey = process.env.OG_COMPUTE_API_KEY ?? process.env["0G_COMPUTE_API_KEY"];
+  const apiKey = process.env.OG_COMPUTE_API_KEY;
   if (!apiKey) throw new Error("Missing OG_COMPUTE_API_KEY");
   const service = await resolveComputeService();
 

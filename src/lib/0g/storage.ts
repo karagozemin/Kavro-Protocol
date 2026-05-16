@@ -32,14 +32,14 @@ function has0GStorageConfig() {
   return Boolean(
     (process.env.NEXT_PUBLIC_0G_STORAGE_RPC_URL || process.env.NEXT_PUBLIC_0G_RPC_URL) &&
       process.env.NEXT_PUBLIC_0G_STORAGE_INDEXER_URL &&
-      (process.env.OG_STORAGE_PRIVATE_KEY || process.env["0G_STORAGE_PRIVATE_KEY"] || process.env.DEPLOYER_PRIVATE_KEY)
+      (process.env.OG_STORAGE_PRIVATE_KEY || process.env.DEPLOYER_PRIVATE_KEY)
   );
 }
 
 async function uploadWith0GStorage({ kind, payload, encrypted = true }: UploadOptions): Promise<ZeroGStorageRef> {
   const rpcUrl = process.env.NEXT_PUBLIC_0G_STORAGE_RPC_URL ?? process.env.NEXT_PUBLIC_0G_RPC_URL ?? DEFAULT_RPC;
   const indexerRpc = process.env.NEXT_PUBLIC_0G_STORAGE_INDEXER_URL ?? DEFAULT_INDEXER;
-  const privateKey = process.env.OG_STORAGE_PRIVATE_KEY ?? process.env["0G_STORAGE_PRIVATE_KEY"] ?? process.env.DEPLOYER_PRIVATE_KEY;
+  const privateKey = process.env.OG_STORAGE_PRIVATE_KEY ?? process.env.DEPLOYER_PRIVATE_KEY;
   if (!privateKey) throw new Error("Missing OG_STORAGE_PRIVATE_KEY or DEPLOYER_PRIVATE_KEY");
 
   try {

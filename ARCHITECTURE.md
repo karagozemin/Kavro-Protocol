@@ -185,7 +185,7 @@ Kavro is designed to use 0G's modular stack as infrastructure rather than as an 
 
 - **0G Storage:** the Log/KV-oriented storage layer is treated as persistent encrypted room memory for deal metadata, AI reports, audit logs, bid-evaluation summaries, and agent profiles.
 - **0G Compute Network:** issuer, investor, auditor, allocation, and settlement agents call structured inference endpoints. Production versions can use sealed inference or TEE-backed execution for private credit analysis.
-- **0G Compute Direct provider:** Kavro is configured for provider `0xd9966e13a6026Fcca4b13E7ff95c94DE268C471C` at `https://compute-network-1.integratenetwork.work/v1/proxy` with model `zai-org/GLM-5-FP8`. If the base URL is not configured, the server adapter can resolve provider metadata through `@0gfoundation/0g-compute-ts-sdk`.
+- **0G Compute Direct provider:** Kavro is configured for provider `0xd9966e13a6026Fcca4b13E7ff95c94DE268C471C` at `https://compute-network-1.integratenetwork.work/v1/proxy` with model `zai-org/GLM-5-FP8`. The production server adapter calls this 0G Compute endpoint directly so Vercel does not need runtime provider metadata discovery.
 - **Persistent Memory:** once generally available, Kavro agents can use it for cross-session credit memory, covenant history, investor preferences, and long-context issuer state.
 - **Agent ID:** `KavroAgentID` provides an Agent ID-ready prototype for tokenized credit-agent identities with encrypted metadata references, usage authorization, delegated operation, and future composability.
 - **Privacy & Security:** Kavro's public contracts store commitments and references; sensitive terms remain encrypted or processed through private execution paths.
