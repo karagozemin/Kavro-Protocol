@@ -1,9 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
+import { BrandLogo } from "@/components/brand-logo";
 import { buttonStyles } from "@/components/ui/button";
-
-const ColorBends = dynamic(() => import("@/components/effects/ColorBends"), { ssr: false });
 
 const architecture = [
   ["0G Storage", "Encrypted deal memory, AI reports, audit logs, agent profiles"],
@@ -24,22 +22,16 @@ export default function LandingPage() {
     <div className="space-y-24 py-4">
       <section className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl text-center">
         <div className="absolute inset-0 pointer-events-none">
-          <ColorBends
-            colors={["#06151f", "#12333a", "#7a5f20", "#1b2330", "#2f4652"]}
-            speed={0.1}
-            rotation={95}
-            autoRotate={0.6}
-            scale={1.15}
-            frequency={0.8}
-            warpStrength={0.55}
-            mouseInfluence={0.35}
-            parallax={0.25}
-            noise={0.06}
-            iterations={2}
-            intensity={1.15}
-            bandWidth={4}
+          <Image
+            src="/kavrohigh.png"
+            alt=""
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 1024px"
+            className="object-cover object-center opacity-80"
           />
-          <div className="absolute inset-0 bg-gradient-to-b from-bg/55 via-bg/15 to-bg/85" />
+          <div className="absolute inset-0 bg-gradient-to-b from-bg/45 via-bg/25 to-bg/90" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_28%,transparent_0%,rgba(5,7,17,0.38)_52%,rgba(5,7,17,0.9)_100%)]" />
         </div>
 
         <div className="relative z-10 space-y-8 px-6 pb-12 pt-16">
@@ -49,7 +41,7 @@ export default function LandingPage() {
           </div>
 
           <div className="flex flex-col items-center gap-5">
-            <Image src="/kavro-logo.svg" alt="Kavro Protocol" width={112} height={112} priority />
+            <BrandLogo size="xl" priority className="border-gold/35 shadow-purple-glow" />
             <h1 className="text-4xl font-semibold leading-[1.12] text-text-1 md:text-6xl">
               Kavro Protocol
             </h1>

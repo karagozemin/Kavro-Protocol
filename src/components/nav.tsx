@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
+import { BrandLogo } from "@/components/brand-logo";
 import { WalletButton } from "@/components/wallet-button";
 import { cn } from "@/lib/utils";
 
@@ -22,16 +22,7 @@ export function Nav() {
       <div className="mx-auto flex h-14 max-w-6xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-3 group">
-          <div className="flex h-9 w-9 items-center justify-center overflow-hidden rounded-lg border border-purple/30 bg-purple-subtle transition-colors group-hover:border-purple/30">
-            <Image
-              src="/kavro-logo.svg"
-              alt="Kavro Protocol"
-              width={34}
-              height={34}
-              className="h-8 w-8 object-contain"
-              priority
-            />
-          </div>
+          <BrandLogo size="sm" priority className="transition-colors group-hover:border-gold/50" />
           <span className="text-base font-semibold tracking-tight text-text-1">
             Kavro
           </span>

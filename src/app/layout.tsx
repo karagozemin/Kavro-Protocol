@@ -5,6 +5,7 @@ import { Providers } from "@/components/providers";
 import { Nav } from "@/components/nav";
 import { ChainGuard } from "@/components/chain-guard";
 import { ColorBendsBackground } from "@/components/backgrounds/ColorBendsBackground";
+import { BrandLogo } from "@/components/brand-logo";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -16,7 +17,22 @@ export const metadata: Metadata = {
   title: "Kavro Protocol",
   description: "Confidential credit-agent infrastructure on 0G.",
   icons: {
-    icon: "/kavro-logo.svg",
+    icon: [
+      { url: "/kavro-icon.png", sizes: "512x512", type: "image/png" },
+      { url: "/kavrohigh.png", type: "image/png" },
+    ],
+    apple: "/apple-touch-icon.png",
+  },
+  openGraph: {
+    title: "Kavro Protocol",
+    description: "Confidential credit-agent infrastructure on 0G.",
+    images: [{ url: "/kavrohigh.png", width: 5016, height: 5016, alt: "Kavro Protocol logo" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kavro Protocol",
+    description: "Confidential credit-agent infrastructure on 0G.",
+    images: ["/kavrohigh.png"],
   },
 };
 
@@ -36,10 +52,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <main className="mx-auto w-full max-w-6xl flex-1 px-4 py-10 sm:px-6 lg:px-8">
                 {children}
               </main>
-              <footer className="border-t border-border py-6 text-center text-xs text-text-2">
-                <span className="text-purple-gradient font-medium">Kavro Protocol</span>
-                <span className="mx-2 text-text-3">·</span>
-                Confidential credit-agent infrastructure on 0G
+              <footer className="border-t border-border py-6 text-xs text-text-2">
+                <div className="mx-auto flex max-w-6xl flex-col items-center justify-center gap-3 px-4 text-center sm:flex-row">
+                  <BrandLogo size="sm" />
+                  <div>
+                    <span className="text-purple-gradient font-medium">Kavro Protocol</span>
+                    <span className="mx-2 text-text-3">·</span>
+                    Confidential credit-agent infrastructure on 0G
+                  </div>
+                </div>
               </footer>
             </div>
           </div>

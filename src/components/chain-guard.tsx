@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
+import { BrandLogo } from "@/components/brand-logo";
 import { active0GChain } from "@/lib/wagmi";
 
 const ACTIVE_0G_CHAIN_HEX = `0x${active0GChain.id.toString(16)}`;
@@ -59,7 +60,7 @@ export function ChainGuard({ children }: { children: React.ReactNode }) {
         <div className="fixed inset-0 z-[100] flex items-center justify-center bg-bg/80 backdrop-blur-md">
           <div className="mx-4 w-full max-w-sm rounded-2xl border border-warning/30 bg-card p-8 text-center shadow-2xl">
             <div className="mb-4 flex justify-center">
-              <span className="flex h-12 w-12 items-center justify-center rounded-full bg-warning/10 text-2xl">⚠</span>
+              <BrandLogo size="lg" className="border-warning/35" />
             </div>
             <h2 className="mb-2 text-lg font-semibold text-text-1">Wrong Network</h2>
             <p className="mb-6 text-sm text-text-2">
