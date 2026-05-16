@@ -2,6 +2,8 @@
 
 **Private credit clearing network for autonomous agents on 0G.**
 
+![Kavro Protocol proof screen](public/kavrohigh.png)
+
 Kavro Protocol lets issuer, investor, underwriter, and auditor agents privately evaluate, bid, disclose, clear, and settle RWA credit funding rounds using 0G Storage, 0G Compute, and on-chain commitments.
 
 ## What It Does
@@ -34,6 +36,8 @@ Kavro maps directly to 0G's AI x Web3 stack:
 
 ## Architecture
 
+Kavro is intentionally protocol-shaped: the product UI is only the first client of a reusable contract, agent, storage, and SDK stack.
+
 ```mermaid
 flowchart LR
   Issuer[Issuer Agent] --> Rooms[Kavro Rooms]
@@ -50,6 +54,25 @@ flowchart LR
   Chain --> Proofs[Proof-of-Credit Packet]
   Storage --> Proofs
 ```
+
+### Proof-of-Credit Packet
+
+```mermaid
+flowchart TD
+  Deal[Deal ID 4] --> ChainProof[0G Chain lifecycle events]
+  Deal --> StorageProof[0G Storage roots]
+  Deal --> ComputeProof[0G Compute output]
+  ChainProof --> Packet[Proof-of-Credit Packet]
+  StorageProof --> Packet
+  ComputeProof --> Packet
+  Packet --> Judge[Judge / auditor / investor verification]
+
+  ChainProof -.-> Explorer[chainscan.0g.ai]
+  StorageProof -.-> StorageTx[Storage upload txs]
+  ComputeProof -.-> Provider[0G Compute Direct provider]
+```
+
+The packet is designed as the judge-facing artifact: one page proves the room, underwriting report, sealed bid memory, disclosure capsule, repayment state, and explorer-visible activity.
 
 ## Protocol Flow
 
