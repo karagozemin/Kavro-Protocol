@@ -219,6 +219,28 @@ export const dealRoomAbi = [
   },
   {
     type: "function",
+    name: "hasAuditorAccessForInvestor",
+    stateMutability: "view",
+    inputs: [
+      { name: "dealId", type: "uint256" },
+      { name: "auditor", type: "address" },
+      { name: "investor", type: "address" }
+    ],
+    outputs: [{ name: "", type: "bool" }]
+  },
+  {
+    type: "function",
+    name: "getDisclosureRef",
+    stateMutability: "view",
+    inputs: [
+      { name: "dealId", type: "uint256" },
+      { name: "auditor", type: "address" },
+      { name: "investor", type: "address" }
+    ],
+    outputs: [{ name: "", type: "string" }]
+  },
+  {
+    type: "function",
     name: "identityRegistry",
     stateMutability: "view",
     inputs: [],
