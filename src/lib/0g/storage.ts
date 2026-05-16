@@ -15,8 +15,8 @@ interface UploadOptions {
   encrypted?: boolean;
 }
 
-const DEFAULT_RPC = "https://evmrpc-testnet.0g.ai";
-const DEFAULT_INDEXER = "https://indexer-storage-testnet-turbo.0g.ai";
+const DEFAULT_RPC = "https://evmrpc.0g.ai";
+const DEFAULT_INDEXER = "https://indexer-storage-turbo.0g.ai";
 let warnedAboutLocalStorageFallback = false;
 
 async function sha256Hex(value: string) {
@@ -31,7 +31,7 @@ async function sha256Hex(value: string) {
 
 function has0GStorageConfig() {
   return Boolean(
-    process.env.NEXT_PUBLIC_0G_RPC_URL &&
+    (process.env.NEXT_PUBLIC_0G_STORAGE_RPC_URL || process.env.NEXT_PUBLIC_0G_RPC_URL) &&
       process.env.NEXT_PUBLIC_0G_STORAGE_INDEXER_URL &&
       (process.env["0G_STORAGE_PRIVATE_KEY"] || process.env.DEPLOYER_PRIVATE_KEY)
   );
@@ -59,7 +59,7 @@ async function uploadWithLocalAdapter({ kind, payload, encrypted = true }: Uploa
 }
 
 async function uploadWith0GStorage({ kind, payload, encrypted = true }: UploadOptions): Promise<ZeroGStorageRef> {
-  const rpcUrl = process.env.NEXT_PUBLIC_0G_RPC_URL ?? DEFAULT_RPC;
+  const rpcUrl = process.env.NEXT_PUBLIC_0G_STORAGE_RPC_URL ?? process.env.NEXT_PUBLIC_0G_RPC_URL ?? DEFAULT_RPC;
   const indexerRpc = process.env.NEXT_PUBLIC_0G_STORAGE_INDEXER_URL ?? DEFAULT_INDEXER;
   const privateKey = process.env["0G_STORAGE_PRIVATE_KEY"] ?? process.env.DEPLOYER_PRIVATE_KEY;
   if (!privateKey) return uploadWithLocalAdapter({ kind, payload, encrypted });

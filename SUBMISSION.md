@@ -60,6 +60,8 @@ The final HackQuest submission must include actual on-chain activity.
 | 0G Explorer link | `https://chainscan.0g.ai/address/0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669` |
 | Mainnet proof flow | `dealId=0` seeded on 0G Mainnet |
 | Storage refs | `0g://mainnet/kavro/deals/singapore-invoice-clearing-0`, `0g://mainnet/kavro/compute/underwriting-swarm-0`, `0g://mainnet/kavro/bids/sealed-investor-0`, `0g://mainnet/kavro/disclosures/auditor-capsule-0` |
+| Real 0G Storage SDK proof | `0g://0xf61c8af7d1ebf6cb65d9cf88f8a058e09a74d608c3218d94d54605b97bdeab13` |
+| Real 0G Storage transaction | `https://chainscan.0g.ai/tx/0x1da7780904b11882472c888284b7f45d668964a36ec1eb1362eef6fce0a0c8ae` |
 | Compute refs | `0g://mainnet/kavro/compute/underwriting-swarm-0` plus structured 0G Compute adapter output in `/api/0g/agent` |
 | Proof bundle route | `/proofs` |
 | Winner screen | Proof-of-Credit Packet |

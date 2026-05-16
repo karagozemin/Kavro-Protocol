@@ -135,6 +135,10 @@ await kavro.verifyDealProof(proof);
 
 - 0G Chain contract address: `0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669` on 0G Mainnet.
 - 0G Explorer link: `https://chainscan.0g.ai/address/0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669`.
+- Real 0G Storage SDK upload proof:
+  - Storage root: `0xf61c8af7d1ebf6cb65d9cf88f8a058e09a74d608c3218d94d54605b97bdeab13`
+  - Storage URI: `0g://0xf61c8af7d1ebf6cb65d9cf88f8a058e09a74d608c3218d94d54605b97bdeab13`
+  - 0G transaction: `https://chainscan.0g.ai/tx/0x1da7780904b11882472c888284b7f45d668964a36ec1eb1362eef6fce0a0c8ae`
 - 0G mainnet proof flow:
   - KYC identity registration: `https://chainscan.0g.ai/tx/0xd79059b64ab52d4a881276d2dee751ae5d5bbee21076ab72bbe527a3ea5cbbb8`
   - Deal created: `https://chainscan.0g.ai/tx/0x2f98efd3911c6c8978059bf1fbcd1ba0adab1ef484661f818b64453b915465eb`
@@ -161,7 +165,7 @@ npm run compile:contracts
 npm run dev
 ```
 
-Optional real 0G Storage SDK install:
+The official 0G Storage TypeScript SDK is included as a dependency. If dependencies were installed before this package was added, refresh it with:
 
 ```bash
 npm run install:0g-storage

@@ -15,6 +15,12 @@ const mainnetProof = {
   bidStorageRef: "0g://mainnet/kavro/bids/sealed-investor-0",
   disclosureRef: "0g://mainnet/kavro/disclosures/auditor-capsule-0",
   bidCommitment: "0x326dd7467cc9f0d43f0b4d6efecf53eca8ee7cab4ee0a34e56f1d4698ea7477c",
+  realStorageUpload: {
+    label: "Next API 0G Storage SDK upload",
+    rootHash: "0xf61c8af7d1ebf6cb65d9cf88f8a058e09a74d608c3218d94d54605b97bdeab13",
+    uri: "0g://0xf61c8af7d1ebf6cb65d9cf88f8a058e09a74d608c3218d94d54605b97bdeab13",
+    txHash: "0x1da7780904b11882472c888284b7f45d668964a36ec1eb1362eef6fce0a0c8ae"
+  },
   aiRiskScore: 74,
   lifecycle: [
     ["KYC identity registered", "Issuer/investor address verified before sealed bidding", "0xd79059b64ab52d4a881276d2dee751ae5d5bbee21076ab72bbe527a3ea5cbbb8"],
@@ -133,6 +139,7 @@ export default function ProofsPage() {
           <div className="mt-4 space-y-3 text-sm">
             {[
               ["Deal metadata", mainnetProof.dealStorageRef],
+              ["Real 0G Storage root", mainnetProof.realStorageUpload.uri],
               ["AI report", mainnetProof.aiReportStorageRef],
               ["Sealed bid memory", mainnetProof.bidStorageRef],
               ["Auditor disclosure", mainnetProof.disclosureRef],
@@ -143,6 +150,14 @@ export default function ProofsPage() {
                 <span className="mt-1 block break-all font-mono text-text-2">{ref}</span>
               </div>
             ))}
+            <a
+              href={`${mainnetProof.explorer}/tx/${mainnetProof.realStorageUpload.txHash}`}
+              target="_blank"
+              className="block rounded-lg border border-gold/30 bg-gold/10 p-3 text-sm transition-colors hover:border-gold/60"
+            >
+              <span className="block text-xs font-semibold uppercase tracking-widest text-gold">{mainnetProof.realStorageUpload.label}</span>
+              <span className="mt-2 block break-all font-mono text-text-1">{mainnetProof.realStorageUpload.txHash}</span>
+            </a>
           </div>
         </Card>
 
@@ -154,6 +169,7 @@ export default function ProofsPage() {
   dealRoomContract: dealRoom,
   agentRegistryContract: agentRegistry,
   agentIdContract: agentId,
+  real0GStorageUpload: mainnetProof.realStorageUpload,
   integrations: [...integrations, "Agent ID-ready prototype", "Persistent Memory-ready adapter"]
 }, null, 2)}
           </pre>
