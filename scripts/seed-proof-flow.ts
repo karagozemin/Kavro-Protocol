@@ -11,7 +11,7 @@ const explorerForNetwork = () => {
   if (hardhat.network.name === "ogMainnet") {
     return process.env.OG_MAINNET_EXPLORER_URL ?? "https://chainscan.0g.ai";
   }
-  return process.env.OG_GALILEO_EXPLORER_URL ?? "https://chainscan-galileo.0g.ai";
+  throw new Error("Kavro proof seeding is mainnet-only. Use --network ogMainnet.");
 };
 
 const waitAndLink = async (label: string, tx: TxLike, explorer: string) => {
@@ -52,10 +52,14 @@ async function main() {
   }
 
   const dealId = await dealRoom.getDealsCount();
-  const storageRef = `0g://mainnet/kavro/deals/singapore-invoice-clearing-${dealId.toString()}`;
-  const aiReportRef = `0g://mainnet/kavro/compute/underwriting-swarm-${dealId.toString()}`;
-  const bidStorageRef = `0g://mainnet/kavro/bids/sealed-investor-${dealId.toString()}`;
-  const disclosureRef = `0g://mainnet/kavro/disclosures/auditor-capsule-${dealId.toString()}`;
+  const storageRef = process.env.KAVRO_DEAL_STORAGE_REF;
+  const aiReportRef = process.env.KAVRO_AI_REPORT_STORAGE_REF;
+  const bidStorageRef = process.env.KAVRO_BID_STORAGE_REF;
+  const disclosureRef = process.env.KAVRO_DISCLOSURE_STORAGE_REF;
+  if (!storageRef) throw new Error("Missing KAVRO_DEAL_STORAGE_REF from a real 0G Storage upload");
+  if (!aiReportRef) throw new Error("Missing KAVRO_AI_REPORT_STORAGE_REF from a real 0G Storage upload");
+  if (!bidStorageRef) throw new Error("Missing KAVRO_BID_STORAGE_REF from a real 0G Storage upload");
+  if (!disclosureRef) throw new Error("Missing KAVRO_DISCLOSURE_STORAGE_REF from a real 0G Storage upload");
   const maturityDate = BigInt(Math.floor(Date.now() / 1000) + 180 * 24 * 60 * 60);
 
   await waitAndLink(

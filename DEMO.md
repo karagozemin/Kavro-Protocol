@@ -31,17 +31,17 @@ The final video must be under 3 minutes and must show real 0G usage, not slides 
 
 ## Seeded Mainnet Proof Flow
 
-- Deal ID: `0`
-- Deal metadata ref: `0g://mainnet/kavro/deals/singapore-invoice-clearing-0`
-- AI report ref: `0g://mainnet/kavro/compute/underwriting-swarm-0`
-- Bid storage ref: `0g://mainnet/kavro/bids/sealed-investor-0`
-- Auditor disclosure ref: `0g://mainnet/kavro/disclosures/auditor-capsule-0`
-- Sealed bid tx: `https://chainscan.0g.ai/tx/0xd5c8c37ebcf4a876197f50d3ae2994d489d67bd5aebdc08d5da8ef1949a3672d`
-- Auditor disclosure tx: `https://chainscan.0g.ai/tx/0x70ed4382cb2ac87bc134d6cde0b6d1db05c97577ee019414289372c422c19b5d`
+- Deal ID: `4`
+- Deal metadata ref: `0g://0xacbf128bd73766fce19ede54bffb1125910176279f9938e3653c249d33049bf3`
+- AI report ref: `0g://0x04f8f52606064971ad3e8c3afe6106cfc7f5dddcced63a931c8003885d764045`
+- Bid storage ref: `0g://0x0d042881668629b66256d7c4f6e27367333595d47f204fc30c6546bb2d98eaf4`
+- Auditor disclosure ref: `0g://0xfc073ad3e334ade18946bd97c25d918f037054a51763aca0700fc6386d4704cb`
+- Sealed bid tx: `https://chainscan.0g.ai/tx/0x362cb1f7fcc067f2d021115b8fa72958d2f63a5e4403bf485c4516f8131f8465`
+- Auditor disclosure tx: `https://chainscan.0g.ai/tx/0x6e37f725644899670167b63887241db692ecb4fce134ce33d9701c6a73860acc`
 
 ## Judge Talking Points
 
 - Kavro is protocol-shaped: contracts, SDK, agents, and Proof-of-Credit Packets.
 - 0G is core infrastructure: storage, compute, chain.
 - Confidential amounts are not publicly exposed.
-- Local fallback is visible and honest when real 0G credentials are missing.
+- Missing 0G credentials fail loudly; the demo does not substitute synthetic proof data.

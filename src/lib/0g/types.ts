@@ -1,4 +1,4 @@
-export type ZeroGMode = "0g" | "local-dev";
+export type ZeroGMode = "0g";
 
 export interface ZeroGStorageRef {
   mode: ZeroGMode;

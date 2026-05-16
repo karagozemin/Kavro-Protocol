@@ -17,6 +17,7 @@ export function CreateDealForm() {
   const [description, setDescription] = useState("");
   const [storageRef, setStorageRef] = useState("");
   const [storing, setStoring] = useState(false);
+  const [storageError, setStorageError] = useState("");
 
   const publicClient = usePublicClient();
   const { data: hash, writeContract, isPending, error } = useWriteContract();
@@ -27,31 +28,38 @@ export function CreateDealForm() {
   const handleSubmit = async () => {
     if (!maturityDate) return;
     setStoring(true);
-    let ref = storageRef;
-    if (!ref) {
-      const res = await fetch("/api/0g/storage", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          kind: "deal-metadata",
-          payload: { title, category, maturityDate, description, publicDemoMetadata: true }
-        })
+    setStorageError("");
+    try {
+      let ref = storageRef;
+      if (!ref) {
+        const res = await fetch("/api/0g/storage", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            kind: "deal-metadata",
+            payload: { title, category, maturityDate, description, publicMetadata: true }
+          })
+        });
+        const json = await res.json();
+        if (!res.ok || !json.uri) throw new Error(json.error ?? "0G Storage upload failed");
+        ref = json.uri;
+        setStorageRef(ref);
+      }
+      const maturity = BigInt(Math.floor(new Date(maturityDate).getTime() / 1000));
+      const fees = publicClient ? await publicClient.estimateFeesPerGas() : null;
+      writeContract({
+        address: DEAL_ROOM_ADDRESS as `0x${string}`,
+        abi: dealRoomAbi,
+        functionName: "createDeal",
+        args: [{ title, category, maturityDate: maturity, description, storageRef: ref }],
+        ...(fees?.maxFeePerGas ? { maxFeePerGas: fees.maxFeePerGas } : {}),
+        ...(fees?.maxPriorityFeePerGas ? { maxPriorityFeePerGas: fees.maxPriorityFeePerGas } : {}),
       });
-      const json = await res.json();
-      ref = json.uri;
-      setStorageRef(ref);
+    } catch (err) {
+      setStorageError(err instanceof Error ? err.message : "0G Storage upload failed");
+    } finally {
+      setStoring(false);
     }
-    setStoring(false);
-    const maturity = BigInt(Math.floor(new Date(maturityDate).getTime() / 1000));
-    const fees = publicClient ? await publicClient.estimateFeesPerGas() : null;
-    writeContract({
-      address: DEAL_ROOM_ADDRESS as `0x${string}`,
-      abi: dealRoomAbi,
-      functionName: "createDeal",
-      args: [{ title, category, maturityDate: maturity, description, storageRef: ref }],
-      ...(fees?.maxFeePerGas ? { maxFeePerGas: fees.maxFeePerGas } : {}),
-      ...(fees?.maxPriorityFeePerGas ? { maxPriorityFeePerGas: fees.maxPriorityFeePerGas } : {}),
-    });
   };
 
   return (
@@ -60,7 +68,7 @@ export function CreateDealForm() {
         <div>
           <p className="text-xs font-semibold uppercase tracking-widest text-gold">New Deal</p>
           <h3 className="mt-1 text-lg font-semibold text-text-1">Create Private Credit Round</h3>
-          <p className="mt-0.5 text-xs text-text-2">Metadata is sample data. The funding flow is fully onchain.</p>
+          <p className="mt-0.5 text-xs text-text-2">Metadata is uploaded through the 0G Storage SDK before the room is created onchain.</p>
         </div>
       </div>
 
@@ -94,6 +102,7 @@ export function CreateDealForm() {
         <TxLink hash={hash} />
         {isConfirming && <span className="text-xs text-text-2">Confirming…</span>}
         {isSuccess && <span className="text-xs font-medium text-success">✓ Deal created</span>}
+        {storageError && <span className="text-xs text-danger">{storageError}</span>}
         {error && <span className="text-xs text-danger">{error.message}</span>}
       </div>
     </Card>

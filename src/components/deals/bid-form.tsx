@@ -55,10 +55,11 @@ export function BidForm({ dealId }: { dealId: number }) {
         body: JSON.stringify({ kind: "encrypted-room-state", payload })
       });
       const ref = await res.json();
+      if (!res.ok || !ref.uri) throw new Error(ref.error ?? "0G Storage upload failed");
       setStorageRef(ref.uri);
-      setNotice(`${ref.mode === "0g" ? "0G Storage" : "Local dev storage"} ref created.`);
-    } catch {
-      setNotice("Could not create storage ref.");
+      setNotice("0G Storage ref created.");
+    } catch (err) {
+      setNotice(err instanceof Error ? err.message : "Could not create 0G Storage ref.");
     } finally {
       setStoring(false);
     }

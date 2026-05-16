@@ -10,27 +10,28 @@ const mainnetProof = {
   agentRegistry: "0x2E54CCA69b767A0Ca50906E5F11a58ae437aC3b4",
   agentId: "0xF4eB358b4110afe87E2fbA6a16AB98DeF0b77d56",
   explorer: "https://chainscan.0g.ai",
-  dealStorageRef: "0g://mainnet/kavro/deals/singapore-invoice-clearing-0",
-  aiReportStorageRef: "0g://mainnet/kavro/compute/underwriting-swarm-0",
-  bidStorageRef: "0g://mainnet/kavro/bids/sealed-investor-0",
-  disclosureRef: "0g://mainnet/kavro/disclosures/auditor-capsule-0",
-  bidCommitment: "0x326dd7467cc9f0d43f0b4d6efecf53eca8ee7cab4ee0a34e56f1d4698ea7477c",
-  realStorageUpload: {
-    label: "Next API 0G Storage SDK upload",
-    rootHash: "0xf61c8af7d1ebf6cb65d9cf88f8a058e09a74d608c3218d94d54605b97bdeab13",
-    uri: "0g://0xf61c8af7d1ebf6cb65d9cf88f8a058e09a74d608c3218d94d54605b97bdeab13",
-    txHash: "0x1da7780904b11882472c888284b7f45d668964a36ec1eb1362eef6fce0a0c8ae"
-  },
+  dealId: "4",
+  dealStorageRef: "0g://0xacbf128bd73766fce19ede54bffb1125910176279f9938e3653c249d33049bf3",
+  aiReportStorageRef: "0g://0x04f8f52606064971ad3e8c3afe6106cfc7f5dddcced63a931c8003885d764045",
+  bidStorageRef: "0g://0x0d042881668629b66256d7c4f6e27367333595d47f204fc30c6546bb2d98eaf4",
+  disclosureRef: "0g://0xfc073ad3e334ade18946bd97c25d918f037054a51763aca0700fc6386d4704cb",
+  bidCommitment: "0x69951b897756dc35a8d6862937edd0524e3a9ae6c6e787292e59c2692659bed7",
+  storageUploads: [
+    ["Deal metadata upload", "0xacbf128bd73766fce19ede54bffb1125910176279f9938e3653c249d33049bf3", "0xf2bb1a67d1e11340e8ae7b6557dab6d5a93dea5e625980874e3920a4685ca0b8"],
+    ["AI report upload", "0x04f8f52606064971ad3e8c3afe6106cfc7f5dddcced63a931c8003885d764045", "0xb429d443e7eff9aee9e731bbf7f399a58eb703338bb99500992e1a215df8f921"],
+    ["Sealed bid memory upload", "0x0d042881668629b66256d7c4f6e27367333595d47f204fc30c6546bb2d98eaf4", "0xcc040959af54c7866e79497b0744a43e6762b6202c9fa314950601ca8029b2ad"],
+    ["Disclosure capsule upload", "0xfc073ad3e334ade18946bd97c25d918f037054a51763aca0700fc6386d4704cb", "0x89e07e59693ffe98df4a2b27dc8fcb6d2565f5fd9fb6f2170f58d4ae563941b4"]
+  ],
   aiRiskScore: 74,
   lifecycle: [
     ["KYC identity registered", "Issuer/investor address verified before sealed bidding", "0xd79059b64ab52d4a881276d2dee751ae5d5bbee21076ab72bbe527a3ea5cbbb8"],
-    ["DealCreated", "Private credit room anchored with a 0G Storage metadata ref", "0x2f98efd3911c6c8978059bf1fbcd1ba0adab1ef484661f818b64453b915465eb"],
-    ["FundingOpened", "Issuer opened the sealed funding round", "0x13776437afde18eaa92b3e54aac654632d6f26629c15b835bab0e33a70ed487d"],
-    ["AIReportCommitted", "Underwriting Swarm report ref and hash committed", "0x959a57b4d5a28f6077280fbd3c6276d87befbaf0006e5d928e791aa2b2263f66"],
-    ["SealedBidSubmitted", "Investor bid terms hidden behind a commitment and storage ref", "0xd5c8c37ebcf4a876197f50d3ae2994d489d67bd5aebdc08d5da8ef1949a3672d"],
-    ["DealFunded", "Issuer marked the clearing round funded", "0xb1b14dc11bbb02247a9d800a1c1d1d8ed58caaa08a93d80f05c0159806adb4c9"],
-    ["RepaymentRecorded", "Repayment state committed on 0G Chain", "0x1c5f03282c9c52f94c9516a5a4a7718345dcdf3fe268e665a6c62eaeac9ca179"],
-    ["AuditorAccessGranted", "Permissioned disclosure capsule granted to auditor", "0x70ed4382cb2ac87bc134d6cde0b6d1db05c97577ee019414289372c422c19b5d"]
+    ["DealCreated", "Private credit room anchored with a real 0G Storage metadata root", "0xb2bf8578a0271e6c055288a807978e91f6397cfce78ed6379a34ac7b7232317b"],
+    ["FundingOpened", "Issuer opened the sealed funding round", "0x19701dd1d55a2ed1f7874a7c25e5dcd7ec52c15d71ad9277d3257b5e7cf34ec4"],
+    ["AIReportCommitted", "Underwriting Swarm report root and hash committed", "0x5603841f1d20e8afda01ef4bd1da7c71be82d12ef6f07edc5cf7abc5c2675ad1"],
+    ["SealedBidSubmitted", "Investor bid terms hidden behind a commitment and real storage root", "0x362cb1f7fcc067f2d021115b8fa72958d2f63a5e4403bf485c4516f8131f8465"],
+    ["DealFunded", "Issuer marked the clearing round funded", "0x31c82de9a40bba668c1e2c42346119bbbe55eaa38c682298d0b6279a6cdafee5"],
+    ["RepaymentRecorded", "Repayment state committed on 0G Chain", "0xa6227bd15a1d198982912701d4d174a6d83bfbfb33d8fa103614198643981d00"],
+    ["AuditorAccessGranted", "Permissioned disclosure capsule root granted to auditor", "0x6e37f725644899670167b63887241db692ecb4fce134ce33d9701c6a73860acc"]
   ]
 };
 
@@ -39,7 +40,7 @@ export default function ProofsPage() {
   const agentRegistry = KAVRO_AGENT_REGISTRY_ADDRESS || mainnetProof.agentRegistry;
   const agentId = KAVRO_AGENT_ID_ADDRESS || mainnetProof.agentId;
   const packet = generateProofOfCreditPacket({
-    dealId: "0",
+    dealId: mainnetProof.dealId,
     issuerAgent: "0x267C17E938cb6C504bE4710F580780B9199299D7",
     underwritingReportRef: mainnetProof.aiReportStorageRef,
     aiRiskScore: mainnetProof.aiRiskScore,
@@ -62,7 +63,7 @@ export default function ProofsPage() {
           <div>
             <div className="flex flex-wrap gap-2">
               <Badge variant="success">0G Mainnet</Badge>
-              <Badge variant="gold">Deal ID 0</Badge>
+              <Badge variant="gold">Deal ID {mainnetProof.dealId}</Badge>
               <Badge variant="success">Sealed bid verified</Badge>
               <Badge variant="success">Repayment recorded</Badge>
             </div>
@@ -139,7 +140,6 @@ export default function ProofsPage() {
           <div className="mt-4 space-y-3 text-sm">
             {[
               ["Deal metadata", mainnetProof.dealStorageRef],
-              ["Real 0G Storage root", mainnetProof.realStorageUpload.uri],
               ["AI report", mainnetProof.aiReportStorageRef],
               ["Sealed bid memory", mainnetProof.bidStorageRef],
               ["Auditor disclosure", mainnetProof.disclosureRef],
@@ -150,14 +150,17 @@ export default function ProofsPage() {
                 <span className="mt-1 block break-all font-mono text-text-2">{ref}</span>
               </div>
             ))}
-            <a
-              href={`${mainnetProof.explorer}/tx/${mainnetProof.realStorageUpload.txHash}`}
-              target="_blank"
-              className="block rounded-lg border border-gold/30 bg-gold/10 p-3 text-sm transition-colors hover:border-gold/60"
-            >
-              <span className="block text-xs font-semibold uppercase tracking-widest text-gold">{mainnetProof.realStorageUpload.label}</span>
-              <span className="mt-2 block break-all font-mono text-text-1">{mainnetProof.realStorageUpload.txHash}</span>
-            </a>
+            {mainnetProof.storageUploads.map(([label, root, txHash]) => (
+              <a
+                key={txHash}
+                href={`${mainnetProof.explorer}/tx/${txHash}`}
+                target="_blank"
+                className="block rounded-lg border border-gold/30 bg-gold/10 p-3 text-sm transition-colors hover:border-gold/60"
+              >
+                <span className="block text-xs font-semibold uppercase tracking-widest text-gold">{label}</span>
+                <span className="mt-2 block break-all font-mono text-text-1">{root}</span>
+              </a>
+            ))}
           </div>
         </Card>
 
@@ -169,7 +172,13 @@ export default function ProofsPage() {
   dealRoomContract: dealRoom,
   agentRegistryContract: agentRegistry,
   agentIdContract: agentId,
-  real0GStorageUpload: mainnetProof.realStorageUpload,
+  real0GStorageUploads: mainnetProof.storageUploads.map(([label, rootHash, txHash]) => ({
+    label,
+    rootHash,
+    uri: `0g://${rootHash}`,
+    txHash,
+    explorer: `${mainnetProof.explorer}/tx/${txHash}`
+  })),
   integrations: [...integrations, "Agent ID-ready prototype", "Persistent Memory-ready adapter"]
 }, null, 2)}
           </pre>

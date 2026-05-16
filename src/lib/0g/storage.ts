@@ -17,7 +17,6 @@ interface UploadOptions {
 
 const DEFAULT_RPC = "https://evmrpc.0g.ai";
 const DEFAULT_INDEXER = "https://indexer-storage-turbo.0g.ai";
-let warnedAboutLocalStorageFallback = false;
 
 async function sha256Hex(value: string) {
   const data = new TextEncoder().encode(value);
@@ -37,32 +36,11 @@ function has0GStorageConfig() {
   );
 }
 
-function warnLocalStorageFallback(reason: string) {
-  if (warnedAboutLocalStorageFallback) return;
-  warnedAboutLocalStorageFallback = true;
-  console.warn(`0G Storage adapter using local-dev fallback: ${reason}`);
-}
-
-async function uploadWithLocalAdapter({ kind, payload, encrypted = true }: UploadOptions): Promise<ZeroGStorageRef> {
-  const body = JSON.stringify({ kind, payload, encrypted, protocol: "Kavro Protocol" });
-  const hash = await sha256Hex(body);
-  const rootHash = hash;
-  return {
-    mode: "local-dev",
-    kind,
-    rootHash,
-    uri: `kavro-local://${kind}/${rootHash}`,
-    hash,
-    encrypted,
-    createdAt: new Date().toISOString()
-  };
-}
-
 async function uploadWith0GStorage({ kind, payload, encrypted = true }: UploadOptions): Promise<ZeroGStorageRef> {
   const rpcUrl = process.env.NEXT_PUBLIC_0G_STORAGE_RPC_URL ?? process.env.NEXT_PUBLIC_0G_RPC_URL ?? DEFAULT_RPC;
   const indexerRpc = process.env.NEXT_PUBLIC_0G_STORAGE_INDEXER_URL ?? DEFAULT_INDEXER;
   const privateKey = process.env["0G_STORAGE_PRIVATE_KEY"] ?? process.env.DEPLOYER_PRIVATE_KEY;
-  if (!privateKey) return uploadWithLocalAdapter({ kind, payload, encrypted });
+  if (!privateKey) throw new Error("Missing 0G_STORAGE_PRIVATE_KEY or DEPLOYER_PRIVATE_KEY");
 
   try {
     const dynamicImport = new Function("specifier", "return import(specifier)") as (specifier: string) => Promise<typeof import("@0gfoundation/0g-storage-ts-sdk")>;
@@ -94,17 +72,13 @@ async function uploadWith0GStorage({ kind, payload, encrypted = true }: UploadOp
     };
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
-    warnLocalStorageFallback(message.includes("@0gfoundation/0g-storage-ts-sdk")
-      ? "install @0gfoundation/0g-storage-ts-sdk to enable real 0G Storage uploads"
-      : message);
-    return uploadWithLocalAdapter({ kind, payload, encrypted });
+    throw new Error(`0G Storage upload failed: ${message}`);
   }
 }
 
 async function uploadTo0G(options: UploadOptions) {
   if (!has0GStorageConfig()) {
-    warnLocalStorageFallback("missing storage RPC/indexer/private key config");
-    return uploadWithLocalAdapter(options);
+    throw new Error("Missing 0G Storage RPC/indexer/private key config");
   }
   return uploadWith0GStorage(options);
 }
@@ -128,7 +102,7 @@ export function uploadAIReportTo0G(report: unknown) {
 export async function getDealMetadataFrom0G(storageRef: string) {
   return {
     storageRef,
-    mode: storageRef.startsWith("kavro-local://") ? "local-dev" : "0g",
+    mode: "0g",
     note: "Use the 0G Storage indexer download flow with proof verification for production reads."
   };
 }
@@ -136,7 +110,7 @@ export async function getDealMetadataFrom0G(storageRef: string) {
 export async function getAIReportFrom0G(storageRef: string) {
   return {
     storageRef,
-    mode: storageRef.startsWith("kavro-local://") ? "local-dev" : "0g",
+    mode: "0g",
     note: "Encrypted report retrieval requires the configured Kavro disclosure key path."
   };
 }

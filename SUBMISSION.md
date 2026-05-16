@@ -58,28 +58,27 @@ The final HackQuest submission must include actual on-chain activity.
 | Kavro Agent ID address | `0xF4eB358b4110afe87E2fbA6a16AB98DeF0b77d56` |
 | Identity Registry address | `0x74Ab9190AB863cF9C430f99CA53ca5599FBD9D77` |
 | 0G Explorer link | `https://chainscan.0g.ai/address/0xbc0d9C0bEe1f914D5b41A250838f3A036F39f669` |
-| Mainnet proof flow | `dealId=0` seeded on 0G Mainnet |
-| Storage refs | `0g://mainnet/kavro/deals/singapore-invoice-clearing-0`, `0g://mainnet/kavro/compute/underwriting-swarm-0`, `0g://mainnet/kavro/bids/sealed-investor-0`, `0g://mainnet/kavro/disclosures/auditor-capsule-0` |
-| Real 0G Storage SDK proof | `0g://0xf61c8af7d1ebf6cb65d9cf88f8a058e09a74d608c3218d94d54605b97bdeab13` |
-| Real 0G Storage transaction | `https://chainscan.0g.ai/tx/0x1da7780904b11882472c888284b7f45d668964a36ec1eb1362eef6fce0a0c8ae` |
-| Compute refs | `0g://mainnet/kavro/compute/underwriting-swarm-0` plus structured 0G Compute adapter output in `/api/0g/agent` |
+| Mainnet proof flow | `dealId=4` seeded on 0G Mainnet |
+| Real 0G Storage refs | Deal metadata `0g://0xacbf128bd73766fce19ede54bffb1125910176279f9938e3653c249d33049bf3`; AI report `0g://0x04f8f52606064971ad3e8c3afe6106cfc7f5dddcced63a931c8003885d764045`; bid memory `0g://0x0d042881668629b66256d7c4f6e27367333595d47f204fc30c6546bb2d98eaf4`; disclosure capsule `0g://0xfc073ad3e334ade18946bd97c25d918f037054a51763aca0700fc6386d4704cb` |
+| Real 0G Storage transactions | `0xf2bb1a67d1e11340e8ae7b6557dab6d5a93dea5e625980874e3920a4685ca0b8`, `0xb429d443e7eff9aee9e731bbf7f399a58eb703338bb99500992e1a215df8f921`, `0xcc040959af54c7866e79497b0744a43e6762b6202c9fa314950601ca8029b2ad`, `0x89e07e59693ffe98df4a2b27dc8fcb6d2565f5fd9fb6f2170f58d4ae563941b4` |
+| Compute refs | Real 0G Compute adapter output is committed through `/api/0g/agent`; missing Compute config returns a 503 |
 | Proof bundle route | `/proofs` |
 | Winner screen | Proof-of-Credit Packet |
 
-Important: local fallback refs are for development only. They should not be presented as real 0G integration proof.
+Important: Kavro returns a 503 when 0G Storage or Compute config is missing.
 
 HackQuest currently asks for a 0G mainnet contract address. Kavro has a live 0G Mainnet deployment and a seeded Proof-of-Credit flow.
 
 Mainnet lifecycle transactions:
 
 - KYC identity registration: `https://chainscan.0g.ai/tx/0xd79059b64ab52d4a881276d2dee751ae5d5bbee21076ab72bbe527a3ea5cbbb8`
-- Deal created: `https://chainscan.0g.ai/tx/0x2f98efd3911c6c8978059bf1fbcd1ba0adab1ef484661f818b64453b915465eb`
-- Funding opened: `https://chainscan.0g.ai/tx/0x13776437afde18eaa92b3e54aac654632d6f26629c15b835bab0e33a70ed487d`
-- AI report committed: `https://chainscan.0g.ai/tx/0x959a57b4d5a28f6077280fbd3c6276d87befbaf0006e5d928e791aa2b2263f66`
-- Sealed bid submitted: `https://chainscan.0g.ai/tx/0xd5c8c37ebcf4a876197f50d3ae2994d489d67bd5aebdc08d5da8ef1949a3672d`
-- Deal funded: `https://chainscan.0g.ai/tx/0xb1b14dc11bbb02247a9d800a1c1d1d8ed58caaa08a93d80f05c0159806adb4c9`
-- Repayment recorded: `https://chainscan.0g.ai/tx/0x1c5f03282c9c52f94c9516a5a4a7718345dcdf3fe268e665a6c62eaeac9ca179`
-- Auditor disclosure granted: `https://chainscan.0g.ai/tx/0x70ed4382cb2ac87bc134d6cde0b6d1db05c97577ee019414289372c422c19b5d`
+- Deal created with real Storage root: `https://chainscan.0g.ai/tx/0xb2bf8578a0271e6c055288a807978e91f6397cfce78ed6379a34ac7b7232317b`
+- Funding opened: `https://chainscan.0g.ai/tx/0x19701dd1d55a2ed1f7874a7c25e5dcd7ec52c15d71ad9277d3257b5e7cf34ec4`
+- AI report committed with real Storage root: `https://chainscan.0g.ai/tx/0x5603841f1d20e8afda01ef4bd1da7c71be82d12ef6f07edc5cf7abc5c2675ad1`
+- Sealed bid submitted with real Storage root: `https://chainscan.0g.ai/tx/0x362cb1f7fcc067f2d021115b8fa72958d2f63a5e4403bf485c4516f8131f8465`
+- Deal funded: `https://chainscan.0g.ai/tx/0x31c82de9a40bba668c1e2c42346119bbbe55eaa38c682298d0b6279a6cdafee5`
+- Repayment recorded: `https://chainscan.0g.ai/tx/0xa6227bd15a1d198982912701d4d174a6d83bfbfb33d8fa103614198643981d00`
+- Auditor disclosure granted with real Storage root: `https://chainscan.0g.ai/tx/0x6e37f725644899670167b63887241db692ecb4fce134ce33d9701c6a73860acc`
 
 ## Track Fit
 

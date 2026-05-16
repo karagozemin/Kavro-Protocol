@@ -8,7 +8,7 @@ const activeExplorer = process.env.NEXT_PUBLIC_0G_EXPLORER_URL ?? "https://chain
 
 export const active0GChain = {
   id: activeChainId,
-  name: activeChainId === 16661 ? "0G-Mainnet" : "0G-Galileo-Testnet",
+  name: "0G-Mainnet",
   nativeCurrency: { name: "0G", symbol: "0G", decimals: 18 },
   rpcUrls: {
     default: { http: [rpcUrl] },
@@ -16,11 +16,10 @@ export const active0GChain = {
   },
   blockExplorers: {
     default: {
-      name: activeChainId === 16661 ? "0G ChainScan" : "0G ChainScan Galileo",
+      name: "0G ChainScan",
       url: activeExplorer
     }
-  },
-  testnet: activeChainId !== 16661
+  }
 } as const;
 
 export const wagmiConfig = createConfig({

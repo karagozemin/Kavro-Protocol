@@ -25,7 +25,7 @@ const roleColor: Record<string, string> = {
 };
 
 const activeChainId = Number(process.env.NEXT_PUBLIC_0G_CHAIN_ID ?? 16661);
-const activeChainName = activeChainId === 16661 ? "0G-Mainnet" : "0G-Galileo-Testnet";
+const activeChainName = "0G-Mainnet";
 
 export default function DemoPage() {
   return (

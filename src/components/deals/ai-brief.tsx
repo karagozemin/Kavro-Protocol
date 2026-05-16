@@ -62,8 +62,8 @@ export function AiBrief({ dealId, mode, title, category, description, maturityDa
           }
         })
       });
-      if (!res.ok) throw new Error("0G agent unavailable");
       const json = await res.json();
+      if (!res.ok) throw new Error(json.error ?? "0G agent unavailable");
       setResult(json.output);
       setStorage(json.storageRef);
     } catch (err) {
@@ -131,7 +131,7 @@ export function AiBrief({ dealId, mode, title, category, description, maturityDa
             <div className="rounded-lg border border-border bg-card p-3 text-xs">
               <div className="flex flex-wrap items-center justify-between gap-2">
                 <span className="font-semibold uppercase tracking-widest text-text-2">AI report storage ref</span>
-                <span className="text-gold">{storage.mode === "0g" ? "0G Storage" : "Local dev fallback"}</span>
+                <span className="text-gold">0G Storage</span>
               </div>
               <p className="mt-2 break-all font-mono text-text-2">{storage.uri}</p>
               <div className="mt-3 flex flex-wrap items-center gap-2">

@@ -21,21 +21,28 @@ const runners = {
 } as const;
 
 export async function POST(req: NextRequest) {
-  const body = await req.json();
-  const agentType = body.agentType as keyof typeof runners;
-  if (!agentType || !(agentType in runners)) {
-    return NextResponse.json({ error: "Unknown Kavro agent type" }, { status: 400 });
+  try {
+    const body = await req.json();
+    const agentType = body.agentType as keyof typeof runners;
+    if (!agentType || !(agentType in runners)) {
+      return NextResponse.json({ error: "Unknown Kavro agent type" }, { status: 400 });
+    }
+
+    const result = await runners[agentType](body.input ?? {});
+    const storageRef = await uploadAIReportTo0G({
+      agentType,
+      result,
+      inputCommitmentOnly: true
+    });
+
+    return NextResponse.json({
+      ...result,
+      storageRef
+    });
+  } catch (error) {
+    return NextResponse.json(
+      { error: error instanceof Error ? error.message : "0G Compute request failed" },
+      { status: 503 }
+    );
   }
-
-  const result = await runners[agentType](body.input ?? {});
-  const storageRef = await uploadAIReportTo0G({
-    agentType,
-    result,
-    inputCommitmentOnly: true
-  });
-
-  return NextResponse.json({
-    ...result,
-    storageRef
-  });
 }

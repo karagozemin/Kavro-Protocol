@@ -17,11 +17,6 @@ const config: HardhatUserConfig = {
     }
   },
   networks: {
-    ogGalileo: {
-      url: process.env.OG_GALILEO_RPC_URL ?? "https://evmrpc-testnet.0g.ai",
-      accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],
-      chainId: 16602
-    },
     ogMainnet: {
       url: process.env.OG_MAINNET_RPC_URL ?? "https://evmrpc.0g.ai",
       accounts: process.env.DEPLOYER_PRIVATE_KEY ? [process.env.DEPLOYER_PRIVATE_KEY] : [],

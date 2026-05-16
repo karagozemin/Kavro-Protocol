@@ -59,7 +59,7 @@ Kavro has agent roles, persistent memory on 0G Storage, structured inference via
 
 ## Critical Risk
 
-The hackathon requires actual 0G integration proof. A placeholder-only project can be invalid.
+The hackathon requires actual 0G integration proof. A concept-only project can be invalid.
 
 Kavro has a live 0G Mainnet deployment and one seeded Proof-of-Credit lifecycle:
 
@@ -104,4 +104,4 @@ npm run build
 npm run dev
 ```
 
-Then record the demo and fill the TODO fields in `SUBMISSION.md`.
+Then record the demo and fill the final submission fields in `SUBMISSION.md`.
