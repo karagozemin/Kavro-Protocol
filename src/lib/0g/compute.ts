@@ -58,8 +58,8 @@ function parseJsonContent(content: unknown) {
 }
 
 async function run0GAgent(agentType: AgentKind, input: Record<string, unknown>): Promise<KavroAgentResult> {
-  const apiKey = process.env["0G_COMPUTE_API_KEY"];
-  if (!apiKey) throw new Error("Missing 0G_COMPUTE_API_KEY");
+  const apiKey = process.env.OG_COMPUTE_API_KEY ?? process.env["0G_COMPUTE_API_KEY"];
+  if (!apiKey) throw new Error("Missing OG_COMPUTE_API_KEY");
   const service = await resolveComputeService();
 
   const response = await fetch(`${service.endpoint}/chat/completions`, {
