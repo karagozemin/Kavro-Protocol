@@ -7,7 +7,7 @@ export default function AdminPage() {
       <SectionHeading
         tag="Admin"
         title="Identity Registry"
-        description="Register and revoke KYC-verified investor identities. Only the registry admin can modify the whitelist. Investors must be registered before they can submit bids (ERC-3643)."
+        description="Manual KYC registry management for production-style admin flows. Demo testers do not need this page — the hackathon build uses mock KYC on the Investor route instead of manual whitelisting."
       />
       <IdentityAdmin />
     </div>

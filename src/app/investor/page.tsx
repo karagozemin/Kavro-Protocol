@@ -9,7 +9,7 @@ export default function InvestorPage() {
       <SectionHeading
         tag="Investor Dashboard"
         title="Investor Agent Console"
-        description="Run 0G Compute due diligence, store private bid context on 0G Storage, submit sealed commitments, and request claims after repayment."
+        description="Run 0G Compute due diligence, store private bid context on 0G Storage, and submit sealed commitments. Kavro includes a real KYC registry; this hackathon demo uses mock KYC so any connected wallet can test the investor flow."
       />
       <IdentityStatus />
       <Card>

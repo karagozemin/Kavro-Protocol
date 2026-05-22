@@ -8,15 +8,35 @@ The final video must be under 3 minutes and must show real 0G usage, not slides 
 
 ## Three-Minute Walkthrough
 
-1. Open `/demo`.
+1. Open `/demo` and note the judge quick-start: mock KYC is open to every tester.
 2. Explain the stack: 0G Storage for encrypted memory, 0G Compute for agents, 0G Chain for commitments and proofs.
 3. Open `/issuer`, create a Kavro Room, and show the metadata storage ref.
 4. Open funding and show the explorer link.
-5. Open `/investor`, run the Kavro Underwriting Swarm and Investor Bid Recommendation.
-6. Store private bid context and submit sealed bid commitment.
-7. Return to `/issuer`, generate allocation plan, mark funded, and record repayment commitment.
-8. Open `/auditor`, grant disclosure and generate compliance summary.
-9. Open `/proofs`, show the Proof-of-Credit Packet.
+5. Open `/investor`, connect any wallet, and show mock KYC being granted automatically.
+6. Run the Kavro Underwriting Swarm and Investor Bid Recommendation.
+7. Store private bid context and submit sealed bid commitment.
+8. Return to `/issuer`, generate allocation plan, mark funded, and record repayment commitment.
+9. Open `/auditor`, grant disclosure and generate compliance summary.
+10. Open `/proofs`, show the Proof-of-Credit Packet.
+
+## KYC in Production vs Mock KYC in Demo
+
+Kavro has a real KYC/compliance system:
+
+- on-chain `IdentityRegistry` (ERC-3643-style)
+- only verified investors can call `submitSealedBid`
+- registry admin manages approvals from `/admin`
+
+Because this is a **hackathon demo**, we added a mock KYC layer so judges can test without manual whitelisting:
+
+- connect any wallet on 0G Mainnet
+- open `/investor`
+- mock KYC is granted automatically through `/api/demo/mock-kyc`
+- the wallet can then submit sealed bids immediately
+
+The underlying contract gate is unchanged; only the registration step is automated for demo review.
+
+Server requirement: set `DEPLOYER_PRIVATE_KEY` in the deployed environment so the registry admin can sign mock KYC registrations.
 
 ## Must Show On Screen
 
@@ -46,4 +66,5 @@ The final video must be under 3 minutes and must show real 0G usage, not slides 
 - Kavro is protocol-shaped: contracts, SDK, agents, and Proof-of-Credit Packets.
 - 0G is core infrastructure: storage, compute, chain.
 - Confidential amounts are not publicly exposed.
+- Kavro includes a real KYC registry in production design; this hackathon demo uses mock KYC so judges can test without admin whitelisting.
 - Missing 0G credentials fail loudly; the demo does not substitute synthetic proof data.

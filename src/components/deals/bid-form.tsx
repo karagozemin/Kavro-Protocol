@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { useState } from "react";
 import { useAccount, usePublicClient, useReadContract, useWriteContract, useWaitForTransactionReceipt } from "wagmi";
 import { dealRoomAbi, identityRegistryAbi } from "@/lib/abi";
@@ -8,6 +7,7 @@ import { DEAL_ROOM_ADDRESS, IDENTITY_REGISTRY_ADDRESS } from "@/lib/contracts";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { MockKycStatus } from "@/components/deals/mock-kyc-status";
 import { keccak256, toBytes } from "viem";
 import { TxLink } from "@/components/tx/tx-link";
 
@@ -23,7 +23,7 @@ export function BidForm({ dealId }: { dealId: number }) {
 
   const { data: bidHash, writeContract, isPending, error } = useWriteContract();
   const { isLoading: confirming } = useWaitForTransactionReceipt({ hash: bidHash });
-  const { data: isVerified, isLoading: checkingIdentity } = useReadContract({
+  const { data: isVerified, isLoading: checkingIdentity, refetch: refetchVerified } = useReadContract({
     address: IDENTITY_REGISTRY_ADDRESS as `0x${string}`,
     abi: identityRegistryAbi,
     functionName: "isVerified",
@@ -126,17 +126,20 @@ export function BidForm({ dealId }: { dealId: number }) {
       </div>
       {requiresIdentity && isConnected && checkingIdentity ? (
         <div className="rounded-lg border border-border bg-surface px-3 py-2 text-xs text-text-2">
-          Checking investor KYC status before sealed bid submission...
+          Checking mock KYC status before sealed bid submission...
         </div>
       ) : null}
-      {requiresIdentity && isConnected && isVerified === false ? (
-        <div className="rounded-lg border border-warning/30 bg-warning/5 px-3 py-2 text-xs text-warning">
-          This investor wallet is not KYC verified in the Identity Registry, so the contract will reject
-          <span className="font-mono"> submitSealedBid</span>. Connect the registry admin wallet on{" "}
-          <Link href="/admin" className="font-semibold underline underline-offset-2">
-            Admin
-          </Link>{" "}
-          and register this address first.
+      {requiresIdentity && isConnected && isVerified === false && address ? (
+        <div className="rounded-lg border border-warning/30 bg-warning/5 px-3 py-3 text-xs text-warning">
+          <p className="mb-3 leading-relaxed">
+            Kavro has a real KYC registry, but this hackathon demo grants mock KYC automatically so you can test sealed bids without admin approval.
+          </p>
+          <MockKycStatus
+            address={address}
+            isVerified={isVerified}
+            isLoading={checkingIdentity}
+            onRegistered={() => void refetchVerified()}
+          />
         </div>
       ) : null}
       {requiresIdentity && !isConnected ? (

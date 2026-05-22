@@ -69,6 +69,19 @@ The final HackQuest submission must include actual on-chain activity.
 
 Important: Kavro returns a 503 when 0G Storage or Compute config is missing.
 
+## KYC System vs Hackathon Mock Mode
+
+Kavro includes a real ERC-3643-style `IdentityRegistry` and an admin-managed whitelist flow at `/admin`.
+
+Because this submission is a **hackathon demo**, we added mock KYC so judges can test the investor path without contacting an admin:
+
+- connect any wallet on 0G Mainnet
+- open `/investor`
+- mock KYC is granted automatically through `/api/demo/mock-kyc`
+- the connected wallet can then submit sealed bids
+
+The on-chain compliance gate is unchanged; mock KYC only replaces manual admin approval for demo/testing purposes. Production should use regulated KYC instead of auto-registration.
+
 HackQuest currently asks for a 0G mainnet contract address. Kavro has a live 0G Mainnet deployment and a seeded Proof-of-Credit flow.
 
 Mainnet lifecycle transactions:

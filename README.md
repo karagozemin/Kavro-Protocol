@@ -195,6 +195,40 @@ npm run compile:contracts
 npm run dev
 ```
 
+## KYC System and Hackathon Mock Mode
+
+Kavro includes a real on-chain KYC/compliance layer:
+
+- `IdentityRegistry.sol` — ERC-3643-style investor verification gate
+- `KavroDealRoom.submitSealedBid` requires `identityRegistry.isVerified(msg.sender)`
+- `/admin` — registry admin can manually register or revoke investor identities
+
+In production, only KYC-approved investors would be whitelisted by a regulated admin or identity provider.
+
+### Why mock KYC in this demo?
+
+This repository is a **hackathon demo product**. The KYC system is real on-chain infrastructure, but manual admin whitelisting would block judges and testers from trying the investor flow. For that reason, the demo app adds a **mock KYC path**:
+
+- when a wallet connects on `/investor`, the app auto-registers it through `POST /api/demo/mock-kyc`
+- the server uses the registry admin wallet (`DEPLOYER_PRIVATE_KEY`) to call `registerIdentity`
+- any connected address can then submit sealed bids without contacting an admin
+
+This keeps the same contract path and compliance gate, but removes whitelist friction for demo review.
+
+### Tester flow
+
+1. Connect MetaMask on **0G Mainnet** (chain ID `16661`).
+2. Open `/investor`.
+3. Mock KYC is granted automatically for the connected wallet.
+4. If auto-registration is slow, click **Get Mock KYC** once.
+
+Hosted demo requirements:
+
+- `DEPLOYER_PRIVATE_KEY` must be set on the server.
+- `NEXT_PUBLIC_IDENTITY_REGISTRY_ADDRESS` must point to the deployed registry.
+
+**Summary:** real KYC exists in the protocol; mock KYC is a hackathon-only convenience layer on top of it.
+
 The official 0G Storage TypeScript SDK is included as a dependency. If dependencies were installed before this package was added, refresh it with:
 
 ```bash
@@ -240,7 +274,7 @@ See `HACKATHON.md` and `SUBMISSION.md` for the final checklist.
 ## Known Limitations
 
 - Demo metadata is a public private-credit example; confidential fields are commitments or encrypted 0G Storage payloads.
-- Production deployments need regulated KYC providers and institutional custody flows.
+- Demo uses **mock KYC** on `/investor` for hackathon testing. The protocol still includes a real ERC-3643-style `IdentityRegistry`; production deployments should use regulated KYC instead of the demo auto-registration path.
 - Confidential bid amount encryption depends on the selected privacy provider or TEE path. Kavro’s default contract stores commitments and encrypted storage references.
 - Real 0G Storage and 0G Compute require configured keys/providers; missing config returns an error response.
 - Kavro includes an Agent ID-ready prototype contract, but does not claim complete official ERC-7857 compliance.

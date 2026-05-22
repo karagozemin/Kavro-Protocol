@@ -55,6 +55,23 @@ flowchart TB
   KYC --> Proof
 ```
 
+## KYC System vs Hackathon Mock Mode
+
+Kavro includes a real compliance gate through `IdentityRegistry`:
+
+- ERC-3643-style investor verification
+- admin-controlled registration and revocation via `/admin`
+- `KavroDealRoom.submitSealedBid` rejects unverified wallets
+
+For the **hackathon demo**, Kavro adds a mock KYC layer on top of the same on-chain registry:
+
+- any wallet that connects on `/investor` can receive mock KYC automatically
+- the app calls `POST /api/demo/mock-kyc` with the connected address
+- the server uses the registry admin wallet (`DEPLOYER_PRIVATE_KEY`) to call `registerIdentity`
+- after registration, the wallet can call `submitSealedBid` on `KavroDealRoom`
+
+This preserves the real compliance path while removing judge/tester friction. Production should disable mock auto-registration and use a regulated KYC provider instead.
+
 ## Privacy Model
 
 Kavro does not write plaintext confidential bid amounts to public chain state. Public state contains commitments, storage refs, and event proofs. Sensitive terms belong in encrypted 0G Storage or private compute paths.

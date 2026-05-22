@@ -36,6 +36,17 @@ export default function DemoPage() {
         description="A guided sequence for judges: issuer, investor, underwriter, auditor, 0G Storage, 0G Compute, 0G Chain, and a Proof-of-Credit Packet in one workflow."
       />
 
+      <div className="rounded-2xl border border-gold/30 bg-gold/5 p-5">
+        <p className="text-xs font-semibold uppercase tracking-widest text-gold">Judge Quick Start</p>
+        <p className="mt-3 text-sm leading-relaxed text-text-2">
+          Kavro includes a real on-chain KYC registry, but this hackathon demo uses mock KYC so judges can test without admin whitelisting. Connect MetaMask on 0G Mainnet, open Investor, and mock KYC is granted automatically.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Link href="/investor" className={buttonStyles({ variant: "gold" })}>Start as Investor</Link>
+          <Link href="/proofs" className={buttonStyles({ variant: "outline" })}>View Existing Proofs</Link>
+        </div>
+      </div>
+
       <div className="rounded-2xl border border-border bg-card p-5">
         <p className="text-xs font-semibold uppercase tracking-widest text-gold">Network</p>
         <div className="mt-3 grid gap-3 text-sm md:grid-cols-3">

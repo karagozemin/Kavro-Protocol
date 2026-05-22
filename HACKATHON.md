@@ -89,6 +89,21 @@ Kavro should avoid sounding horizontal. The winning position is vertical and ins
 
 Judges should remember Kavro as the project where issuer, investor, auditor, and settlement agents run a complete private-credit workflow on 0G.
 
+## KYC System vs Hackathon Mock Mode
+
+Kavro has a real on-chain KYC registry (`IdentityRegistry`, ERC-3643-style). In production, only admin-approved investors should be able to bid.
+
+For this **hackathon demo**, we added mock KYC so judges can test without manual whitelisting:
+
+1. Connect MetaMask on 0G Mainnet.
+2. Open `/investor`.
+3. Mock KYC is granted automatically for the connected wallet.
+4. Submit a sealed bid immediately after verification.
+
+The contract compliance gate is real; mock KYC only automates the registration step for demo review.
+
+Server requirement: deployed app must include `DEPLOYER_PRIVATE_KEY` so the registry admin can sign mock KYC registrations through `/api/demo/mock-kyc`.
+
 ## Final Runbook
 
 ```bash
