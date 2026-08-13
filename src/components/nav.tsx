@@ -45,7 +45,7 @@ export function Nav() {
               >
                 {item.label}
                 {active && (
-                  <span className="absolute inset-x-2 -bottom-px h-px bg-gold rounded-full" />
+                  <span className="absolute inset-x-2 -bottom-px h-px animate-fade-in rounded-full bg-gold [animation-duration:180ms] motion-reduce:animate-none" />
                 )}
               </Link>
             );
